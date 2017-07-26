@@ -18,11 +18,22 @@ end
 
 ##Other Responses
 
-jade.message(contains: "love jade".downcase) do |event|
+jade.message(contains: /love jade/i) do |event|
 	event.send_message("i love you too #{event.user.mention}! :green_heart:")
 end
 
-##Run
+jade.message(contains: /owo/i) do |event|
+	event.send_message('whats this :o')
+end
+
+jade.mention() do |event|
+	jade.send_message(event.channel, "whats up :?")
+end
+
+jade.message(contains: /good dog/i) do |event|
+	event.send_message("best friend")
+end
+
+##initialize bot
 
 jade.run
-
