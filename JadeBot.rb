@@ -4,7 +4,7 @@ require_relative 'config.rb'
 
 ##Globals
 
-jade = Discordrb::Commands::CommandBot.new token: configatron.token, client_id: 331204502277586945, prefix: '>'
+jade = Discordrb::Commands::CommandBot.new token: configatron.token, client_id: configatron.id, prefix: '>'
 
 ##Greeters
 
