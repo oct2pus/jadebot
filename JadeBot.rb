@@ -34,6 +34,28 @@ jade.message(contains: /good dog/i) do |event|
 	event.send_message("best friend")
 end
 
+jade.command :roll do |event, dice_message|
+	#vars
+	eval_command = ['1']
+	counter = 0
+	roll_amount = 0
+	roll_size = 0
+	roll_mod = 0
+
+	#process
+	if dice_message != nil
+		begin
+			eval_command[counter] = dice_message[counter]
+			puts "#{counter}: #{eval_command[counter]}"
+			counter += 1
+			puts "#{dice_message.size}"
+		end while /d/i.match("#{dice_message[counter]}") and counter < dice_message.size()
+	else
+		event << "you didnt tell me what dice you wanted to roll :o"
+		
+	end
+end
+
 ##initialize bot
 
 jade.run
