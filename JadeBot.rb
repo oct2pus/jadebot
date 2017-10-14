@@ -35,7 +35,7 @@ jade.message(contains: /good dog/i) do |event|
 end
 
 jade.message(contains: /<:kissjade/) do |event|
-    event.send_message('😳')
+    event.send_message(":flushed::two_hearts:")
 end
 
 jade.command :roll do |event, dice_message|
