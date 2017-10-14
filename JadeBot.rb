@@ -49,20 +49,18 @@ jade.command :roll do |event, dice_message|
 	math_type = true	#determines if modifier is positive or negative
 	result = {}
 	result_total = 0
-	result_message = "you rolled a "
+	result_message = "you rolled ```"
+	
 	#process
-	if dice_message != nil
-		puts "===="
-		
+	if (dice_message =~ /[0-9]+d[0-9]+((\+|-)[0-9])?/)
 		
 		#parse dice roll
 		begin			
-			eval_command[counter_eval] = dice_message[counter_message]
-			puts "#{counter_eval}: #{dice_message[counter_message]}"
+			eval_command[counter_eval] = dice_message[counter_message]			
 			
 			if dice_message[counter_message+1] == "d" and !d_pass
-				roll_amount = eval_command.to_i
-				puts "roll amount = #{roll_amount}"
+				roll_amount = eval_command.to_i.abs
+
 				eval_command = ""
 				counter_eval = -1
 				counter_message += 1
@@ -74,8 +72,8 @@ jade.command :roll do |event, dice_message|
 					math_type = false
 				end
 				
-				roll_size = eval_command.to_i
-				puts "roll size = #{roll_size}"
+				roll_size = eval_command.to_i.abs
+
 				eval_command = ""
 				counter_eval = -1
 				counter_message += 1
@@ -87,38 +85,46 @@ jade.command :roll do |event, dice_message|
 		end while counter_message < dice_message.size()
 		
 		if !math_pass
-			roll_size = eval_command.to_i
-			puts "roll size = #{roll_size}"
+			roll_size = eval_command.to_i.abs
+			
 		else math_pass == true
 			if !math_type
 				roll_mod -= eval_command.to_i
 			else 
 				roll_mod += eval_command.to_i
 			end
-			
-			puts "roll mod = #{roll_mod}"
+
 		end
 		
-		puts "====\n"
+ 		if roll_amount > 100
+			event << "sorry that many die will make my processor cry\nyou can only roll up to 100 die >:U"
+			break
+		elsif roll_size == 0 or roll_amount == 0
+			event << "please dont be a smartass"
+			break
+		end
 		
-	i = 0
+		i = 0
 		until i >= roll_amount
 			result[i] = rand(roll_size) + 1
 			result_total+= result[i]
 			
-			result_message << "#{result[i]}, "
+			result_message << "#{result[i]} "
 			i += 1
 		end
 			
-			result_total += roll_mod
-			result_message << "and with a modifier of #{roll_mod} you get: #{result_total}"
+		result_total += roll_mod
+		result_message << "```and with a modifier of #{roll_mod} you get: #{result_total}"
+		
 		if result_message.size() <= 1000
 			event << result_message
 		else
 			event << "woah fuckass you just passed discord message limit with that roll >:U"
 		end
-	else
+	elsif dice_message == nil
 		event << "you didnt tell me what dice you wanted to roll :o"
+	else
+		event << "please use the XXdXX format, with XX being any number :D"
 	end
 end
 
