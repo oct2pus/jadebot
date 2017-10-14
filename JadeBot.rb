@@ -34,6 +34,10 @@ jade.message(contains: /good dog/i) do |event|
 	event.send_message("best friend")
 end
 
+jade.message(contains: /<:kissjade/) do |event|
+    event.send_message('😳')
+end
+
 jade.command :roll do |event, dice_message|
 	#todo: make a prettier output
 	
