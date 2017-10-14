@@ -22,6 +22,10 @@ jade.message(contains: /love jade/i) do |event|
 	event.send_message("i love you too #{event.user.mention}! :green_heart:")
 end
 
+jade.message(contains: /<:kissjade:\d+>|<:tinykissing:\d+><:jade:\d+>/) do |event|
+	event.send_message('😳')
+end
+
 jade.message(contains: /owo/i) do |event|
 	event.send_message('whats this :o')
 end
