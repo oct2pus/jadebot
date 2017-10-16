@@ -18,7 +18,7 @@ end
 
 ##Other Responses
 
-jade.message(contains: /love jade/i) do |event|
+jade.message(contains: /love( you,?)? jade/i) do |event|
 	event.send_message("i love you too #{event.user.mention}! :green_heart:")
 end
 
