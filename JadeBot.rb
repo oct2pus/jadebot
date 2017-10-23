@@ -38,6 +38,14 @@ jade.message(contains: /<:kissjade/) do |event|
     event.send_message(":flushed::two_hearts:")
 end
 
+jade.command :github do |event|
+	event << "feel free to contribute to my codebase at https://github.com/oct2pus/jadebot! :D"
+end
+
+jade.command :invite do |event|
+	event << "https://discordapp.com/oauth2/authorize?client_id=331204502277586945&scope=bot&permissions=314368"
+end
+
 jade.command :roll do |event, dice_message|
 	#todo: make a prettier output
 	
