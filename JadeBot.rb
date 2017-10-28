@@ -39,7 +39,7 @@ jade.message(contains: /<:kissjade/) do |event|
 end
 
 jade.command :github do |event|
-	event << "feel free to contribute to my codebase at https://github.com/oct2pus/jadebot! :D"
+	event << "feel free to contribute to my codebase at <http://bot.jade.moe>! :D"
 end
 
 jade.command :invite do |event|
