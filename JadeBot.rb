@@ -53,7 +53,59 @@ jade.command :discord do |event|
 	event << "https://discord.gg/D3vJQQF"
 end
 
-#jade.command
+jade.command :greet do |event, user_chosen|
+	
+	#vars
+	i = 0
+	found = false
+
+	#search by username
+	puts "=================================="
+	puts "Starting to look for #{user_chosen}"
+	until i >= event.server.member_count
+	print "Is #{user_chosen} #{event.server.members[i].username}?"
+		if user_chosen == event.server.members[i].username
+			found = true
+			print " #{found} \n"
+			break
+		end
+		print " #{found} \n"
+		i += 1
+	end
+	puts "=================================="
+	
+	#process if username is found
+	if found
+		event << "heyo **#{event.server.members[i].username}**! :D"
+	else
+		#determine if its a mention, if it is, remove <!@ and >
+		if user_chosen.end_with?(">")
+			user_chosen = jade.parse_mention(user_chosen)
+			puts "#{user_chosen}"	
+		end
+		puts "=================================="
+		i = 0
+		until i >= event.server.member_count
+			print "Is #{user_chosen} #{event.server.members[i].id}?"
+			#these are set to integers since they seem to be different
+			#types of variables otherwise
+			if user_chosen.to_i == event.server.members[i].id.to_i
+				found = true
+				print " #{found} \n"
+				break
+			end	
+		print " #{found} \n"
+                i += 1
+		end
+		puts "=================================="
+	
+		if found
+			event << "heyo **#{event.server.members[i].username}**! :D"
+		else
+			event << "whos that :?"
+		end
+	end
+end
 
 jade.command :roll do |event, dice_message|
 	#to do: make a prettier output
