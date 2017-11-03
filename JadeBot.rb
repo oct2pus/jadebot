@@ -8,12 +8,13 @@ jade = Discordrb::Commands::CommandBot.new token: configatron.token, client_id: 
 
 ##Greeters
 
+#possibly broken, waiting for 
 jade.member_join() do |event|
-	jade.send_message(event.server.default_channel(),"hey #{event.user.mention}, welcome to **#{event.server.name}**! :D")
+	jade.send_message(event.server.default_channel(),"hey **#{event.user.username}**, welcome to **#{event.server.name}**! :D")
 end
 
 jade.member_leave() do |event|
-	jade.send_message(event.server.default_channel(),"#{event.user.mention} left **#{event.server.name}**! D:")
+	jade.send_message(event.server.default_channel(),"**#{event.user.username}** left **#{event.server.name}**! D:")
 end
 
 ##Other Responses
@@ -38,6 +39,8 @@ jade.message(contains: /<:kissjade/) do |event|
     event.send_message(":flushed::two_hearts:")
 end
 
+##Commands
+
 jade.command :github do |event|
 	event << "feel free to contribute to my codebase at <http://bot.jade.moe>! :D"
 end
@@ -46,8 +49,14 @@ jade.command :invite do |event|
 	event << "https://discordapp.com/oauth2/authorize?client_id=331204502277586945&scope=bot&permissions=314368"
 end
 
+jade.command :discord do |event|
+	event << "https://discord.gg/D3vJQQF"
+end
+
+#jade.command
+
 jade.command :roll do |event, dice_message|
-	#todo: make a prettier output
+	#to do: make a prettier output
 	
 	#vars
 	eval_command = ""
