@@ -1,5 +1,6 @@
 require 'discordrb'
 require 'configatron'
+require 'json'
 require_relative 'config.rb'
 
 ##Globals
@@ -54,56 +55,10 @@ jade.command :discord do |event|
 end
 
 jade.command :greet do |event, user_chosen|
-	
-	#vars
-	i = 0
-	found = false
-
-	#search by username
-	puts "=================================="
-	puts "Starting to look for #{user_chosen}"
-	until i >= event.server.member_count
-	print "Is #{user_chosen} #{event.server.members[i].username}?"
-		if user_chosen == event.server.members[i].username
-			found = true
-			print " #{found} \n"
-			break
-		end
-		print " #{found} \n"
-		i += 1
-	end
-	puts "=================================="
-	
-	#process if username is found
-	if found
-		event << "heyo **#{event.server.members[i].username}**! :D"
+	if jade.parse_mention(user_chosen)
+		event << "hey there **#{jade.parse_mention(user_chosen).username}**!"
 	else
-		#determine if its a mention, if it is, remove <!@ and >
-		if user_chosen.end_with?(">")
-			user_chosen = jade.parse_mention(user_chosen)
-			puts "#{user_chosen}"	
-		end
-		puts "=================================="
-		i = 0
-		until i >= event.server.member_count
-			print "Is #{user_chosen} #{event.server.members[i].id}?"
-			#these are set to integers since they seem to be different
-			#types of variables otherwise
-			if user_chosen.to_i == event.server.members[i].id.to_i
-				found = true
-				print " #{found} \n"
-				break
-			end	
-		print " #{found} \n"
-                i += 1
-		end
-		puts "=================================="
-	
-		if found
-			event << "heyo **#{event.server.members[i].username}**! :D"
-		else
-			event << "whos that :?"
-		end
+		event << "please mention the user you want to greet! :D"
 	end
 end
 
