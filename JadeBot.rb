@@ -1,6 +1,5 @@
 require 'discordrb'
 require 'configatron'
-require 'json'
 require_relative 'config.rb'
 
 ##Globals
