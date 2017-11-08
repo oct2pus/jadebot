@@ -54,11 +54,29 @@ jade.command :discord do |event|
 	event << "https://discord.gg/D3vJQQF"
 end
 
-jade.command :greet do |event, user_chosen|
-	if jade.parse_mention(user_chosen)
-		event << "hey there **#{jade.parse_mention(user_chosen).username}**!"
+jade.command :kick do |event, user_chosen|
+	if event.user.permission?(:kick_members)
+		if jade.parse_mention(user_chosen)
+			event << "**#{jade.parse_mention(user_chosen).username}** has been kicked from the server :p"
+ 	 		event.server.kick(jade.parse_mention(user_chosen))
+		else
+			event << "please **mention** a valid user"
+        	 end
 	else
-		event << "please mention the user you want to greet! :D"
+		event << "you dont have permission to do that! >:Y"
+	end
+end
+
+jade.command :ban do |event, user_chosen|
+	if event.user.permission?(:ban_members)
+		if jade.parse_mention(user_chosen)
+			event << "**#{jade.parse_mention(user_chosen).username}** has been banned from the server :p"
+			event.server.ban(jade.parse_mention(user_chosen))
+		else
+			event << "please **mention** a valid user"
+		end
+	else
+		event << "you dont have permission to do that! >:Y"
 	end
 end
 
