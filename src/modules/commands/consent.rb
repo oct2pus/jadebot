@@ -23,7 +23,7 @@ module Bot::Commands
                     event << "i dont seem to have you on record :?"
                 end
             elsif user_input == "help"
-                event << "There will be a link here"
+                event << "please read this link for information on what i store on you! <https://github.com/oct2pus/jadebot/blob/master/STORAGE_OF_USER_INFO.md>"
             else 
                 event << "valid inputs are `give`, `revoke` and `help`"
             end
