@@ -1,10 +1,10 @@
 **What I plan on storing**
 
->Your Username
+-Your Username
 
->Your Discord ID (The numbers that come after your username)
+-Your Discord ID (The numbers that come after your username)
 
->That's it!
+-That's it!
 
 There is an example of what a .user file looks like in the src/data directory, your username and ID are stored by the file in the filename in a {username}#{discordtag}.user format. I will use Jade Bot to advertise any changes to her storage policy, as well as delete all prior data.
 
