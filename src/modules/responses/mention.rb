@@ -6,3 +6,5 @@ module Bot::Responses
         end
     end
 end
+
+
