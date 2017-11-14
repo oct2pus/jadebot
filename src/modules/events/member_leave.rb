@@ -5,7 +5,7 @@ module Bot::Events
             mod_log =  event.server.text_channels.find { |c| c.name == 'mod-log' }
             message = Bot::JADE.send_message(event.server.default_channel(),"**#{event.user.username}** has left **#{event.server.name}**! D:")
             if mod_log == nil
-                if Bot::JADE.profile.on(event.server).permission?(:manage_channels)
+                if Bot::JADE.profile.on(event.server).permission?(:manage_server)
                     mod_log = event.server.create_channel("mod-log")
                 end
             end
