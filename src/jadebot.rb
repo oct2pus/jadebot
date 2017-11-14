@@ -27,6 +27,6 @@ module Bot
 
 	load_modules(:Responses, 'responses')
 	load_modules(:Commands, 'commands')
-        
+	load_modules(:Events, 'events')        
     JADE.run
 end
