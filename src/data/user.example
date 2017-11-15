@@ -1,6 +1,0 @@
-0 <- XP of user
-50 <- XP to level up user
-1 <- Level of user
-
-XP to level up doubles every level, user keeps current experience.
-XP is determined by number of vowels in a users post.
