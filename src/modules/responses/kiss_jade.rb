@@ -1,3 +1,5 @@
+#if someone uses a :kissjade: emoji, she responds with these two emojis
+
 module Bot::Responses
     module Kiss_Jade
         extend Discordrb::EventContainer

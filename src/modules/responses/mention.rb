@@ -1,3 +1,5 @@
+#responds back if a user pings her with "whats up :?"
+
 module Bot::Responses
     module Mention
         extend Discordrb::EventContainer

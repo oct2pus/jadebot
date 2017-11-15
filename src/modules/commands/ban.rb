@@ -1,3 +1,5 @@
+#command bans a user, requires user to have "ban members" permission
+
 module Bot::Commands
     module Ban
         extend Discordrb::Commands::CommandContainer

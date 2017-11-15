@@ -1,6 +1,7 @@
 require 'json'
 require 'redis'
-# require 'FileUtils'
+
+#event logs every message and deletes them 5 hours later
 
 module Bot::Events
     module Store

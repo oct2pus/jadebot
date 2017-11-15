@@ -1,3 +1,5 @@
+#command creates an invite link for jadebot for users to invite her to their discord servers
+
 module Bot::Commands
     module Invite
         extend Discordrb::Commands::CommandContainer

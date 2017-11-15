@@ -1,3 +1,5 @@
+#command rolls dice, needs to be input in XdXX(+-X), with X being a number and (being optional)
+
 module Bot::Commands
     module Roll
         extend Discordrb::Commands::CommandContainer

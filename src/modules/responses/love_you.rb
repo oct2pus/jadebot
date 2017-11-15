@@ -1,3 +1,5 @@
+#if a user enters "love jade" or "love you jade" jade will mention she loves the user back, fulfills the "TJB" clause
+
 module Bot::Responses
     module Love_You
         extend Discordrb::EventContainer

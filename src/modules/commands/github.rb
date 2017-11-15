@@ -1,3 +1,5 @@
+#command posts a link to the jadebot github page
+
 module Bot::Commands
     module Github
         extend Discordrb::Commands::CommandContainer

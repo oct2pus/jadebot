@@ -1,3 +1,5 @@
+#jadebot writes "best friend" if someone has "good dog" in their message
+
 module Bot::Responses
     module Good_Dog
         extend Discordrb::EventContainer

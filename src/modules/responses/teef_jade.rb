@@ -1,3 +1,5 @@
+#jade responds with :jadeteefs: if a user enters :blobteefs: or :jadeteefs:
+
 module Bot::Responses
     module Kiss_Jade
         extend Discordrb::EventContainer

@@ -1,3 +1,5 @@
+#event logs every time a user leaves as well as publically annouces it
+
 module Bot::Events
     module Member_Leave
         extend Discordrb::EventContainer

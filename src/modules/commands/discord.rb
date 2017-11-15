@@ -1,3 +1,5 @@
+#command creates an invite to the bot.jade.moe discord
+
 module Bot::Commands
     module Discord
         extend Discordrb::Commands::CommandContainer

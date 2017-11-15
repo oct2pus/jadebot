@@ -1,3 +1,5 @@
+#event logs every time a user joins as well as publically annouces it
+
 module Bot::Events
     module Member_Join
         extend Discordrb::EventContainer
