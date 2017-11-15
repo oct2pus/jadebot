@@ -7,7 +7,9 @@ module Bot
 	Dir['src/modules/*.rb'].each { |mod| load mod }
 
 	JADE = Discordrb::Commands::CommandBot.new token: configatron.token, client_id: configatron.id, prefix: '>'
-
+	# 
+	# The below documentation and code chunk is from stolen from 'gemstone' which is a reference bot that inspires jadebot's structure
+	#
 	# This class method wraps the module lazy-loading process of discordrb command
 	# and event modules. Any module name passed to this method will have its child
 	# constants iterated over and passed to `Discordrb::Commands::CommandBot#include!`
@@ -25,8 +27,8 @@ module Bot
 		end
 	end
 
-	load_modules(:Responses, 'responses')
-	load_modules(:Commands, 'commands')
-	load_modules(:Events, 'events')        
+	load_modules(:Responses, 'responses') #these modules are silly messages jade responds with when a certain word or emoji is posted
+	load_modules(:Commands, 'commands') #these modules are her ">" commands
+	load_modules(:Events, 'events') #these modules are largely used for mod logging, are 
     JADE.run
 end
