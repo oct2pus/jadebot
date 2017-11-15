@@ -3,8 +3,8 @@ Jadebot is a chatbot for Discord I created partially out of the desire to make a
 
 # Features
 - Logs User Joins, Leaves, Message Deletion and Message Editing (A simple modlog)
-- Is adorably cute
 - Simple moderation Commands
+- Is adorably cute
 
 # Goals
 - Improve Moderation Loggging
