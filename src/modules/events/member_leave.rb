@@ -12,7 +12,12 @@ module Bot::Events
                 end
             end
             if Bot::JADE.profile.on(event.server).permission?(:send_messages, mod_log)
-                Bot::JADE.send_message(mod_log,"**#{event.user.username}##{event.user.tag}** has left **#{event.server.name}** at #{message.timestamp}")
+                mod_log.send_embed do |embed|
+                    embed.title = "A User Left The Server"
+                    embed.description = "**#{event.user.username}##{event.user.tag}** has left **##{event.server.name}**"
+                    embed.timestamp = Time.now
+                    embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{Bot::JADE.profile.username}", icon_url: "#{Bot::JADE.profile.avatar_url}")
+                end
             end
         end
     end

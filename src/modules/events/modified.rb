@@ -17,25 +17,23 @@ module Bot::Events
                 redis = Redis.new
                 if redis.get(event.message.id) != nil
                     original_message = JSON.parse(redis.get(event.message.id))
-#                    Bot::JADE.send_message(mod_log,"**#{event.user.username}##{event.user.tag}** has edited a message in **##{event.channel.name}** at #{event.timestamp} original message\"#{original_message['message']}\"new message\"#{event.message}\"")
                     mod_log.send_embed do |embed|
                           embed.title = "Message Edited"
                             embed.description = "**#{event.user.username}##{event.user.tag}** has edited a message in **##{event.channel.name}**"
                             embed.timestamp = Time.now
                             embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{Bot::JADE.profile.username}", icon_url: "#{Bot::JADE.profile.avatar_url}")
                             
-                            embed.add_field(name: "Original", value: "#{original_message['message']}")
-                            embed.add_field(name: "New", value: "#{event.message}")
+                            embed.add_field(name: "Original Message", value: "#{original_message['message']}")
+                            embed.add_field(name: "New Message", value: "#{event.message}")
                     end
-                else #fallback message if message was not stored
-#                    Bot::JADE.send_message(mod_log,"**#{event.user.username}##{event.user.tag}** has edited a message in **##{event.channel.name}** at #{event.timestamp}")
+                else
                     mod_log.send_embed do |embed|
                             embed.description = "**#{event.user.username}##{event.user.tag}** has edited a message in **##{event.channel.name}**"
                             embed.timestamp = Time.now
-                            embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{Bot::JADE.profile.username}", icon_url: "Bot::JADE.profile.avatar_url")
-                            
-                            embed.add_field(name: "Original Not Stored")
-                            embed.add_field(name: "New", value: "#{event.message}")
+                            embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{Bot::JADE.profile.username}", icon_url: "#{Bot::JADE.profile.avatar_url}")
+
+                            embed.add_field(name: "Original Message Not Stored", value: "Message was not found in #{Bot::JADE.profile.username}'s Database")
+                            embed.add_field(name: "New Message", value: "#{event.message}")
                     end
                 end
             end

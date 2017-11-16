@@ -17,10 +17,24 @@ module Bot::Events
                 redis = Redis.new
                 time = Time.new
                 if redis.get(event.id) != nil
-                     original_message = JSON.parse(redis.get(event.id))
-                    Bot::JADE.send_message(mod_log,"**#{original_message['user']}##{original_message['tag']}** has deleted a message in **##{event.channel.name}** at #{time}, original message below```#{original_message['message']}\n```")
-                else    #fallback for a message thats not been stored
-                    Bot::JADE.send_message(mod_log,"a message has deleted a message in **##{event.channel.name}** at #{time}")
+                    original_message = JSON.parse(redis.get(event.id))
+                    mod_log.send_embed do |embed|
+                        embed.title = "Message Deleted"
+                        embed.description = "**#{original_message['user']}##{original_message['tag']}** has deleted a message in **##{event.channel.name}**"
+                        embed.timestamp = Time.now
+                        embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{Bot::JADE.profile.username}", icon_url: "#{Bot::JADE.profile.avatar_url}")
+                        
+                        embed.add_field(name: "Deleted Message", value: "#{original_message['message']}")
+                    end
+                else   
+                    mod_log.send_embed do |embed|
+                        embed.title = "Message Deleted"
+                        embed.description = "A user has a deleted a message in **##{event.channel.name}**"
+                        embed.timestamp = Time.now
+                        embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{Bot::JADE.profile.username}", icon_url: "#{Bot::JADE.profile.avatar_url}")
+                        
+                        embed.add_field(name: "Deleted Message Not Stored", value: "Message was not found in #{Bot::JADE.profile.username}'s Database")
+                    end
                 end
                 redis.close
             end
