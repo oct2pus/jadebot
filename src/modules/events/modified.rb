@@ -24,8 +24,8 @@ module Bot::Events
                             embed.timestamp = Time.now
                             embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{Bot::JADE.profile.username}", icon_url: "#{Bot::JADE.profile.avatar_url}")
                             
-                            embed.add_field(name: "Original", value: "```\n#{original_message['message']}```")
-                            embed.add_field(name: "New", value: "```\n#{event.message}```")
+                            embed.add_field(name: "Original", value: "#{original_message['message']}")
+                            embed.add_field(name: "New", value: "#{event.message}")
                     end
                 else #fallback message if message was not stored
 #                    Bot::JADE.send_message(mod_log,"**#{event.user.username}##{event.user.tag}** has edited a message in **##{event.channel.name}** at #{event.timestamp}")
@@ -34,8 +34,8 @@ module Bot::Events
                             embed.timestamp = Time.now
                             embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{Bot::JADE.profile.username}", icon_url: "Bot::JADE.profile.avatar_url")
                             
-                            embed.add_field(name: "Original", value: "Original Not Stored")
-                            embed.add_field(name: "New", value: "```\n#{event.message}```")
+                            embed.add_field(name: "Original Not Stored")
+                            embed.add_field(name: "New", value: "#{event.message}")
                     end
                 end
             end
