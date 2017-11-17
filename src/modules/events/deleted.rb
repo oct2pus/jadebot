@@ -17,19 +17,19 @@ module Bot::Events
                 redis = Redis.new
                 time = Time.new
                 if redis.get(event.id) != nil
-                    original_message = JSON.parse(redis.get(event.id))
+                    stored_message = JSON.parse(redis.get(event.id))
                     mod_log.send_embed do |embed|
                         embed.title = "Message Deleted"
-                        embed.description = "**#{original_message['user']}##{original_message['tag']}** has deleted a message in **##{event.channel.name}**"
+                        embed.description = "A message was deleted in <##{event.channel.id}>"
                         embed.timestamp = Time.now
-                        embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{Bot::JADE.profile.username}", icon_url: "#{Bot::JADE.profile.avatar_url}")
+                        embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{stored_message['user']}##{stored_message['tag']}", icon_url: "#{stored_message['avatar']}")
                         
-                        embed.add_field(name: "Deleted Message", value: "#{original_message['message']}")
+                        embed.add_field(name: "Deleted Message", value: "#{stored_message['message']}")
                     end
                 else   
                     mod_log.send_embed do |embed|
                         embed.title = "Message Deleted"
-                        embed.description = "A user has a deleted a message in **##{event.channel.name}**"
+                        embed.description = "A message was deleted in <##{event.channel.id}>"
                         embed.timestamp = Time.now
                         embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{Bot::JADE.profile.username}", icon_url: "#{Bot::JADE.profile.avatar_url}")
                         
