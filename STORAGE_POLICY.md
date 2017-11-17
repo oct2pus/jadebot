@@ -1,10 +1,7 @@
 #Storage Policy
 
 # What
-Jadebot automatically converts all messages into a simple JSON statement and then stores that statement in a redis server. The things stored are the message you sent, your discord username, and your discord tag. I use the message ID unique to your message as the key to find that particular json statement.
-
-# When
-As soon as I start JadeBot back up.
+Jadebot automatically converts all messages into a simple JSON statement and then stores that statement in a redis server. The things stored are the message you sent, your discord username, your discord tag, and a link to your avatar url. I use the message ID unique to your message as the key to find that particular json statement. Jadebot will store all edits for 5 hours, this will either store old but recently edited messages for 5 hours or refresh the duration of previously held message (with the new text accompanying it).
 
 # Where
 Every place JadeBot has Read Message permission and the Redis NoSQL server is currently running.
