@@ -4,40 +4,41 @@ require 'redis'
 #event logs every time a message is deleted and displays the message that was deleted in the mod-log
 
 module Bot::Events
-    module Deleted
-        extend Discordrb::EventContainer
-        message_delete() do |event|
-            if Bot::JADE.profile.on(event.channel.server).permission?(:manage_server) && Bot::JADE.profile.on(event.channel.server).permission?(:manage_channels)
+		module Deleted
+		extend Discordrb::EventContainer
+		message_delete() do |event|
+			if Bot::JADE.profile.on(event.channel.server).permission?(:manage_server) && Bot::JADE.profile.on(event.channel.server).permission?(:manage_channels)
 				mod_log =  event.channel.server.text_channels.find { |c| c.name == 'mod-log' }
 				if mod_log == nil
-                    mod_log = event.channel.server.create_channel('mod-log')
-                end
-            end
-            if Bot::JADE.profile.on(event.channel.server).permission?(:send_messages, mod_log)
-                redis = Redis.new
-                time = Time.new
-                if redis.get(event.id) != nil
-                    stored_message = JSON.parse(redis.get(event.id))
-                    mod_log.send_embed do |embed|
-                        embed.title = "Message Deleted"
-                        embed.description = "A message was deleted in <##{event.channel.id}>"
-                        embed.timestamp = Time.now
-                        embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{stored_message['user']}##{stored_message['tag']}", icon_url: "#{stored_message['avatar']}")
-                        
-                        embed.add_field(name: "Deleted Message", value: "#{stored_message['message']}")
-                    end
-                else   
-                    mod_log.send_embed do |embed|
-                        embed.title = "Message Deleted"
-                        embed.description = "A message was deleted in <##{event.channel.id}>"
-                        embed.timestamp = Time.now
-                        embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{Bot::JADE.profile.username}", icon_url: "#{Bot::JADE.profile.avatar_url}")
-                        
-                        embed.add_field(name: "Deleted Message Not Stored", value: "Message was not found in #{Bot::JADE.profile.username}'s Database")
-                    end
-                end
-                redis.close
-            end
-        end
-    end
+					mod_log = event.channel.server.create_channel('mod-log')
+				end
+				if Bot::JADE.profile.on(event.channel.server).permission?(:send_messages, mod_log)
+					redis = Redis.new
+					time = Time.new
+					if redis.get(event.id) != nil
+						stored_message = JSON.parse(redis.get(event.id))
+						mod_log.send_embed do |embed|
+							embed.title = "Message Deleted"
+							embed.description = "A message was deleted in <##{event.channel.id}>"
+							embed.timestamp = Time.now
+							embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{stored_message['user']}##{stored_message['tag']}", icon_url: "#{stored_message['avatar']}")
+							
+							embed.add_field(name: "Deleted Message", value: "#{stored_message['message']}")
+						end
+					else   
+						mod_log.send_embed do |embed|
+							embed.title = "Message Deleted"
+							embed.description = "A message was deleted in <##{event.channel.id}>"
+							embed.timestamp = Time.now
+							embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{Bot::JADE.profile.username}", icon_url: "#{Bot::JADE.profile.avatar_url}")
+						
+							embed.add_field(name: "Deleted Message Not Stored", value: "Message was not found in #{Bot::JADE.profile.username}'s Database")
+						end
+					end
+					redis.close
+				end
+			end
+		end
+	end
 end
+
