@@ -4,8 +4,8 @@ module Bot::Events
 	module Member_Leave
 		extend Discordrb::EventContainer
 		member_leave() do |event|
-			if Bot::JADE.profile.on(event.server).permission?(:use_voice_activity) #temporary workaround until I implement proper json and by-server permissions
-				message = Bot::JADE.send_message(event.server.default_channel(),"**#{event.user.username}** has left **#{event.server.name}**! D:")
+			if Bot::JADE.profile.on(event.server).permission?(:read_messages)
+				Bot::JADE.send_message(event.server.default_channel(),"**#{event.user.username}** has left **#{event.server.name}**! D:")
 			end
 			if Bot::JADE.profile.on(event.server).permission?(:manage_server) && Bot::JADE.profile.on(event.server).permission?(:manage_channels)
 				mod_log =  event.server.text_channels.find { |c| c.name == 'mod-log' }
