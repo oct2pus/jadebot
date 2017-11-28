@@ -14,9 +14,11 @@ module Bot::Events
 				end
 				if Bot::JADE.profile.on(event.channel.server).permission?(:send_messages, mod_log)
 					redis = Redis.new
-					time = Time.new
 					if redis.get(event.id) != nil
 						stored_message = JSON.parse(redis.get(event.id))
+						if stored_message['message'] == "" 
+							stored_message['message'] = "This message was an image and nothing else"
+						end
 						mod_log.send_embed do |embed|
 							embed.title = "Message Deleted"
 							embed.description = "A message was deleted in <##{event.channel.id}>"
