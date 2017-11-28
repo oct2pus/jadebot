@@ -4,7 +4,7 @@ module Bot::Events
 	module Member_Leave
 		extend Discordrb::EventContainer
 		member_leave() do |event|
-			if Bot::JADE.profile.on(event.server).permission?(:read_messages)
+			if Bot::JADE.profile.on(event.server).permission?(:use_voice_activity)
 				event.server.default_channel.send_embed("goodbye! D:") do |embed|
 					embed.timestamp = Time.now
 

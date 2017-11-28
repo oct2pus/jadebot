@@ -4,7 +4,7 @@ module Bot::Events
 	module Member_Join
 		extend Discordrb::EventContainer
 		member_join() do |event|
-			if Bot::JADE.profile.on(event.server).permission?(:read_messages)
+			if Bot::JADE.profile.on(event.server).permission?(:use_voice_activity)
 				event.server.default_channel.send_embed("hello! :D") do |embed|
 					embed.timestamp = Time.now
 
