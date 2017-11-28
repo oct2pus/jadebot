@@ -5,7 +5,13 @@ module Bot::Events
 		extend Discordrb::EventContainer
 		member_join() do |event|
 			if Bot::JADE.profile.on(event.server).permission?(:read_messages)
-				Bot::JADE.send_message(event.server.default_channel,"hey **#{event.user.username}**, welcome to **#{event.server.name}**! :D")
+				event.server.default_channel.send_embed("hello! :D") do |embed|
+					embed.timestamp = Time.now
+
+ 					embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: event.user.avatar_url)
+					embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Member Count: #{event.server.member_count}")
+					embed.add_field(name: "a new user appears! :D", value: "welcome to the server,\n**#{event.user.username}##{event.user.tag}**!")
+				end					
 			end
 			if Bot::JADE.profile.on(event.server).permission?(:manage_server) && Bot::JADE.profile.on(event.server).permission?(:manage_channels)
 				mod_log = event.server.text_channels.find { |c| c.name == 'mod-log' }
@@ -17,6 +23,7 @@ module Bot::Events
 						embed.title = "A User Joined The Server"
 						embed.description = "**#{event.user.username}##{event.user.tag}** has joined **##{event.server.name}**"
 						embed.timestamp = Time.now
+						embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Member Count: #{event.server.member_count}")
 						embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: "#{event.user.avatar_url}")
 					end
 				end
