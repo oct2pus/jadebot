@@ -1,0 +1,37 @@
+require 'redis'
+
+module Bot::Events
+	module Name_Change
+		extend Discordrb::EventContainer
+		member_update() do |event|
+			redis = Redis.new
+			user_known = false
+			user_name_change = false
+			
+			if redis.exists("#{event.server.id}:#{event.user.id}")
+				user_nickname = redis.get("#{event.server.id}:#{event.user.id}")
+				
+				if user_nickname != event.user.display_name
+					mod_log =  event.server.text_channels.find { |c| c.name == 'mod-log' }
+					if mod_log == nil
+						mod_log = event.server.create_channel("mod-log")
+					end
+	
+					if Bot::JADE.profile.on(event.server).permission?(:send_messages, mod_log)
+						mod_log.send_embed do |embed|
+							embed.title = "A User Changed Their Nickname"
+							embed.description = "**#{event.user.username}##{event.user.tag}** has changed their nickname."
+							embed.timestamp = Time.now
+							embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: "#{event.user.avatar_url}")
+							embed.add_field(name: "Previous Nickname", value: "#{user_nickname}")
+							embed.add_field(name: "New Nickname", value: "#{event.user.display_name}")
+						end
+					end
+				end
+				redis.set "#{event.server.id}:#{event.user.id}", event.user.display_name
+			
+				redis.close
+			end
+		end
+	end
+end

@@ -22,7 +22,7 @@ module Bot::Events
 								embed.timestamp = Time.now
 								embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: "#{event.user.avatar_url}")
 								embed.add_field(name: "Previous Message", value: "#{stored_message['message']}")
-								embed.add_field(name: "Current Message", value: "#{event.message}")
+								embed.add_field(name: "New Message", value: "#{event.message}")
 						end
 						stored_message['message'] = event.message
 					else
@@ -31,7 +31,7 @@ module Bot::Events
 								embed.timestamp = Time.now
 								embed.author = Discordrb::Webhooks::EmbedAuthor.new(name:	"#{Bot::JADE.profile.username}", icon_url: "#{Bot::JADE.profile.avatar_url}")
 								embed.add_field(name: "Previous Message Not Stored", value: "Message was not found in #{Bot::JADE.profile.username}'s Database")
-								embed.add_field(name: "Current Message", value: "#{event.message}")
+								embed.add_field(name: "New Message", value: "#{event.message}")
 						end
 						stored_message = {:user => event.message.user.username, :tag => event.message.user.tag, :message => event.message.content, :avatar => event.message.user.avatar_url}
 					end
