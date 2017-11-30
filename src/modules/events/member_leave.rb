@@ -1,3 +1,5 @@
+require 'redis'
+
 #event logs every time a user leaves as well as publically annouces it
 
 module Bot::Events
@@ -14,6 +16,12 @@ module Bot::Events
 				end
 			end
 			if Bot::JADE.profile.on(event.server).permission?(:manage_server) && Bot::JADE.profile.on(event.server).permission?(:manage_channels)
+				redis = Redis.new
+
+				if redis.exists("#{event.server.id}:#{event.user.id}")
+					puts redis.del("#{event.server.id}:#{event.user.id}")				
+				end
+
 				mod_log =  event.server.text_channels.find { |c| c.name == 'mod-log' }
 				if mod_log == nil
 					mod_log = event.server.create_channel("mod-log")
