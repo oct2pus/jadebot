@@ -22,6 +22,8 @@ module Bot::Events
 					puts redis.del("#{event.server.id}:#{event.user.id}")				
 				end
 
+				redis.close
+
 				mod_log =  event.server.text_channels.find { |c| c.name == 'mod-log' }
 				if mod_log == nil
 					mod_log = event.server.create_channel("mod-log")
