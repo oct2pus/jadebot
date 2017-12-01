@@ -6,7 +6,12 @@ module Bot::Events
 		extend Discordrb::EventContainer
 		member_join() do |event|
 			if Bot::JADE.profile.on(event.server).permission?(:use_voice_activity)
-				event.server.default_channel.send_embed("hello! :D") do |embed|
+				default_channel = event.server.default_channel
+				if default_channel == nil
+					default_channel = event.server.text_channels.find { |c| c.name == 'general' }
+				end
+# 				#event.server.default_channel.send_embed("hello! :D") do |embed|
+				default_channel.send_embed("hello! :D") do |embed|
 					embed.timestamp = Time.now
 
  					embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: event.user.avatar_url)
