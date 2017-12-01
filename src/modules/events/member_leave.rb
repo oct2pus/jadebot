@@ -24,7 +24,7 @@ module Bot::Events
 				redis = Redis.new
 
 				if redis.exists("#{event.server.id}:#{event.user.id}")
-					puts redis.del("#{event.server.id}:#{event.user.id}")				
+					redis.del("#{event.server.id}:#{event.user.id}")				
 				end
 
 				redis.close
