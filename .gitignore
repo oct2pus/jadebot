@@ -52,3 +52,4 @@ build-iPhoneSimulator/
 #block my .config file from uploading
 config.rb
 Gemfile.lock
+.*.swp
