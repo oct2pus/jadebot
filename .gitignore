@@ -53,3 +53,4 @@ build-iPhoneSimulator/
 config.rb
 Gemfile.lock
 .*.swp
+src/bin/jadebot.db
