@@ -6,3 +6,5 @@ gem 'redis'
 gem 'ruby_cowsay'
 
 gem 'fortune_gem'
+
+gem 'sequel'
