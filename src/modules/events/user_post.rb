@@ -33,7 +33,7 @@ module Bot::Events
 					end
 					levels.update(level: user_level, xp: user_xp, to_next_level: user_next)
 					redis.set "#{event.message.user.id}:#{event.server.id}:level_lock", true
-					redis.expire("#{event.message.user.id}:#{event.server.id}:level_lock", 10)
+					redis.expire("#{event.message.user.id}:#{event.server.id}:level_lock", 3)
 				end
 				redis.close
 			end
