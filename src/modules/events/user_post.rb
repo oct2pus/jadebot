@@ -15,7 +15,7 @@ module Bot::Events
 				redis.set event.message.id, message_hash.to_json
 				redis.expire(event.message.id, 18000) #in seconds, equal to five hours
 			end
-			if Bot::JADE.profile.on(event.server).permission?(:read_messages)
+			if Bot::JADE.profile.on(event.server).permission?(:read_messages) && Bot::JADE.profile.on(event.server).permission?(:use_voice_activity)
 				levels = Bot::DB[:levels].where(user_id: event.message.user.id, server_id: event.server.id)
 				if levels.empty?
 					levels.insert(user_id: event.message.user.id, server_id: event.server.id, level: 1, xp: 0, to_next_level: 100)
