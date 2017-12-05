@@ -16,7 +16,7 @@ module Bot::Commands
 				#consider putting a case statement here to convert common shipnames to their 'mspabooru' name
 				url << "#{tag}+"
 			end
-			url << "rating:safe+-*cest+-erasure+-deleteme"
+			url << "rating:safe+-*cest+-erasure+-gore+-deleteme"
 
 			begin
 				output = parser.parse(RestClient.get(url))
