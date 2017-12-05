@@ -10,3 +10,9 @@ gem 'fortune_gem'
 gem 'sqlite3'
 
 gem 'sequel'
+
+gem 'nori'
+
+gem 'rest-client'
+
+gem 'nokogiri'
