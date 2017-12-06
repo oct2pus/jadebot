@@ -44,7 +44,7 @@ module Bot::Commands
               embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: 'Warning: Some sources will be broken or NSFW')
             end
           end
-        rescue Exception => exception
+        rescue StandardError
           event << "no posts found :(\nplease consider checking if your shipname was entered correctly\n<https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VENC0KOaTgSXE_azPts8qwqz9xMk>"
         end
         redis.set "#{event.server.id}+mspalock", true

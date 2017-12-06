@@ -10,7 +10,7 @@ module Bot::Commands
           event.server.kick(Bot::JADE.parse_mention(user_chosen))
         else
           event << 'please **mention** a valid user'
-          end
+        end
       else
         event << 'you dont have permission to do that! >:Y'
       end

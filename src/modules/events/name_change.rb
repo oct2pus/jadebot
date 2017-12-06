@@ -5,8 +5,6 @@ module Bot::Events
     extend Discordrb::EventContainer
     member_update do |event|
       redis = Redis.new
-      user_known = false
-      user_name_change = false
 
       if redis.exists("#{event.server.id}:#{event.user.id}")
         user_nickname = redis.get("#{event.server.id}:#{event.user.id}")

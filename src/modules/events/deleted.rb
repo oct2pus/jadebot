@@ -39,5 +39,5 @@ module Bot::Events
         end
       end
     end
-end
+  end
 end

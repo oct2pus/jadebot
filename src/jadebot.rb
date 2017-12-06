@@ -4,6 +4,8 @@ require 'sequel'
 
 require_relative 'bin/config'
 
+#This is the heart of Jadebot, initalizes all other modules
+
 module Bot
   Dir['src/modules/*.rb'].each { |mod| load mod }
 
