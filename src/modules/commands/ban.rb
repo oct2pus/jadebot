@@ -1,7 +1,7 @@
-# command bans a user, requires user to have "ban members" permission
 
 module Bot
   module Commands
+    # command bans a user, requires user to have "ban members" permission
     module Ban
       extend Discordrb::Commands::CommandContainer
       command :ban do |event, user_chosen|

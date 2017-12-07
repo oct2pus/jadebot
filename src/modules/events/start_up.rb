@@ -1,9 +1,8 @@
 require 'redis'
 
-# commands to run when bot starts running
-
 module Bot
   module Events
+    # commands to run when bot starts running
     module StartUp
       extend Discordrb::EventContainer
       ready do |_event|

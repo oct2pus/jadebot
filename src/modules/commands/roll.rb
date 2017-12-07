@@ -1,9 +1,8 @@
-# command rolls dice, needs to be input in XdXX(+-X), with X being a number and (being optional)
-
 #TODO: Rewrite of code
 
 module Bot
   module Commands
+    # command rolls dice, needs to be input in XdXX(+-X), with X being a number and (being optional)
     module Roll
       extend Discordrb::Commands::CommandContainer
       command :roll do |event, dice_message|

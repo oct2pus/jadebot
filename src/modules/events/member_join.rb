@@ -1,8 +1,8 @@
 require 'redis'
-# event logs every time a user joins as well as publically annouces it
 
 module Bot
   module Events
+    # event logs every time a user joins as well as publically annouces it
     module MemberJoin
       extend Discordrb::EventContainer
       member_join do |event|

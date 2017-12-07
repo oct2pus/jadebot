@@ -1,9 +1,8 @@
 require 'redis'
 
-# event logs every time a user leaves as well as publically annouces it
-
 module Bot
   module Events
+    # event logs every time a user leaves as well as publically annouces it
     module MemberLeave
       extend Discordrb::EventContainer
       member_leave do |event|

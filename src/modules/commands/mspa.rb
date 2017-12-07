@@ -2,10 +2,10 @@ require 'rest-client'
 require 'nori'
 require 'redis'
 
-# searches the MSPABooru
-
 module Bot
   module Commands
+    # command searches the MSPABooru and display a random result from the first
+    # 25 images grabbed
     module Mspa
       extend Discordrb::Commands::CommandContainer
       command :mspa do |event, *args|

@@ -1,7 +1,6 @@
-# command creates an invite to the bot.jade.moe discord
-
 module Bot
   module Commands
+    # command creates an invite to the bot.jade.moe discord
     module Discord
       extend Discordrb::Commands::CommandContainer
       command :discord do |event|

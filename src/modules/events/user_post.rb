@@ -2,11 +2,11 @@ require 'json'
 require 'redis'
 require 'sequel'
 
-# event logs every message and deletes them 5 hours later
-# manages leveling system
 
 module Bot
   module Events
+    # event logs every message and deletes them 5 hours later
+    # event also manages leveling system
     module UserPost
       extend Discordrb::EventContainer
       message do |event|

@@ -1,7 +1,7 @@
-# jade responds with :jadeteefs: if a user enters :blobteefs: or :jadeteefs:
-
 module Bot
   module Responses
+    # jade responds with :jadeteefs: if a user enters :blobteefs: or 
+    # :jadeteefs:
     module KissJade
       extend Discordrb::EventContainer
       message(contains: [/<:blobteefs/, /<:jadeteefs/]) do |event|

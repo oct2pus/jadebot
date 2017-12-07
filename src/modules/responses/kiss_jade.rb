@@ -1,7 +1,7 @@
-# if someone uses a :kissjade: emoji, she responds with these two emojis
-
 module Bot
   module Responses
+    # if someone uses a :kissjade: emoji, she responds with two emojis
+    # only works if the server has a :kissjade: emote
     module KissJade
       extend Discordrb::EventContainer
       message(contains: /<:kissjade/) do |event|

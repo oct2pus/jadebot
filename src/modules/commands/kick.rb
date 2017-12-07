@@ -1,7 +1,6 @@
-# command kicks a user from the server, requires user to have "kick members" permission
-
 module Bot
   module Commands
+    # command kicks a user from the server, requires user to have "kick members" permission
     module Kick
       extend Discordrb::Commands::CommandContainer
       command :kick do |event, user_chosen|

@@ -1,7 +1,6 @@
-# responds back if a user pings her with "whats up :?"
-
 module Bot
   module Responses
+    # responds back if a user pings her with "whats up :?"
     module Mention
       extend Discordrb::EventContainer
       mention do |event|

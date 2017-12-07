@@ -1,7 +1,6 @@
-# command posts a link to the jadebot github page
-
 module Bot
   module Commands
+    # command posts a link to the jadebot github page
     module Github
       extend Discordrb::Commands::CommandContainer
       command :github do |event|

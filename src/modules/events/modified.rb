@@ -1,10 +1,9 @@
 require 'json'
 require 'redis'
 
-# event called every time a message is edited
-
 module Bot
   module Events
+    # event called every time a message is edited
     module Modified
       extend Discordrb::EventContainer
       message_edit do |event|

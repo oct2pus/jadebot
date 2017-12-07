@@ -1,10 +1,11 @@
 require 'json'
 require 'redis'
 
-# event logs every time a message is deleted and displays the message that was deleted in the mod-log
 
 module Bot
   module Events
+    # event logs every time a message is deleted and displays the message that
+    # was deleted in the mod-log
     module Deleted
       extend Discordrb::EventContainer
       message_delete do |event|
