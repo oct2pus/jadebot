@@ -2,7 +2,7 @@
 
 module Bot
   module Responses
-    module Kiss_Jade
+    module KissJade
       extend Discordrb::EventContainer
       message(contains: /<:kissjade/) do |event|
         do_event = false

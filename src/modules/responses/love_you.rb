@@ -2,7 +2,7 @@
 
 module Bot
   module Responses
-    module Love_You
+    module LoveYou
       extend Discordrb::EventContainer
       message(contains: /love( you,?)? jade/i) do |event|
         event.send_message("i love you too #{event.user.mention}! :green_heart:")

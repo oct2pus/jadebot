@@ -2,7 +2,7 @@ require 'redis'
 
 module Bot
   module Events
-    module Name_Change
+    module NameChange
       extend Discordrb::EventContainer
       member_update do |event|
         redis = Redis.new

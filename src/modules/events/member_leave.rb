@@ -4,7 +4,7 @@ require 'redis'
 
 module Bot
   module Events
-    module Member_Leave
+    module MemberLeave
       extend Discordrb::EventContainer
       member_leave do |event|
         if Bot::JADE.profile.on(event.server).permission?(:use_voice_activity)

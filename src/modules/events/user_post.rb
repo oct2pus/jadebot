@@ -7,7 +7,7 @@ require 'sequel'
 
 module Bot
   module Events
-    module User_Post
+    module UserPost
       extend Discordrb::EventContainer
       message do |event|
         redis = Redis.new

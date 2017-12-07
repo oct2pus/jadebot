@@ -2,7 +2,7 @@
 
 module Bot
   module Responses
-    module Good_Dog
+    module GoodDog
       extend Discordrb::EventContainer
       message(contains: /good dog/i) do |event|
         event.send_message('best friend')

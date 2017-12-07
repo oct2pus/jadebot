@@ -4,7 +4,7 @@ require 'redis'
 
 module Bot
   module Events
-    module Start_Up
+    module StartUp
       extend Discordrb::EventContainer
       ready do |_event|
         redis = Redis.new

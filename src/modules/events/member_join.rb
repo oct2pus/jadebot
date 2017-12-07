@@ -3,7 +3,7 @@ require 'redis'
 
 module Bot
   module Events
-    module Member_Join
+    module MemberJoin
       extend Discordrb::EventContainer
       member_join do |event|
         if Bot::JADE.profile.on(event.server).permission?(:use_voice_activity)
