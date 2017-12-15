@@ -5,7 +5,7 @@ module Bot
     module LoveYou
       extend Discordrb::EventContainer
       message(contains: /love( you,?)? jade/i) do |event|
-        event.send_message("i love you too #{event.user.mention}! :green_heart:")
+        event.send_message("i love you too #{event.user.mention}! :green_heart:") if Bot::JADE.profile.on(event.server).permission?(:send_messages)
       end
     end
   end

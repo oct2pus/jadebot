@@ -4,7 +4,7 @@ module Bot
     module Mention
       extend Discordrb::EventContainer
       mention do |event|
-        Bot::JADE.send_message(event.channel, 'whats up :?')
+        Bot::JADE.send_message(event.channel, 'whats up :?') Bot::JADE.profile.on(event.server).permission?(:send_messages)
       end
     end
   end
