@@ -4,7 +4,7 @@ module Bot
     module GoodDog
       extend Discordrb::EventContainer
       message(contains: /good dog/i) do |event|
-          event.send_message('best friend') Bot::JADE.profile.on(event.server).permission?(:send_messages)
+        event.send_message('best friend') if Bot::JADE.profile.on(event.server).permission?(:send_messages)
       end
     end
   end

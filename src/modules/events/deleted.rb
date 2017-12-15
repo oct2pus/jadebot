@@ -1,7 +1,6 @@
 require 'json'
 require 'redis'
 
-
 module Bot
   module Events
     # event logs every time a message is deleted and displays the message that

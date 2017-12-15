@@ -11,7 +11,7 @@ module Bot
           if default_channel.nil?
             default_channel = event.server.text_channels.find { |c| c.name == 'general' }
           end
-          # 				#event.server.default_channel.send_embed("hello! :D") do |embed|
+          # event.server.default_channel.send_embed("hello! :D") do |embed|
           default_channel.send_embed('hello! :D') do |embed|
             embed.timestamp = Time.now
 

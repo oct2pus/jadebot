@@ -1,4 +1,4 @@
-#TODO: Rewrite of code
+# TODO: Rewrite of code
 
 module Bot
   module Commands
@@ -57,11 +57,11 @@ module Bot
             roll_size = eval_command.to_i.abs
 
           else math_pass == true
-              if !math_type
-                roll_mod -= eval_command.to_i
-              else
-                roll_mod += eval_command.to_i
-              end
+               if !math_type
+                 roll_mod -= eval_command.to_i
+               else
+                 roll_mod += eval_command.to_i
+               end
 
           end
 
@@ -86,9 +86,9 @@ module Bot
           result_message << "```and with a modifier of #{roll_mod} you get: #{result_total}"
 
           event << if result_message.size <= 1000
-                    result_message
-                  else
-                    'woah fuckass you just passed discord message limit with that roll >:U'
+                     result_message
+                   else
+                     'woah fuckass you just passed discord message limit with that roll >:U'
                   end
         elsif dice_message.nil?
           event << 'you didnt tell me what dice you wanted to roll :o'

@@ -5,7 +5,7 @@ require 'fortune_gem'
 module Bot
   module Commands
     # command prints a 'cowsay' message, default prints fortune
-    module Cowsay 
+    module Cowsay
       extend Discordrb::Commands::CommandContainer
       command :cowsay do |event, message|
         event << if message.nil? || event.content.include?('`')

@@ -2,7 +2,6 @@ require 'json'
 require 'redis'
 require 'sequel'
 
-
 module Bot
   module Events
     # event logs every message and deletes them 5 hours later
@@ -16,7 +15,7 @@ module Bot
           message_hash = { user: event.message.user.username, tag: event.message.user.tag, message: event.message.content, avatar: event.message.user.avatar_url }
           redis.set event.message.id, message_hash.to_json
           redis.expire(event.message.id, 180_000) # in seconds, equal to a
-                                                  # little more than 41 hours
+          # little more than 41 hours
         end
 
         if Bot::JADE.profile.on(event.server).permission?(:use_voice_activity)
@@ -30,7 +29,7 @@ module Bot
             user_xp = levels.get(:xp)
             user_next = levels.get(:to_next_level)
 
-            user_xp += (10 + (rand(20)))
+            user_xp += (10 + rand(20))
 
             if user_xp >= user_next
               user_next += user_next
