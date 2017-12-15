@@ -33,7 +33,7 @@ module Bot
           if Bot::JADE.profile.on(event.server).permission?(:send_messages, mod_log)
             mod_log.send_embed do |embed|
               embed.title = 'A User Joined The Server'
-              embed.description = "**#{event.user.username}##{event.user.tag}** has joined **##{event.server.name}**"
+              embed.description = "**#{event.user.username}##{event.user.tag}** has joined **#{event.server.name}**"
               embed.timestamp = Time.now
               embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Member Count: #{event.server.member_count}")
               embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: event.user.avatar_url.to_s)
