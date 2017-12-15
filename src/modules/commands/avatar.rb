@@ -16,7 +16,7 @@ module Bot
                     event.channel.send_embed(message_string) do |embed|
                         embed.title = 'View Source'
                         embed.url = user_chosen.avatar_url
-                        embed.image = { url: user_chosen.avatar_url}
+                        embed.image = { url: user_chosen.avatar_url }
                     end
                 else
                     event << 'please **mention** a valid user'
