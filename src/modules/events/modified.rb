@@ -34,7 +34,8 @@ module Bot
               stored_message = { user: event.message.user.username, tag: event.message.user.tag, message: event.message.content, avatar: event.message.user.avatar_url }
             end
             redis.set event.message.id, stored_message.to_json
-            redis.expire(event.message.id, 18_000) # in seconds, equal to five hours
+            redis.expire(event.message.id, 180_000) # in seconds, equal to a 
+                                                    # little more than 41 hours
           end
         end
       end

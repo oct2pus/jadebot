@@ -15,7 +15,8 @@ module Bot
         if Bot::JADE.profile.on(event.server).permission?(:manage_server) && Bot::JADE.profile.on(event.server).permission?(:manage_channels)
           message_hash = { user: event.message.user.username, tag: event.message.user.tag, message: event.message.content, avatar: event.message.user.avatar_url }
           redis.set event.message.id, message_hash.to_json
-          redis.expire(event.message.id, 18_000) # in seconds, equal to five hours
+          redis.expire(event.message.id, 180_000) # in seconds, equal to a
+                                                  # little more than 41 hours
         end
 
         if Bot::JADE.profile.on(event.server).permission?(:use_voice_activity)
@@ -29,7 +30,7 @@ module Bot
             user_xp = levels.get(:xp)
             user_next = levels.get(:to_next_level)
 
-            user_xp += 10
+            user_xp += (10 + (rand(20)))
 
             if user_xp >= user_next
               user_next += user_next
@@ -38,7 +39,7 @@ module Bot
             end
             levels.update(level: user_level, xp: user_xp, to_next_level: user_next)
             redis.set "#{event.message.user.id}:#{event.server.id}:level_lock", true
-            redis.expire("#{event.message.user.id}:#{event.server.id}:level_lock", 3)
+            redis.expire("#{event.message.user.id}:#{event.server.id}:level_lock", 30)
           end
           redis.close
         end
