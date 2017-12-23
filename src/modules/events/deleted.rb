@@ -21,6 +21,7 @@ module Bot
               mod_log.send_embed do |embed|
                 embed.title = 'Message Deleted'
                 embed.description = "A message was deleted in <##{event.channel.id}>"
+                embed.color = "#AB0000"
                 embed.timestamp = Time.now
                 embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{stored_message['user']}##{stored_message['tag']}", icon_url: (stored_message['avatar']).to_s)
 
@@ -30,6 +31,7 @@ module Bot
               mod_log.send_embed do |embed|
                 embed.title = 'Message Deleted'
                 embed.description = "A message was deleted in <##{event.channel.id}>"
+                embed.color = "#AB0000"
                 embed.timestamp = Time.now
                 embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: Bot::JADE.profile.username.to_s, icon_url: Bot::JADE.profile.avatar_url.to_s)
 
