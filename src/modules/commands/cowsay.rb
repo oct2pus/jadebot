@@ -1,4 +1,3 @@
-
 require 'ruby_cowsay'
 require 'fortune_gem'
 

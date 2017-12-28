@@ -1,4 +1,3 @@
-
 module Bot
   module Commands
     # command posts a link to the jadebot STORAGE_POLICY.md
