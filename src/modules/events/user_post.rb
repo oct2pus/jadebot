@@ -34,7 +34,7 @@ module Bot
             if user_xp >= user_next
               user_next += user_next
               user_level += 1
-              event << "Level up!\n#{event.message.user.display_name} is now **Level #{user_level}**"
+              event.send_message("Level up!\n#{event.message.user.display_name} is now **Level #{user_level}**")
             end
             levels.update(level: user_level, xp: user_xp, to_next_level: user_next)
             redis.set "#{event.message.user.id}:#{event.server.id}:level_lock", true
