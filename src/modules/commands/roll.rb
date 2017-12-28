@@ -4,9 +4,9 @@ module Bot
   module Commands
     # command rolls dice, needs to be input in XdXX(+-X), with X being a number
     # and (being optional)
-    module Roll2
+    module Roll
       extend Discordrb::Commands::CommandContainer
-      command :roll2 do |event, dice_message|
+      command :roll do |event, dice_message|
         # process
         if dice_message =~ /[0-9]+d[0-9]+((\+|-)[0-9])?/
           # vars
