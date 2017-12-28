@@ -2,7 +2,7 @@ module Bot
   module Responses
     # jade responds with :jadeteefs: if a user enters :blobteefs: or
     # :jadeteefs:
-    module KissJade
+    module TeefJade
       extend Discordrb::EventContainer
       message(contains: [/<:blobteefs/, /<:jadeteefs/]) do |event|
         if Bot::JADE.profile.on(event.server).permission?(:use_external_emoji)
