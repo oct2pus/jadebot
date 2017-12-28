@@ -2,98 +2,71 @@
 
 module Bot
   module Commands
-    # command rolls dice, needs to be input in XdXX(+-X), with X being a number and (being optional)
-    module Roll
+    # command rolls dice, needs to be input in XdXX(+-X), with X being a number
+    # and (being optional)
+    module Roll2
       extend Discordrb::Commands::CommandContainer
-      command :roll do |event, dice_message|
-        # to do: make a prettier output
-
-        # vars
-        eval_command = ''
-        counter_message = 0
-        counter_eval = 0
-        roll_amount = 0
-        roll_size = 0
-        roll_mod = 0
-        d_pass = false
-        math_pass = false
-        math_type = true	# determines if modifier is positive or negative
-        result = {}
-        result_total = 0
-        result_message = 'you rolled ```'
-
+      command :roll2 do |event, dice_message|
         # process
         if dice_message =~ /[0-9]+d[0-9]+((\+|-)[0-9])?/
+          # vars
+          roll_math = true # positive if true, negative if false, irrelevant if
+                           # not greater than 4
+          input = dice_message.split(/(d|\+|-)/)
+          rolls = []
+          total = 0
+          output = ''
 
-          # parse dice roll
-          begin
-            eval_command[counter_eval] = dice_message[counter_message]
+          # string processing
+          if input[3] == '-'
+            roll_math = false
+          end
 
-            if (dice_message[counter_message + 1] == 'd') && !d_pass
-              roll_amount = eval_command.to_i.abs
+          input = input.keep_if { |a| a =~ /[0-9]/}
+          input[0] = input[0].to_i
+          input[1] = input[1].to_i
+          if input.size <= 2
+            input[2] = 0
+          else
+            input[2] = input[2].to_i
+          end
 
-              eval_command = ''
-              counter_eval = -1
-              counter_message += 1
-              d_pass = true
+          # failure states
+          if input[0] <= 0 || input[0] > 20
+            event.send_message('hey pal, try and roll a number from 1 to 20 instead :v')
+          elsif input[1] <= 1 || input[1] > 100
+            event.send_message('hey pal, try and roll a die from 2 to 100 instead :v')
+          else
+            # math
+            rolls = Array.new(input[0])
+            output = "**"
+            rolls.each_index do |roll|
+              rolls[roll] = rand(input[1])+1
+              total += rolls[roll]
+              output += "#{rolls[roll]}\t"
+              if roll%5 == 4 && roll != 19
+                output += "\n"
+              end
             end
 
-            if dice_message[counter_message + 1] =~ /([+-])/
-              math_type = false if dice_message[counter_message + 1] == '-'
-
-              roll_size = eval_command.to_i.abs
-
-              eval_command = ''
-              counter_eval = -1
-              counter_message += 1
-              math_pass = true
+            if !roll_math
+              total -= input[2]
+              output << "**\n\nmod: -#{input[2]}"
+            else
+              total += input[2]
+              output << "**\n\nmod: #{input[2]}"
             end
 
-            counter_message += 1
-            counter_eval += 1
-          end while counter_message < dice_message.size
+            # output
+            event.channel.send_embed() do |embed|
+                embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "🎲 | #{dice_message}")
 
-          if !math_pass
-            roll_size = eval_command.to_i.abs
-
-          else math_pass == true
-               if !math_type
-                 roll_mod -= eval_command.to_i
-               else
-                 roll_mod += eval_command.to_i
-               end
-
+                embed.add_field(name: "Rolls", value: "#{output}")
+                embed.add_field(name: "Results", value: "#{total}")
+            end
           end
-
-          if roll_amount > 100
-            event << "sorry that many die will make my processor cry\nyou can only roll up to 100 die >:U"
-            break
-          elsif (roll_size == 0) || (roll_amount == 0)
-            event << 'please dont be a smartass'
-            break
-          end
-
-          i = 0
-          until i >= roll_amount
-            result[i] = rand(roll_size) + 1
-            result_total += result[i]
-
-            result_message << "#{result[i]} "
-            i += 1
-          end
-
-          result_total += roll_mod
-          result_message << "```and with a modifier of #{roll_mod} you get: #{result_total}"
-
-          event << if result_message.size <= 1000
-                     result_message
-                   else
-                     'woah fuckass you just passed discord message limit with that roll >:U'
-                  end
-        elsif dice_message.nil?
-          event << 'you didnt tell me what dice you wanted to roll :o'
         else
-          event << 'please use the XXdXX format, with XX being any number :D'
+          event.send_message('please write that again in XXdXX format :U')
         end
       end
     end
