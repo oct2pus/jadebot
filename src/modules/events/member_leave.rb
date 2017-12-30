@@ -27,20 +27,25 @@ module Bot
             redis.del("#{event.server.id}:#{event.user.id}:NAME")
           end
 
-          redis.close
-
-          mod_log = event.server.text_channels.find { |c| c.name == 'mod-log' }
-          mod_log = event.server.create_channel('mod-log') if mod_log.nil?
-          if Bot::JADE.profile.on(event.server).permission?(:send_messages, mod_log)
-            mod_log.send_embed do |embed|
-              embed.title = 'A User Left The Server'
-              embed.description = "**#{event.user.username}##{event.user.tag}** has left **#{event.server.name}**"
-              embed.timestamp = Time.now
-              embed.color = "AA21AA"
-              embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Member Count: #{event.server.member_count}")
-              embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: event.user.avatar_url.to_s)
+          if redis.exists("#{event.server.id}:#{event.user.id}:BANKICK")
+            puts "key exists"
+            redis.del("#{event.server.id}:#{event.user.id}:BANKICK")
+          else
+            puts "key doesnt exist"
+            mod_log = event.server.text_channels.find { |c| c.name == 'mod-log' }
+            mod_log = event.server.create_channel('mod-log') if mod_log.nil?
+            if Bot::JADE.profile.on(event.server).permission?(:send_messages, mod_log)
+              mod_log.send_embed do |embed|
+                embed.title = 'A User Left The Server'
+                embed.description = "**#{event.user.username}##{event.user.tag}** has left **#{event.server.name}**"
+                embed.timestamp = Time.now
+                embed.color = "AA21AA"
+                embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Member Count: #{event.server.member_count}")
+                embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: event.user.avatar_url.to_s)
+              end
             end
           end
+          redis.close
         end
       end
     end

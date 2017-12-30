@@ -1,18 +1,49 @@
+require 'redis'
+
 module Bot
   module Commands
     # command kicks a user from the server, requires user to have "kick members" permission
     module Kick
       extend Discordrb::Commands::CommandContainer
-      command :kick do |event, user_chosen|
-        if event.user.permission?(:kick_members)
-          if Bot::JADE.parse_mention(user_chosen)
-            event << "**#{Bot::JADE.parse_mention(user_chosen).username}** has been kicked from the server :p"
-            event.server.kick(Bot::JADE.parse_mention(user_chosen))
-          else
-            event << 'please **mention** a valid user'
+      command :kick do |event, *args|
+        if event.user.permission?(:kick_members) && Bot::JADE.profile.on(event.server).permission?(:kick_members)
+          redis = Redis.new
+          if Bot::JADE.parse_mention(args[0])
+            user_target = Bot::JADE.parse_mention(args[0])
+            event.send_message("**#{user_target.username}##{user_target.tag}** has been kicked from the server :p")
+
+            if Bot::JADE.profile.on(event.server).permission?(:manage_channels) && Bot::JADE.profile.on(event.server).permission?(:manage_server)
+              mod_log = event.server.text_channels.find { |c| c.name == 'mod-log' }
+              mod_log = event.server.create_channel('mod-log') if mod_log.nil?
+
+              if Bot::JADE.profile.on(event.server).permission?(:send_messages, mod_log)
+                reason = ""
+
+                redis.set "#{event.server.id}:#{user_target.id}:BANKICK", true
+
+                if (args.size > 1)
+                  args[1..(args.size-1)].each { |word| reason += "#{word} " }
+                else
+                  reason = 'No reason given.'
+                end
+
+                mod_log.send_embed do |embed|
+                  embed.title = "#{event.user.username}##{event.user.tag} has kicked #{user_target.username}##{user_target.tag}"
+                  embed.timestamp = Time.now
+                  embed.color = "DB0A88"
+                  embed.add_field(name: 'Reason' ,value: "#{reason}")
+                  embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Member Count: #{(event.server.member_count) - 1}")
+                  embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: event.user.avatar_url.to_s)
+                end
+              end
+            end
           end
+
+          redis.close
+          
+          event.server.kick(user_target)
         else
-          event << 'you dont have permission to do that! >:Y'
+            event.send_message('please **mention** a valid user')
         end
       end
     end
