@@ -19,10 +19,10 @@ module Bot
               if Bot::JADE.profile.on(event.server).permission?(:send_messages, mod_log)
                 mod_log.send_embed do |embed|
                   embed.title = 'Clear'
-                  embed.description = "**#{event.user.username}##{event.user.tag}** has deleted #{amount} messages* in <##{event.channel.id}>."
+                  embed.description = "**#{event.user.username}##{event.user.tag}** has deleted #{amount} messages\* in <##{event.channel.id}>."
                   embed.timestamp = Time.now
                   embed.color = 'FEFF1E'
-                  embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: '*number of posts may be inaccurate due to a number of reasons. This is\'t rocket science')
+                  embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: '*number of posts may be inaccurate due to a number of reasons. This is\'t rocket science.')
                   embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: event.user.avatar_url.to_s)
                 end
               end
