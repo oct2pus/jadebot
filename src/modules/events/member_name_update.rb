@@ -7,7 +7,7 @@ module Bot
     module MemberNameUpdate
       extend Discordrb::EventContainer
       member_update do |event|
-      #Store a Users Display Name, log it if different
+        # Store a Users Display Name, log it if different
         redis = Redis.new
 
         if redis.exists("#{event.server.id}:#{event.user.id}:NAME")
@@ -19,13 +19,13 @@ module Bot
 
             if Bot::JADE.profile.on(event.server).permission?(:send_messages, mod_log)
               mod_log.send_embed do |embed|
-              embed.title = 'A User Changed Their Nickname'
+                embed.title = 'A User Changed Their Nickname'
                 embed.description = "**#{event.user.username}##{event.user.tag}** has changed their nickname."
                 embed.timestamp = Time.now
-                embed.color = "#FAAF55"
+                embed.color = '#FAAF55'
                 embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: event.user.avatar_url.to_s)
-                embed.add_field(name: 'Previous Nickname', value: user_nickname)#.to_s)
-                embed.add_field(name: 'New Nickname', value: event.user.display_name)#.to_s)
+                embed.add_field(name: 'Previous Nickname', value: user_nickname) # .to_s)
+                embed.add_field(name: 'New Nickname', value: event.user.display_name) # .to_s)
               end
             end
           end

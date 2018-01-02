@@ -11,25 +11,23 @@ module Bot
         if dice_message =~ /[0-9]+d[0-9]+((\+|-)[0-9])?/
           # vars
           roll_math = true # positive if true, negative if false, irrelevant if
-                           # not greater than 4
+          # not greater than 4
           input = dice_message.split(/(d|\+|-)/)
           rolls = []
           total = 0
           output = ''
 
           # string processing
-          if input[3] == '-'
-            roll_math = false
-          end
+          roll_math = false if input[3] == '-'
 
-          input = input.keep_if { |a| a =~ /[0-9]/}
+          input = input.keep_if { |a| a =~ /[0-9]/ }
           input[0] = input[0].to_i
           input[1] = input[1].to_i
-          if input.size <= 2
-            input[2] = 0
-          else
-            input[2] = input[2].to_i
-          end
+          input[2] = if input.size <= 2
+                       0
+                     else
+                       input[2].to_i
+                     end
 
           # failure states
           if input[0] <= 0 || input[0] > 20
@@ -39,14 +37,12 @@ module Bot
           else
             # math
             rolls = Array.new(input[0])
-            output = "**"
+            output = '**'
             rolls.each_index do |roll|
-              rolls[roll] = rand(input[1])+1
+              rolls[roll] = rand(input[1]) + 1
               total += rolls[roll]
               output += "#{rolls[roll]}\t"
-              if roll%5 == 4 && roll != 19
-                output += "\n"
-              end
+              output += "\n" if roll % 5 == 4 && roll != 19
             end
 
             if !roll_math
@@ -58,11 +54,11 @@ module Bot
             end
 
             # output
-            event.channel.send_embed() do |embed|
-                embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "🎲 | #{dice_message}")
+            event.channel.send_embed do |embed|
+              embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "🎲 | #{dice_message}")
 
-                embed.add_field(name: "Rolls", value: "#{output}")
-                embed.add_field(name: "Results", value: "#{total}")
+              embed.add_field(name: 'Rolls', value: output.to_s)
+              embed.add_field(name: 'Results', value: total.to_s)
             end
           end
         else

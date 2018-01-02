@@ -28,10 +28,10 @@ module Bot
           end
 
           if redis.exists("#{event.server.id}:#{event.user.id}:BANKICK")
-            puts "key exists"
+            puts 'key exists'
             redis.del("#{event.server.id}:#{event.user.id}:BANKICK")
           else
-            puts "key doesnt exist"
+            puts 'key doesnt exist'
             mod_log = event.server.text_channels.find { |c| c.name == 'mod-log' }
             mod_log = event.server.create_channel('mod-log') if mod_log.nil?
             if Bot::JADE.profile.on(event.server).permission?(:send_messages, mod_log)
@@ -39,7 +39,7 @@ module Bot
                 embed.title = 'A User Left The Server'
                 embed.description = "**#{event.user.username}##{event.user.tag}** has left **#{event.server.name}**"
                 embed.timestamp = Time.now
-                embed.color = "AA21AA"
+                embed.color = 'AA21AA'
                 embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Member Count: #{event.server.member_count}")
                 embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: event.user.avatar_url.to_s)
               end

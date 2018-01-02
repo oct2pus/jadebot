@@ -17,23 +17,23 @@ module Bot
               mod_log = event.server.create_channel('mod-log') if mod_log.nil?
 
               if Bot::JADE.profile.on(event.server).permission?(:send_messages, mod_log)
-                reason = ""
+                reason = ''
 
                 redis.set "#{event.server.id}:#{user_target.id}:BANKICK", true
 
-                if (args.size > 1)
-                  args[1..(args.size-1)].each { |word| reason += "#{word} " }
+                if args.size > 1
+                  args[1..(args.size - 1)].each { |word| reason += "#{word} " }
                 else
                   reason = 'No reason given.'
                 end
 
                 mod_log.send_embed do |embed|
-                  embed.title = "Ban"
+                  embed.title = 'Ban'
                   embed.description = "#{event.user.username}##{event.user.tag} has banned #{user_target.username}##{user_target.tag}"
                   embed.timestamp = Time.now
-                  embed.color = "88AOBD"
-                  embed.add_field(name: 'Reason' ,value: "#{reason}")
-                  embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Member Count: #{(event.server.member_count) - 1}")
+                  embed.color = '88AOBD'
+                  embed.add_field(name: 'Reason', value: reason.to_s)
+                  embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Member Count: #{event.server.member_count - 1}")
                   embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: event.user.avatar_url.to_s)
                 end
               end
@@ -44,7 +44,7 @@ module Bot
 
           event.server.ban(user_target)
         else
-            event.send_message('please **mention** a valid user')
+          event.send_message('please **mention** a valid user')
         end
       end
     end

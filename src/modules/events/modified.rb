@@ -17,7 +17,7 @@ module Bot
               mod_log.send_embed do |embed|
                 embed.title = 'Message Edited'
                 embed.description = "a message has been edited in <##{event.channel.id}>"
-                embed.color = "#5555AA"
+                embed.color = '#5555AA'
                 embed.timestamp = Time.now
                 embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: event.user.avatar_url.to_s)
                 embed.add_field(name: 'Previous Message', value: (stored_message['message']).to_s)
@@ -28,7 +28,7 @@ module Bot
               mod_log.send_embed do |embed|
                 embed.description = "a message has been edited in <##{event.channel.id}>"
                 embed.timestamp = Time.now
-                embed.color = "#5555AA"
+                embed.color = '#5555AA'
                 embed.author = Discordrb::Webhooks::EmbedAuthor.new(name:	Bot::JADE.profile.username.to_s, icon_url: Bot::JADE.profile.avatar_url.to_s)
                 embed.add_field(name: 'Previous Message Not Stored', value: "Message was not found in #{Bot::JADE.profile.username}'s Database")
                 embed.add_field(name: 'New Message', value: event.message.to_s)

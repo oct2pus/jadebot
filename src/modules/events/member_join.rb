@@ -35,7 +35,7 @@ module Bot
               embed.title = 'A User Joined The Server'
               embed.description = "**#{event.user.username}##{event.user.tag}** has joined **#{event.server.name}**"
               embed.timestamp = Time.now
-              embed.color = "#21AA21"
+              embed.color = '#21AA21'
               embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Member Count: #{event.server.member_count}")
               embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: event.user.avatar_url.to_s)
             end

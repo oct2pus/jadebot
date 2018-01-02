@@ -1,16 +1,16 @@
 module Bot
-    module Events
-      # runs when a discord heartbeat occurs, mentions the heartbeat occurs to
-      # help me track when errors occur, also updates Jadebots "GAME" to the
-      # number of server she's running on currently.
-        module HeartBeat
-            extend Discordrb::EventContainer
-            heartbeat do |_event|
-                puts "========================"
-                puts "Heartbeat at #{Time.now}"
-                puts "========================"
-                Bot::JADE.game = "Running on #{Bot::JADE.servers.size} servers."
-            end
-        end
+  module Events
+    # runs when a discord heartbeat occurs, mentions the heartbeat occurs to
+    # help me track when errors occur, also updates Jadebots "GAME" to the
+    # number of server she's running on currently.
+    module HeartBeat
+      extend Discordrb::EventContainer
+      heartbeat do |_event|
+        puts '========================'
+        puts "Heartbeat at #{Time.now}"
+        puts '========================'
+        Bot::JADE.game = "Running on #{Bot::JADE.servers.size} servers."
+      end
     end
+  end
 end
