@@ -29,7 +29,7 @@ module Bot
             user_xp = levels.get(:xp)
             user_next = levels.get(:to_next_level)
 
-            user_xp += rand(10..29)
+            user_xp += rand(10..31)
 
             if user_xp >= user_next
               user_next += user_next
