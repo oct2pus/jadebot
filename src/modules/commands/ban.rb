@@ -10,7 +10,7 @@ module Bot
           redis = Redis.new
           if Bot::JADE.parse_mention(args[0])
             user_target = Bot::JADE.parse_mention(args[0])
-            event.send_message("**#{user_target.username}##{user_target.tag}** has been kicked from the server :p")
+            event.send_message("**#{user_target.username}##{user_target.tag}** has been banned from the server :p")
 
             if Bot::JADE.profile.on(event.server).permission?(:manage_channels) && Bot::JADE.profile.on(event.server).permission?(:manage_server)
               mod_log = event.server.text_channels.find { |c| c.name == 'mod-log' }
@@ -28,7 +28,8 @@ module Bot
                 end
 
                 mod_log.send_embed do |embed|
-                  embed.title = "#{event.user.username}##{event.user.tag} has banned #{user_target.username}##{user_target.tag}"
+                  embed.title = "Ban"
+                  embed.description = "#{event.user.username}##{event.user.tag} has banned #{user_target.username}##{user_target.tag}"
                   embed.timestamp = Time.now
                   embed.color = "88AOBD"
                   embed.add_field(name: 'Reason' ,value: "#{reason}")
@@ -40,7 +41,7 @@ module Bot
           end
 
           redis.close
-          
+
           event.server.ban(user_target)
         else
             event.send_message('please **mention** a valid user')

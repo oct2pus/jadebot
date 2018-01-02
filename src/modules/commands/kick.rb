@@ -28,9 +28,10 @@ module Bot
                 end
 
                 mod_log.send_embed do |embed|
-                  embed.title = "#{event.user.username}##{event.user.tag} has kicked #{user_target.username}##{user_target.tag}"
+                  embed.title = "Kick"
+                  embed.description = "#{event.user.username}##{event.user.tag} has kicked #{user_target.username}##{user_target.tag}"
                   embed.timestamp = Time.now
-                  embed.color = "DB0A88"
+                  embed.color = "AAAA88"
                   embed.add_field(name: 'Reason' ,value: "#{reason}")
                   embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "Member Count: #{(event.server.member_count) - 1}")
                   embed.author = Discordrb::Webhooks::EmbedAuthor.new(name: "#{event.user.username}##{event.user.tag}", icon_url: event.user.avatar_url.to_s)
@@ -40,7 +41,7 @@ module Bot
           end
 
           redis.close
-          
+
           event.server.kick(user_target)
         else
             event.send_message('please **mention** a valid user')
