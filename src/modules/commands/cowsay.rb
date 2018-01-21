@@ -6,7 +6,7 @@ module Bot
     # command prints a 'cowsay' message, default prints fortune
     module Cowsay
       extend Discordrb::Commands::CommandContainer
-      command :cowsay do |event, message|
+      command(:cowsay, description: "moo\nusage: >cowsay `any message here`\ncowsay without a message will post a random UNIX fortune") do |event, message|
         event << if message.nil? || event.content.include?('`')
                    "```#{Cow.new.say(FortuneGem.give_fortune)}```"
                  else

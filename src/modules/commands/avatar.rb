@@ -3,7 +3,7 @@ module Bot
     # command posts a user avatar
     module Avatar
       extend Discordrb::Commands::CommandContainer
-      command :avatar do |event, user_chosen|
+      command(:avatar, description: "gets a users avatar\nusage: >avatar `@user`\n please @ the user") do |event, user_chosen|
         if !user_chosen.nil?
           user_chosen = Bot::JADE.parse_mention(user_chosen)
           message_string = "here is #{user_chosen.on(event.server).display_name}'s avatar :o"
