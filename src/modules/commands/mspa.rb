@@ -8,9 +8,9 @@ module Bot
     # 25 images grabbed
     module Mspa
       extend Discordrb::Commands::CommandContainer
-      command :mspa do |event, *args|
+      command(:mspa, description: "searches and posts images from mspabooru\n usage: >mspa `any-tags-here`\ntags are split by spaces, multiple word tags are split with '-'\nkeep in mind mspabooru uses some funky search tags, here is a list of every ship name: <https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VENC0KOaTgSXE_azPts8qwqz9xMk>") do |event, *args|
         redis = Redis.new
-        if !redis.exists("#{event.server.id}+mspalock")
+        if !redis.exists("#{event.server.id}:mspalock")
 
           parser = Nori.new
           limit = 25
@@ -48,10 +48,10 @@ module Bot
           rescue StandardError
             event << "no posts found :(\nplease consider checking if your shipname was entered correctly\n<https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VENC0KOaTgSXE_azPts8qwqz9xMk>"
           end
-          redis.set "#{event.server.id}+mspalock", true
-          redis.expire("#{event.server.id}+mspalock", 5)
+          redis.set "#{event.server.id}:mspalock", true
+          redis.expire("#{event.server.id}:mspalock", 7)
         else
-          event << "please slow down!\nwait another #{redis.ttl("#{event.server.id}+mspalock")} seconds :p"
+          event.send_temporary_message("please slow down!\nwait another #{redis.ttl("#{event.server.id}:mspalock")} seconds :p", redis.ttl("#{event.server.id}:mspalock"))
         end
         redis.close
       end
