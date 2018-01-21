@@ -4,7 +4,7 @@ module Bot
     module Invite
       extend Discordrb::Commands::CommandContainer
       command(:invite, description: "posts an invite to jadebot") do |event|
-        event << '<https://discordapp.com/oauth2/authorize?client_id=331204502277586945&scope=bot&permissions=3126>'
+        event << '<https://discordapp.com/oauth2/authorize?client_id=331204502277586945&scope=bot&permissions=379968>'
       end
     end
   end
