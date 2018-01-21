@@ -1,14 +1,11 @@
 require 'discordrb'
 require 'configatron'
-require 'sequel'
-
 require_relative 'bin/config'
 
 # This is the heart of Jadebot, initalizes all other modules
 module Bot
   Dir['src/modules/*.rb'].each { |mod| load mod }
 
-  DB = Sequel.sqlite('src/bin/jadebot.db')
   JADE = Discordrb::Commands::CommandBot.new token: configatron.token, client_id: configatron.id, prefix: '>', ignore_bots: true
   #
   # The below documentation and code chunk is from stolen from 'gemstone' which is a reference bot that inspires jadebot's structure
