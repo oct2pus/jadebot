@@ -1,5 +1,5 @@
 # Jadebot
-Jadebot is a homestuck-themed chatbot, she intends to be a fun bot for homestuck-themed discord servers.
+Jadebot is a homestuck-themed chatbot, she intends to be a fun bot for homestuck-themed discord servers. Feel free to [invite](https://discordapp.com/oauth2/authorize?client_id=331204502277586945&scope=bot&permissions=379968) her to your server!
 
 ## Features
 - Can search and return articles from the mspawiki and images from the mspabooru!
