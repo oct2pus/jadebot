@@ -1,6 +1,5 @@
 require 'json'
 require 'redis'
-require 'sequel'
 
 module Bot
   module Events
