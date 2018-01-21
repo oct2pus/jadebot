@@ -54,6 +54,5 @@ config.rb
 # misc. things that should be blocked from being uploaded.
 Gemfile.lock
 .*.swp
-src/bin/jadebot.db
 # this is rubocop output I use for cleaning my code
 .todo
