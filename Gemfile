@@ -9,10 +9,6 @@ gem 'fortune_gem'
 
 gem 'configatron'
 
-gem 'sqlite3'
-
-gem 'sequel'
-
 gem 'nori'
 
 gem 'rest-client'
