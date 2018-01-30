@@ -15,17 +15,22 @@ module Bot
           min_article_quality = 10
           search = args.join('+')
           words = args.join(' ')
-
+         
+          base_url = "http://mspaintadventures.wikia.com/api/v1" 
           # url to be parsed
-          search_url = "http://mspaintadventures.wikia.com/api/v1/Search/List?query=#{search}&limit=#{limit}&minArticleQuality=#{min_article_quality}&batch=#{batch}"
-
+          search_url = "#{base_url}/Search/List?query=#{search}"
+          search_url << "&limit=#{limit}"
+          search_url << "&minArticleQuality=#{min_article_quality}"
+          search_url << "&batch=#{batch}"
+          puts search_url
           event.channel.send_temporary_message("searching for #{words}", 5)
 
-          # items is an array but will only hold one value if you set limit to one
+          # items is an array but will only hold one value if you set limit to 
+          # one
           begin
             search = JSON.parse(RestClient.get(search_url))
           rescue StandardError
-            event.send_message("I couldn't find anything about \"#{words}\" :(")
+            event.send_message("i couldnt find anything about \"#{words}\" :(")
           else
             redis.set "#{event.server.id}:wikilock", true
             redis.expire("#{event.server.id}:wikilock", 7)
@@ -33,7 +38,7 @@ module Bot
             id = search["items"][0]["id"]
             actual_article_url = search["items"][0]["url"]
 
-            json_article_url = "http://mspaintadventures.wikia.com/api/v1/Articles/AsSimpleJson?id=#{id}"
+            json_article_url = "#{base_url}/Articles/AsSimpleJson?id=#{id}"
             article = JSON.parse(RestClient.get(json_article_url))
 
             title = article["sections"][0]["title"]

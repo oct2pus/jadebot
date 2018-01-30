@@ -15,8 +15,9 @@ module Bot
           parser = Nori.new
           limit = 25
           pid = 0
-          url = "http://mspabooru.com//index.php?page=dapi&s=post&q=index&pid=#{pid}&limit=#{limit}&tags="
-
+          url = "http://mspabooru.com//index.php?page=dapi&s=post&q=index"
+          url << "&pid=#{pid}&limit=#{limit}&tags="
+          puts url 
           args.each do |tag|
             # consider putting a case statement here to convert common shipnames to their 'mspabooru' name
             url << "#{tag}+"
