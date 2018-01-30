@@ -21,7 +21,7 @@ sudo systemctl start redis-server
 `
 you can then finally run
 `
-ruby run.rb
+bundle exec ruby run.rb
 `
 from within the root folder.
 
