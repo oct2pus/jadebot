@@ -14,4 +14,4 @@ gem 'nori'
 
 gem 'rest-client'
 
-gem 'nokogiri'
+gem 'nokogiri', '>=1.6.8'
