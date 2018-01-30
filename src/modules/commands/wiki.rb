@@ -4,11 +4,12 @@ require 'json'
 
 module Bot
   module Commands
+    # Command Searches MSPA wiki and finds result
     module Wiki
       extend Discordrb::Commands::CommandContainer
       command(:wiki, description: "searches the mspa wiki\nusage: >wiki `what you want to search`") do |event, *args|
         redis = Redis.new
-        if !redis.exists("#{event.server.id}:wikilock")
+        unless redis.exists("#{event.server.id}:wikilock")
 
           limit = 1
           batch = 1

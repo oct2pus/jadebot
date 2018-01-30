@@ -10,7 +10,7 @@ module Bot
       extend Discordrb::Commands::CommandContainer
       command(:mspa, description: "searches and posts images from mspabooru\n usage: >mspa `any-tags-here`\ntags are split by spaces, multiple word tags are split with '-'\nkeep in mind mspabooru uses some funky search tags, here is a list of every ship name: <https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VENC0KOaTgSXE_azPts8qwqz9xMk>") do |event, *args|
         redis = Redis.new
-        if !redis.exists("#{event.server.id}:mspalock")
+        unless redis.exists("#{event.server.id}:mspalock")
 
           parser = Nori.new
           limit = 25
