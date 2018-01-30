@@ -7,7 +7,7 @@ module Bot
       extend Discordrb::EventContainer
       ready do |_event|
         puts "Total Number of Servers: #{Bot::JADE.servers.size}"
-        puts "Jadebot initalized!"
+        puts 'Jadebot initalized!'
       end
     end
   end

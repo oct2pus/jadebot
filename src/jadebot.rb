@@ -29,6 +29,6 @@ module Bot
 
   load_modules(:Responses, 'responses') # these modules are silly messages jade responds with when a certain word or emoji is posted
   load_modules(:Commands, 'commands') # these modules are her ">" commands
-  load_modules(:Events, 'events') # these modules are largely used for mod logging
+  load_modules(:Events, 'events') # these modules are for event's that are not caused by direct user input
   JADE.run
 end
