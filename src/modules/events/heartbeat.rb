@@ -6,9 +6,9 @@ module Bot
     module HeartBeat
       extend Discordrb::EventContainer
       heartbeat do |_event|
-        puts '========================'
+        puts "\n========================"
         puts "Heartbeat at #{Time.now}"
-        puts '========================'
+        puts "========================\n"
         Bot::JADE.game = "Running on #{Bot::JADE.servers.size} servers."
       end
     end
