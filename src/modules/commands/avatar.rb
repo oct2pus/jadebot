@@ -9,7 +9,7 @@ module Bot
         end        
 
         unless user_chosen.nil? 
-          event.channel.send_embed("here is **#{event.user.display_name}**'s avatar!") do |embed|
+          event.channel.send_embed("here is **#{user_chosen.on(event.server).display_name}**'s avatar!") do |embed|
             embed.title = 'View Source'
             embed.url = user_chosen.avatar_url
             embed.image = { url: user_chosen.avatar_url }
