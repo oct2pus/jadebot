@@ -22,7 +22,7 @@ module Bot
                   redis.set "#{event.server.id}:GREETER", true
                   event.send_message("greeter turned on")
                 else
-                  event.send_message("invalid selection, try `true` or `false`.")
+                  event.send_message("invalid selection, try `on` or `off`.")
                 end
               when 'greeter_channel'
                 if args.size > 1 && args[1].include?('<')
