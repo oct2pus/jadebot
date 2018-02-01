@@ -45,10 +45,9 @@ module Bot
               else
                 event.send_message("thats not a valid setting, do `setting list` for a list of settings!")
             end
-          else
-            event.send_temporary_message("you must be an administrator to use this command :P", 5)
           end
-        redis.close
+        else
+          event.send_temporary_message("you must be an administrator to use this command :P", 5)
         end
       end
     end
