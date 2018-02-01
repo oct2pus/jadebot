@@ -56,3 +56,4 @@ Gemfile.lock
 .*.swp
 # this is rubocop output I use for cleaning my code
 .todo
+test.rb
