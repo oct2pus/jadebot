@@ -20,7 +20,7 @@ module Bot
           search_url << "&limit=#{limit}"
           search_url << "&minArticleQuality=#{min_article_quality}"
           search_url << "&batch=#{batch}"
-          puts search_url
+
           event.channel.send_temporary_message("searching for #{words}", 5)
 
           # items is an array but will only hold one value if you set limit to
