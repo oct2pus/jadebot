@@ -1,6 +1,3 @@
-require 'ruby_cowsay'
-require 'fortune_gem'
-
 module Bot
   module Commands
     # command prints a 'cowsay' message, default prints fortune

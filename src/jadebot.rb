@@ -1,7 +1,3 @@
-require 'discordrb'
-require 'configatron'
-require_relative 'bin/config'
-
 # This is the heart of Jadebot, initalizes all other modules
 module Bot
   puts '===loading non-discordrb modules==='

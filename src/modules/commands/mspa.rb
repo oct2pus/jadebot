@@ -1,8 +1,3 @@
-require 'rest-client'
-require 'nori'
-require 'redis'
-require 'json'
-
 module Bot
   module Commands
     # command searches the MSPABooru and display a random result from the first

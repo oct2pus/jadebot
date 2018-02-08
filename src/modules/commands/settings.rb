@@ -1,6 +1,3 @@
-require 'redis'
-require 'json'
-
 module Bot
   module Commands
     module Settings

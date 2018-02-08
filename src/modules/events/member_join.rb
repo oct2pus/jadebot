@@ -1,5 +1,3 @@
-require 'redis'
-
 module Bot
   module Events
     # event logs every time a user joins as well as publically annouces it

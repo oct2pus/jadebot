@@ -1,5 +1,3 @@
-require 'redis'
-
 module Bot
   module Events
     # commands to run when bot starts running

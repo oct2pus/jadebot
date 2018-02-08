@@ -1,7 +1,3 @@
-require 'rest-client'
-require 'redis'
-require 'json'
-
 module Bot
   module Commands
     # Command Searches MSPA wiki and finds result

@@ -1,6 +1,3 @@
-require 'redis'
-require 'json'
-
 module Bot
   module Events
     # commands to run when bot starts running
