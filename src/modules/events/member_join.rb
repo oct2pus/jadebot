@@ -4,13 +4,13 @@ module Bot
     module MemberJoin
       extend Discordrb::EventContainer
       member_join do |event|
-        redis = Redis.new
-        if redis.exists("#{event.server.id}:GREETER") && redis.get("#{event.server.id}:GREETER")
-          channel_id = redis.get("#{event.server.id}:GREETER_CHANNEL").to_s
+        server_settings = JSON.parse($Redis.get("#{event.server.id}:SETTINGS"))
+        if server_settings['greet']
+          channel_id = server_settings['greeting_channel']
           default_channel = event.server.text_channels.find { |c| c.id.to_s == channel_id }
           default_channel = event.server.default_channel if default_channel.nil?
           # event.server.default_channel.send_embed("hello! :D") do |embed|
-          default_channel.send_embed('hello! :D') do |embed|
+          default_channel.send_embed(server_settings['greeter_message']) do |embed|
             embed.timestamp = Time.now
 
             embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: event.user.avatar_url)
@@ -18,7 +18,6 @@ module Bot
             embed.add_field(name: 'a new user appears! :D', value: "welcome to the server,\n**#{event.user.username}##{event.user.tag}**!")
           end
         end
-        redis.close
       end
     end
   end

@@ -5,17 +5,9 @@ module Bot
     module KissJade
       extend Discordrb::EventContainer
       message(contains: /<:kissjade/) do |event|
-        if Bot::JADE.profile.on(event.server).permission?(:send_messages)
-          do_event = false
-
-          event.server.emoji.each do |_id, emoji|
-            if emoji.name == 'kissjade'
-              do_event = true
-              break
-            end
-          end
-
-          event.send_message(':flushed::two_hearts:') if do_event
+        server_settings = JSON.parse($Redis.get("#{event.server.id}:SETTINGS"))
+        if server_settings['interaction'] == 2
+          event.send_message(':flushed::two_hearts:')
         end
       end
     end

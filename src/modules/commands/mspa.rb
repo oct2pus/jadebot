@@ -5,22 +5,31 @@ module Bot
     module Mspa
       extend Discordrb::Commands::CommandContainer
       command(:mspa, description: "searches and posts images from mspabooru\n usage: >mspa `any-tags-here`\ntags are split by spaces, multiple word tags are split with '_'\nexample: `>mspa dave_strider kiss karkat_vantas shipping`\nkeep in mind mspabooru uses some funky search tags for ships, here is a list of (almost) every ship name: <https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VENC0KOaTgSXE_azPts8qwqz9xMk>") do |event, *args|
-        redis = Redis.new
-        if redis.exists("#{event.server.id}:mspalock")
-          event.send_temporary_message("please slow down!\nwait another #{redis.ttl("#{event.server.id}:mspalock")} seconds :p", redis.ttl("#{event.server.id}:mspalock"))
+        if $Redis.exists("#{event.server.id}:mspalock")
+          event.send_temporary_message("please slow down!\nwait another #{$Redis.ttl("#{event.server.id}:mspalock")} seconds :p", $Redis.ttl("#{event.server.id}:mspalock"))
         else
-
+          server_settings = JSON.parse($Redis.get("#{event.server.id}:SETTINGS"))
           parser = Nori.new
           limit = 25
           pid = 0
           url = 'http://mspabooru.com//index.php?page=dapi&s=post&q=index'
-          url << "&pid=#{pid}&limit=#{limit}&tags="
-          puts url
-          args.each do |tag|
-            # consider putting a case statement here to convert common shipnames to their 'mspabooru' name
-            url << "#{tag}+"
+          url << "&pid=#{pid}&limit=#{limit}"
+          puts args.length
+          unless args.empty?
+            url << "&tags="
+            args.each do |tag|
+              url << "#{tag}+"
+            end
           end
-          url << 'rating:safe+-*cest+-erasure+-gore+-deleteme+-vomit'
+
+          puts url
+          server_settings['mspa'].size
+          unless server_settings['mspa'].empty?
+            if args.empty?
+              url << "&tags="
+            end
+            url << "-#{server_settings['mspa'].join('+-')}"
+          end
 
           begin
             output = parser.parse(RestClient.get(url))
@@ -47,10 +56,9 @@ module Bot
           rescue StandardError
             event << "no posts found :(\nplease consider checking if your shipname was entered correctly\n<https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VENC0KOaTgSXE_azPts8qwqz9xMk>"
           end
-          redis.set "#{event.server.id}:mspalock", true
-          redis.expire("#{event.server.id}:mspalock", 7)
+          $Redis.set "#{event.server.id}:mspalock", true
+          $Redis.expire("#{event.server.id}:mspalock", 7)
         end
-        redis.close
       end
     end
   end

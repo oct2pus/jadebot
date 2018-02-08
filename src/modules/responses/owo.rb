@@ -4,7 +4,10 @@ module Bot
     module OwO
       extend Discordrb::EventContainer
       message(contains: /\bowo\b/i) do |event|
-        event.send_message('whats this :o') if Bot::JADE.profile.on(event.server).permission?(:send_messages)
+        server_settings = JSON.parse($Redis.get("#{event.server.id}:SETTINGS"))
+        if server_settings['interaction'] > 0
+          event.send_message('whats this :o')
+        end
       end
     end
   end

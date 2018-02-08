@@ -4,7 +4,10 @@ module Bot
     module Mention
       extend Discordrb::EventContainer
       mention do |event|
-        Bot::JADE.send_message(event.channel, 'whats up :?') if Bot::JADE.profile.on(event.server).permission?(:send_messages)
+        server_settings = JSON.parse($Redis.get("#{event.server.id}:SETTINGS"))
+        if server_settings['interaction'] > 0
+          Bot::JADE.send_message(event.channel, 'whats up :?')
+        end
       end
     end
   end

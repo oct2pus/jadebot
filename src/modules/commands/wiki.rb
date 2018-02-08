@@ -4,9 +4,8 @@ module Bot
     module Wiki
       extend Discordrb::Commands::CommandContainer
       command(:wiki, description: "searches the mspa wiki\nusage: >wiki `what you want to search`") do |event, *args|
-        redis = Redis.new
-        if redis.exists("#{event.server.id}:wikilock")
-          event.send_temporary_message("please slow down!\nwait another #{redis.ttl("#{event.server.id}:wikilock")} seconds :p", redis.ttl("#{event.server.id}:wikilock"))
+        if $Redis.exists("#{event.server.id}:wikilock")
+          event.send_temporary_message("please slow down!\nwait another #{$Redis.ttl("#{event.server.id}:wikilock")} seconds :p", $Redis.ttl("#{event.server.id}:wikilock"))
         else
 
           limit = 1
@@ -31,8 +30,8 @@ module Bot
           rescue StandardError
             event.send_message("i couldnt find anything about \"#{words}\" :(")
           else
-            redis.set "#{event.server.id}:wikilock", true
-            redis.expire("#{event.server.id}:wikilock", 7)
+            $Redis.set "#{event.server.id}:wikilock", true
+            $Redis.expire("#{event.server.id}:wikilock", 7)
 
             id = search['items'][0]['id']
             actual_article_url = search['items'][0]['url']

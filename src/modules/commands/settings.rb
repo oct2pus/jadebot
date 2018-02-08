@@ -3,8 +3,6 @@ module Bot
     module Settings
       extend Discordrb::Commands::CommandContainer
       command(%i[setting settings], description: "Allows Admins to set bot specific settings.\nusage: >settings `option` `selection`") do |event, *args|
-        redis = Redis.new
-
         if event.user.permission?(:administrator)
           # list
           if args.empty? || args[0] == 'list'
@@ -16,7 +14,7 @@ module Bot
 
             event.send_message(buffer.join("\n"))
           else
-            server_settings = JSON.parse(redis.get("#{event.server.id}:SETTINGS"))
+            server_settings = JSON.parse($Redis.get("#{event.server.id}:SETTINGS"))
             bad_choice = "thats not a valid setting!\ntry"
             case args[0]
               # greeting_channel
@@ -78,23 +76,23 @@ module Bot
               if args[1] == 'block' && args.length > 2
 
                 args.shift(2) # this removes 'mspa' and 'block/unblock' from
-                              # args array, kept inside if statement for
-                              # simplicity
+                # args array, kept inside if statement for
+                # simplicity
 
                 # this could be simplified to one long command but its much
                 # more readable this way
                 blocklist = blocklist.concat(args)
                 server_settings['mspa'] = blocklist.sort.uniq
-                event.send_message("the mspa command will now block\n`#{server_settings['mspa'].join(' ')}`")
+                event.send_message("the `>mspa` command will now block\n`#{server_settings['mspa'].join(' ')}`")
 
               elsif args[1] == 'unblock' && args.length > 2
 
                 args.shift(2)
 
-                blocklist = blocklist - args
+                blocklist -= args
                 server_settings['mspa'] = blocklist.sort.uniq
                 event.send_message("the mspa command will now block\n`#{server_settings['mspa'].join(' ')}`")
-              
+
               elsif args[1] == 'reset'
                 server_settings['mspa'] = $Options[:mspa][:default]
                 event.send_message("the mspa command will now block\n`#{server_settings['mspa'].join(' ')}`")
@@ -106,7 +104,7 @@ module Bot
               args.shift
               server_settings['greeter_message'] = args.join(' ')
               event.send_message("greeter message set to `#{server_settings['greeter_message']}`")
-              #leaver_message
+              # leaver_message
             when 'leaver_message', 'leave_message'
               args.shift
               server_settings['leaver_message'] = args.join(' ')
@@ -115,15 +113,13 @@ module Bot
               event.send_message("#{bad_choice} `>setting list` for a list of settings!")
             end # end case
             puts "updated settings on #{event.server.name}: #{server_settings}"
-            redis.set "#{event.server.id}:SETTINGS", server_settings.to_json
+            $Redis.set "#{event.server.id}:SETTINGS", server_settings.to_json
 
-          end 
+          end
 
         else
           event.send_temporary_message('you must be an administrator to use this command :P', 5)
         end
-
-        redis.close
       end
     end
   end
