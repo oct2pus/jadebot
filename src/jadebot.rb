@@ -4,7 +4,8 @@ require_relative 'bin/config'
 
 # This is the heart of Jadebot, initalizes all other modules
 module Bot
-  Dir['src/modules/*.rb'].each { |mod| load mod }
+  puts '===loading non-discordrb modules==='
+  Dir['src/modules/other/*.rb'].each { |mod| load mod; puts "loaded #{mod}" }
 
   JADE = Discordrb::Commands::CommandBot.new token: configatron.token, client_id: configatron.id, prefix: '>', ignore_bots: true
   #
@@ -18,10 +19,12 @@ module Bot
   #   - extend Discordrb::Commands::CommandContainer
   # @param klass [Symbol, #to_sym] the name of the module
   # @param path [String] the path underneath `src/modules/` to load files from
+  p
+  puts '===loading discordrb modules==='
   def self.load_modules(klass, path)
     new_module = Module.new
     const_set(klass.to_sym, new_module)
-    Dir["src/modules/#{path}/*.rb"].each { |file| load file }
+    Dir["src/modules/#{path}/*.rb"].each { |file| load file; puts "loaded #{file}" }
     new_module.constants.each do |mod|
       JADE.include! new_module.const_get(mod)
     end

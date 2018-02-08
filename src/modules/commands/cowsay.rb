@@ -7,10 +7,10 @@ module Bot
     module Cowsay
       extend Discordrb::Commands::CommandContainer
       command(:cowsay, description: "moo\nusage: >cowsay `any message here`\ncowsay without a message will post a random UNIX fortune") do |event, *args|
-        event << if args.empty? || args.any? { |word| word.include? '`'}
+        event << if args.empty? || args.any? { |word| word.include? '`' }
                    "```#{Cow.new.say(FortuneGem.give_fortune)}```"
                  else
-                    message = args.join(' ')
+                   message = args.join(' ')
                    "```#{Cow.new.say(message)}```"
                  end
       end

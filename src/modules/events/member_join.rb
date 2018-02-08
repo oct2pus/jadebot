@@ -9,10 +9,8 @@ module Bot
         redis = Redis.new
         if redis.exists("#{event.server.id}:GREETER") && redis.get("#{event.server.id}:GREETER")
           channel_id = redis.get("#{event.server.id}:GREETER_CHANNEL").to_s
-          default_channel = event.server.text_channels.find { |c| c.id.to_s == channel_id}
-          if default_channel.nil?
-            default_channel = event.server.default_channel
-          end
+          default_channel = event.server.text_channels.find { |c| c.id.to_s == channel_id }
+          default_channel = event.server.default_channel if default_channel.nil?
           # event.server.default_channel.send_embed("hello! :D") do |embed|
           default_channel.send_embed('hello! :D') do |embed|
             embed.timestamp = Time.now

@@ -7,8 +7,8 @@ module Bot
       extend Discordrb::EventContainer
       server_create do |_event|
         redis = Redis.new
-        redis.set "{event.server.id}:GREETER", true
-        redis.set "{event.server.id}:GREETER_CHANNEL", event.server.default_channel.id
+        redis.set '{event.server.id}:GREETER', true
+        redis.set '{event.server.id}:GREETER_CHANNEL', event.server.default_channel.id
       end
     end
   end

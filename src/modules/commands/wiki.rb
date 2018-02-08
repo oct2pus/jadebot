@@ -9,7 +9,9 @@ module Bot
       extend Discordrb::Commands::CommandContainer
       command(:wiki, description: "searches the mspa wiki\nusage: >wiki `what you want to search`") do |event, *args|
         redis = Redis.new
-        unless redis.exists("#{event.server.id}:wikilock")
+        if redis.exists("#{event.server.id}:wikilock")
+          event.send_temporary_message("please slow down!\nwait another #{redis.ttl("#{event.server.id}:wikilock")} seconds :p", redis.ttl("#{event.server.id}:wikilock"))
+        else
 
           limit = 1
           batch = 1
@@ -51,8 +53,6 @@ module Bot
               embed.description = text
             end
           end
-        else
-          event.send_temporary_message("please slow down!\nwait another #{redis.ttl("#{event.server.id}:wikilock")} seconds :p", redis.ttl("#{event.server.id}:wikilock"))
         end
       end
     end
