@@ -116,7 +116,7 @@ module Bot
             $Redis.set "#{event.server.id}:SETTINGS", server_settings.to_json
 
           end
-
+          nil
         else
           event.send_temporary_message('you must be an administrator to use this command :P', 5)
         end

@@ -59,6 +59,7 @@ module Bot
           $Redis.set "#{event.server.id}:mspalock", true
           $Redis.expire("#{event.server.id}:mspalock", 7)
         end
+        nil
       end
     end
   end
