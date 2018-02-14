@@ -9,7 +9,7 @@ module Bot
         end
 
         if user_chosen.nil?
-          event.channel.send_embed("here is **your** avatar!") do |embed|
+          event.channel.send_embed('here is **your** avatar!') do |embed|
             embed.title = 'View Source'
             embed.url = event.user.avatar_url.gsub('.webp', '.png')
             embed.image = { url: event.user.avatar_url.gsub('.webp', '.png') }

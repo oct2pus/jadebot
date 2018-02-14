@@ -6,8 +6,8 @@ module Bot
         if event.user.permission?(:administrator)
           server_settings = JSON.parse($Redis.get("#{event.server.id}:SETTINGS"))
           if args.empty?
-            event.channel.send_embed() do |embed|
-              embed.title = "Current Options:"
+            event.channel.send_embed do |embed|
+              embed.title = 'Current Options:'
               server_settings.each do |name, value|
                 embed.add_field(name: name, value: "`#{value}`")
               end
@@ -15,16 +15,16 @@ module Bot
           else
             bad_choice = "thats not a valid setting!\ntry"
             case args[0]
-              #list
+              # list
             when 'list', 'options', 'defaults', 'default'
               # $Options is defined in src/modules/guild_settings.rb
-              event.channel.send_embed() do |embed|
-                embed.title = "Available Options:"
+              event.channel.send_embed do |embed|
+                embed.title = 'Available Options:'
                 $Options.each do |name, attributes|
                   embed.add_field(name: name, value: "description: #{attributes[:description]}\ndefault: `#{attributes[:default]}`")
                 end
               end
-               # greeting_channel
+            # greeting_channel
             when 'greeter_channel', 'greeting_channel'
 
               if args.size > 1 && args[1].include?('<')

@@ -15,7 +15,7 @@ module Bot
           url = 'http://mspabooru.com//index.php?page=dapi&s=post&q=index'
           url << "&pid=#{pid}&limit=#{limit}"
           unless args.empty?
-            url << "&tags="
+            url << '&tags='
             args.each do |tag|
               url << "#{tag}+"
             end
@@ -23,9 +23,7 @@ module Bot
 
           server_settings['mspa'].size
           unless server_settings['mspa'].empty?
-            if args.empty?
-              url << "&tags="
-            end
+            url << '&tags=' if args.empty?
             url << "-#{server_settings['mspa'].join('+-')}"
           end
 
