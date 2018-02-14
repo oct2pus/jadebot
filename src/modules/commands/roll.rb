@@ -35,33 +35,42 @@ module Bot
           else
             # math
             rolls = Array.new(input[0])
-            output = '**'
+            output = '`'
             rolls.each_index do |roll|
               rolls[roll] = rand(input[1]) + 1
               total += rolls[roll]
-              output += "#{rolls[roll]}\t"
-              output += "\n" if roll % 5 == 4 && roll != 19
+              output += "|#{Roll.format_num(rolls[roll])}|"
+              output += "\t" if roll % 5 != 4 && roll != 19
+              output += "`\n`" if roll % 5 == 4 && roll != 19
             end
-
-            if !roll_math
-              total -= input[2]
-              output << "**\n\nmod: -#{input[2]}"
-            else
+            output += '`'
+            mod_out = '+'
+            if roll_math
               total += input[2]
-              output << "**\n\nmod: #{input[2]}"
+            else
+              total -= input[2]
+              mod_out = '-'
             end
-
             # output
             event.channel.send_embed do |embed|
-              embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "🎲 | #{dice_message}")
-
-              embed.add_field(name: 'Rolls', value: output.to_s)
-              embed.add_field(name: 'Results', value: total.to_s)
+              embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: ":game_die: | #{dice_message}")
+              embed.add_field(name: 'Rolls', value: output.to_s, inline: true)
+              embed.add_field(name: 'Modifier', value: "#{mod_out}#{input[2]}", inline: true)
+              embed.add_field(name: 'Results', value: total.to_s, inline: true)
             end
           end
         else
           event.send_message('please write that again in XXdXX format :U')
         end
+      end
+
+      def self.format_num(num = 0)
+        value = num.to_s
+
+        value = value.prepend ' ' if value.length < 3
+        value = value.concat ' ' if value.length < 3
+
+        value
       end
     end
   end
