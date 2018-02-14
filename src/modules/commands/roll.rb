@@ -30,8 +30,8 @@ module Bot
           # failure states
           if input[0] <= 0 || input[0] > 20
             event.send_message('hey pal, try and roll a number from 1 to 20 instead :v')
-          elsif input[1] <= 1 || input[1] > 100
-            event.send_message('hey pal, try and roll a die from 2 to 100 instead :v')
+          elsif input[1] <= 1 || input[1] > 120
+            event.send_message('hey pal, try and roll a die from 2 to 120 instead :v')
           else
             # math
             rolls = Array.new(input[0])
@@ -39,11 +39,16 @@ module Bot
             rolls.each_index do |roll|
               rolls[roll] = rand(input[1]) + 1
               total += rolls[roll]
-              output += "|#{Roll.format_num(rolls[roll])}|"
-              output += "\t" if roll % 5 != 4 && roll != 19
-              output += "`\n`" if roll % 5 == 4 && roll != 19
+              output += "|#{rolls[roll].to_s.center(3)}|"
+              output += "\t" if roll % 5 != 4
+              output += "`\n`" if roll % 5 == 4
             end
             output += '`'
+
+            if output.end_with?('``')
+              output.slice!((output.length - 2)...(output.length))
+            end
+
             mod_out = '+'
             if roll_math
               total += input[2]
@@ -62,15 +67,6 @@ module Bot
         else
           event.send_message('please write that again in XXdXX format :U')
         end
-      end
-
-      def self.format_num(num = 0)
-        value = num.to_s
-
-        value = value.prepend ' ' if value.length < 3
-        value = value.concat ' ' if value.length < 3
-
-        value
       end
     end
   end
