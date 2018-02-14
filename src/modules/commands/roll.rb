@@ -53,7 +53,7 @@ module Bot
             end
             # output
             event.channel.send_embed do |embed|
-              embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: ":game_die: | #{dice_message}")
+              embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "🎲 | #{dice_message}")
               embed.add_field(name: 'Rolls', value: output.to_s, inline: true)
               embed.add_field(name: 'Modifier', value: "#{mod_out}#{input[2]}", inline: true)
               embed.add_field(name: 'Results', value: total.to_s, inline: true)
