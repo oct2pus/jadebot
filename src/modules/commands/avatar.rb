@@ -3,7 +3,8 @@ module Bot
     # command posts a user avatar
     module Avatar
       extend Discordrb::Commands::CommandContainer
-      command(:avatar, description: "gets a users avatar\nusage: >avatar `@user`\n please @ the user") do |event, user_chosen|
+      Bot::JADE.bucket :avatar_b, limit: 3, time_span: 20, delay: 5
+      command(:avatar, bucket: :avatar_b, rate_limit_message: 'slowdown fuckass! wait %time% more seconds before doing that again', description: "gets a users avatar\nusage: >avatar `@user`\n please @ the user") do |event, user_chosen|
         unless user_chosen.nil?
           user_chosen = Bot::JADE.parse_mention(user_chosen)
         end
