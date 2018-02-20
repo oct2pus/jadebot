@@ -20,8 +20,8 @@ module Bot
 
           # display
           ush = (tally / 10).to_i # ultra simple hash - thanks tjb
-          hearts = ':heart:' * percent
-          unhearts = ':broken_heart:' * (10 - percent) 
+          hearts = ':heart:' * ush
+          unhearts = ':broken_heart:' * (10 - ush) 
           message = "id say that #{args.join(' ')} has about a #{tally}% chance of being canon! :D \n"
           message << hearts + unhearts
           event.send_message(message)
