@@ -5,6 +5,12 @@ module Bot
       extend Discordrb::Commands::CommandContainer
       Bot::JADE.bucket :dogs_b, limit: 3, time_span: 20, delay: 5
       command(:dog, bucket: :dogs_b, rate_limit_message: 'give me %time% seconds to find more puppers! D:', description: "post a random cute pupper!\nusage:\n`>dog breeds` to get a list of breeds\n`>dog` to post a random dog\n`>dog breed name` to post a dog by specific breed") do |event, *breed|
+        
+        # fix issue with capitalization
+        breed.each_index do |arg|
+          breed[arg] = breed[arg].downcase
+        end
+
         if breed[0] == 'breed' || breed[0] == 'breeds'
           url = '<https://dog.ceo/dog-api/#breeds-list>'
           event.send_message("you can see a list of breeds here: #{url}")
