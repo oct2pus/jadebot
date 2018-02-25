@@ -2,7 +2,7 @@ module Bot
   module Responses
     # jadebot starts Thinking if you send :thinking:, :blobthinking:
     # or :jadethinking:
-    # server of origin for emoji is bot.jade.moe
+    # server of origin for emoji is bot.jade.moe, id: 296096078590377995
     module Thinking
       extend Discordrb::EventContainer
       message(contains: [/🤔/, /<:blobthinking/, /<:jadethinking/]) do |event|
