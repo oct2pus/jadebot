@@ -19,7 +19,8 @@ module Bot
         elsif !breed.empty?
           url = "https://dog.ceo/api/breed/#{breed[1]}/#{breed[0]}/images/random"
           Dog.get_dog(url, event)
-        else # yes its supposed to be breeds/image, blame dog.ceo for varying
+        else
+          # yes its supposed to be breeds/image, blame dog.ceo for varying
           # their api call names
           url = 'https://dog.ceo/api/breeds/image/random'
           Dog.get_dog(url, event)
