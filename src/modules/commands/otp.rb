@@ -14,6 +14,10 @@ module Bot
           # math
           tally = 0
 
+          # why ord? it generates a semi-arbitrary number as far as the user is
+          # concerned and lets me give a numeric value to a string, do not ask
+          # what ord does or how it finds this number because im a dumbass and
+          # don't know.
           all_args.split(//).each do |arg|
             tally += arg.ord
           end
