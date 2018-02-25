@@ -4,7 +4,7 @@ module Bot
       extend Discordrb::Commands::CommandContainer
       command(%i[setting settings], description: "Allows Admins to set bot specific settings.\nusage: >settings `option` `selection`") do |event, *args|
         if event.user.permission?(:administrator)
-          server_settings = JSON.parse($Redis.get("#{event.server.id}:SETTINGS"))
+          server_settings = JSON.parse(Re::DIS.get("#{event.server.id}:SETTINGS"))
           if args.empty?
             event.channel.send_embed do |embed|
               embed.title = 'Current Options:'
@@ -120,7 +120,7 @@ module Bot
               event.send_message("#{bad_choice} `>setting list` for a list of settings!")
             end # end case
             puts "updated settings on #{event.server.name}: #{server_settings}"
-            $Redis.set "#{event.server.id}:SETTINGS", server_settings.to_json
+            Re::DIS.set "#{event.server.id}:SETTINGS", server_settings.to_json
 
           end
           nil

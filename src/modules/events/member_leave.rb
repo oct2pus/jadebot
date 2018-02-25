@@ -4,7 +4,7 @@ module Bot
     module MemberLeave
       extend Discordrb::EventContainer
       member_leave do |event|
-        server_settings = JSON.parse($Redis.get("#{event.server.id}:SETTINGS"))
+        server_settings = JSON.parse(Re::DIS.get("#{event.server.id}:SETTINGS"))
         if server_settings['greet']
           channel_id = server_settings['greeting_channel']
           default_channel = event.server.text_channels.find { |c| c.id.to_s == channel_id }
@@ -22,3 +22,4 @@ module Bot
     end
   end
 end
+# TODO: rewrite member_join and member_leave to be more modular

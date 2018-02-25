@@ -6,7 +6,7 @@ module Bot
       extend Discordrb::Commands::CommandContainer
       Bot::JADE.bucket :mspa_b, limit: 4, time_span: 45, delay: 7
       command(:mspa, bucket: :mspa_b, rate_limit_message: "please slow down!\nwait another %time% seconds :p", description: "searches and posts images from mspabooru\n usage: >mspa `any-tags-here`\ntags are split by spaces, multiple word tags are split with '_'\nexample: `>mspa dave_strider kiss karkat_vantas shipping`\nkeep in mind mspabooru uses some funky search tags for ships, here is a list of (almost) every ship name: <https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VENC0KOaTgSXE_azPts8qwqz9xMk>") do |event, *args|
-        server_settings = JSON.parse($Redis.get("#{event.server.id}:SETTINGS"))
+        server_settings = JSON.parse(Re::DIS.get("#{event.server.id}:SETTINGS"))
         parser = Nori.new
         limit = 25
         pid = 0

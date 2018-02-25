@@ -5,7 +5,7 @@ module Bot
     module KissJade
       extend Discordrb::EventContainer
       message(contains: /<:kissjade/) do |event|
-        server_settings = JSON.parse($Redis.get("#{event.server.id}:SETTINGS"))
+        server_settings = JSON.parse(Re::DIS.get("#{event.server.id}:SETTINGS"))
         if server_settings['interaction'] == 2
           event.send_message(':flushed::two_hearts:')
         end

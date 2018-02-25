@@ -5,7 +5,7 @@ module Bot
       extend Discordrb::EventContainer
       server_create do |event|
         hash = GuildSettings.new.to_h
-        $Redis.set "#{event.server.id}:SETTINGS", hash.to_json
+        Re::DIS.set "#{event.server.id}:SETTINGS", hash.to_json
         puts "#{event.server.name} has added jadebot!"
       end
     end

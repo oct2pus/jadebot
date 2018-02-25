@@ -5,7 +5,7 @@ module Bot
     module LoveYou
       extend Discordrb::EventContainer
       message(contains: /love( you,?)? jade/i) do |event|
-        server_settings = JSON.parse($Redis.get("#{event.server.id}:SETTINGS"))
+        server_settings = JSON.parse(Re::DIS.get("#{event.server.id}:SETTINGS"))
         if server_settings['interaction'] == 2
           event.send_message("i love you too #{event.user.mention}! :green_heart:")
         end

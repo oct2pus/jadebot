@@ -7,14 +7,14 @@ module Bot
         puts "===Total Number of Servers: #{Bot::JADE.servers.size}==="
         puts 'Server default settings:'
         Bot::JADE.servers.each_value do |server|
-          #          $Redis.del "#{server.id}:SETTINGS" # for when needed
-          unless $Redis.exists "#{server.id}:SETTINGS"
+          #          Re::DIS.del "#{server.id}:SETTINGS" # for when needed
+          unless Re::DIS.exists "#{server.id}:SETTINGS"
             hash = GuildSettings.new.to_h
             puts "Server settings non-existant for #{server.name}, creating..."
-            $Redis.set "#{server.id}:SETTINGS", hash.to_json
+            Re::DIS.set "#{server.id}:SETTINGS", hash.to_json
           end
           # keep this for now
-          puts "#{server.name}: #{JSON.parse($Redis.get("#{server.id}:SETTINGS"))}"
+          puts "#{server.name}: #{JSON.parse(Re::DIS.get("#{server.id}:SETTINGS"))}"
         end
         puts '===Jadebot initalized!==='
       end

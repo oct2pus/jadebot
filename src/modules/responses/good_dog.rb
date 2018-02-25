@@ -4,7 +4,7 @@ module Bot
     module GoodDog
       extend Discordrb::EventContainer
       message(contains: /good dog/i) do |event|
-        server_settings = JSON.parse($Redis.get("#{event.server.id}:SETTINGS"))
+        server_settings = JSON.parse(Re::DIS.get("#{event.server.id}:SETTINGS"))
         event.send_message('best friend') if server_settings['interaction'] > 0
       end
     end
