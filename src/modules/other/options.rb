@@ -9,30 +9,31 @@
 # mspa expects an array of strings
 ##
 ###
-
-$Options = {
-  greeting_channel: {
-    description: 'Configures what channel welcome messages are sent to',
-    default: nil
-  },
-  greet: {
-    description: 'Configures whether the bot posts greeting/leaving messages or not',
-    default: false
-  },
-  interaction: {
-    description: 'Configures how verbose jadebot is outside of commands ',
-    default: 2
-  },
-  mspa: {
-    description: 'Configures the default search terms blocked by jadebot',
-    default: ['*cest', 'deleteme', 'erasure', 'gore', 'rating:questionable', 'vomit']
-  },
-  greeter_message: {
-    description: 'Configures the message jadebot sends when she greets someone to the server',
-    default: 'hello! :D'
-  },
-  leaver_message: {
-    description: 'Configures the message jadebot sends when she says goodbye to someone leaving the server',
-    default: 'goodbye! D:'
+module Options
+  OPTIONS = {
+    greeting_channel: {
+      description: 'Configures what channel welcome messages are sent to',
+      default: nil
+    },
+    greet: {
+      description: 'Configures whether the bot posts greeting/leaving messages or not',
+      default: false
+    },
+    interaction: {
+      description: 'Configures how verbose jadebot is outside of commands ',
+      default: 2
+    },
+    mspa: {
+      description: 'Configures the default search terms blocked by jadebot',
+      default: ['*cest', 'deleteme', 'erasure', 'gore', 'rating:questionable', 'vomit']
+    },
+    greeter_message: {
+      description: 'Configures the message jadebot sends when she greets someone to the server',
+      default: 'hello! :D'
+    },
+    leaver_message: {
+      description: 'Configures the message jadebot sends when she says goodbye to someone leaving the server',
+      default: 'goodbye! D:'
+    }
   }
-}
+end

@@ -20,7 +20,7 @@ module Bot
               # $Options is defined in src/modules/guild_settings.rb
               event.channel.send_embed do |embed|
                 embed.title = 'Available Options:'
-                $Options.each do |name, attributes|
+                Options::OPTIONS.each do |name, attributes|
                   embed.add_field(name: name, value: "description: #{attributes[:description]}\ndefault: `#{attributes[:default]}`")
                 end
               end

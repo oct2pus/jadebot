@@ -14,7 +14,7 @@ end
 # You would store a hash of these as `guild_id => GuildSettings`
 # Creates a list of guild settings
 class GuildSettings
-  $Options.each do |option, attributes|
+  Options::OPTIONS.each do |option, attributes|
     define_method(option) do
       if instance_variable_get("@#{option}")
         instance_variable_get("@#{option}")
@@ -28,7 +28,7 @@ class GuildSettings
   end
   def to_h
     hash = {}
-    $Options.each do |option, attributes|
+    Options::OPTIONS.each do |option, attributes|
       hash[option] = attributes[:default]
     end
     hash
