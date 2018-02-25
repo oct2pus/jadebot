@@ -9,10 +9,7 @@ module Bot
         else
 
           # sanitize input
-          all_args = args.join(' ')
-          all_args = all_args.gsub('`', '\\\`')
-          all_args = all_args.gsub('@here', '`@here`')
-          all_args = all_args.gsub('@everyone', '`@everyone`')
+          all_args = Sanitize::sanitize(args.join(' '))
 
           # math
           tally = 0
