@@ -27,7 +27,3 @@ you can then finally run
 bundle exec ruby run.rb
 `
 from within the root folder.
-
-### Notice
-
-Jadebot currently has greeter managed by "Use Voice Activity", disable Use Voice Activity to disable her greeter.
