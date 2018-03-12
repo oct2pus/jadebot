@@ -5,6 +5,6 @@ module Sanitize
     words = words.gsub('@here', '`@here`')
     words = words.gsub('@everyone', '`@everyone`')
 
-    return words
+    words
   end
 end
