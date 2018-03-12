@@ -35,5 +35,5 @@ module Options
       description: 'Configures the message jadebot sends when she says goodbye to someone leaving the server',
       default: 'goodbye! D:'
     }
-  }
+  }.freeze
 end
