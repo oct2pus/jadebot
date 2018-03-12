@@ -4,7 +4,7 @@ module Bot
     module Dog
       extend Discordrb::Commands::CommandContainer
       Bot::JADE.bucket :dogs_b, limit: 3, time_span: 20, delay: 5
-      command(:dog, bucket: :dogs_b, rate_limit_message: 'give me %time% seconds to find more puppers! D:', description: "post a random cute pupper!\nusage:\n`>dog breeds` to get a list of breeds\n`>dog` to post a random dog\n`>dog breed name` to post a dog by specific breed") do |event, *breed|
+      command(:dog, bucket: :dogs_b, rate_limit_message: 'give me %time% seconds to find more puppers! D:', description: "post a random cute pupper!\nusage:\n`#{Pre::FIX}dog breeds` to get a list of breeds\n`#{Pre::FIX}dog` to post a random dog\n`#{Pre::FIX}dog breed name` to post a dog by specific breed") do |event, *breed|
         # fix issue with capitalization
         breed.each_index do |arg|
           breed[arg] = breed[arg].downcase
@@ -26,7 +26,7 @@ module Bot
           Dog.get_dog(url, event)
         end
       end
-      command(:doge, bucket: :dogs_b, rate_limit_message: 'give me %time% seconds to find more puppers! D:', description: "doge!\nusage: `>doge`") do |event|
+      command(:doge, bucket: :dogs_b, rate_limit_message: 'give me %time% seconds to find more puppers! D:', description: "doge!\nusage: `#{Pre::FIX}doge`") do |event|
         url = 'https://dog.ceo/api/breed/shiba/images/random'
         Dog.get_dog(url, event)
       end

@@ -3,7 +3,7 @@ module Bot
     # command creates an invite to the bot.jade.moe discord
     module Discord
       extend Discordrb::Commands::CommandContainer
-      command(:discord, description: 'posts a link to the the jadebot discord') do |event|
+      command(:discord, description: "posts a link to jadebot's development discord: bot.jade.moe") do |event|
         event << 'https://discord.gg/D3vJQQF'
       end
     end

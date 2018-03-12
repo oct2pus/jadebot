@@ -3,7 +3,7 @@ module Bot
     # Command determines a pairings viability
     module Otp
       extend Discordrb::Commands::CommandContainer
-      command(:otp, description: "ship some characters together!\nusage: `>otp as many characters as you want`") do |event, *args|
+      command(:otp, description: "ship some characters together!\nusage: `#{Pre::FIX}otp as many characters as you want`") do |event, *args|
         if args.empty?
           event.send_message('i dont know what you want me to ship :\\')
         else

@@ -4,7 +4,7 @@ module Bot
     module Wiki
       extend Discordrb::Commands::CommandContainer
       Bot::JADE.bucket :wiki_b, limit: 4, time_span: 45, delay: 7
-      command(:wiki, bucket: :wiki_b, rate_limit_message: "please slow down!\nwait another %time% seconds :p", description: "searches the mspa wiki\nusage: >wiki `what you want to search`") do |event, *args|
+      command(:wiki, bucket: :wiki_b, rate_limit_message: "please slow down!\nwait another %time% seconds :p", description: "searches the mspa wiki\nusage: #{Pre::FIX}wiki `what you want to search`") do |event, *args|
         limit = 1
         batch = 1
         min_article_quality = 10

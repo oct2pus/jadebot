@@ -4,7 +4,7 @@ module Bot
     # and (being optional)
     module Roll
       extend Discordrb::Commands::CommandContainer
-      command(:roll, description: "roll up to 20 dice\nusage: >roll `NdN+-N`") do |event, dice_message|
+      command(:roll, description: "roll up to 20 dice\nusage: #{Pre::FIX}roll `NdN+-N`") do |event, dice_message|
         # process
         if dice_message =~ /[0-9]+d[0-9]+((\+|-)[0-9])?/
           # vars
