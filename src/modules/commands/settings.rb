@@ -2,7 +2,7 @@ module Bot
   module Commands
     module Settings
       extend Discordrb::Commands::CommandContainer
-      command(%i[setting settings], description: "Allows Admins to set bot specific settings.\nusage: >settings `option` `selection`") do |event, *args|
+      command(%i[setting settings], description: "Allows Admins to set bot specific settings.\nusage: #{Pre::FIX}settings `option` `selection`") do |event, *args|
         if event.user.permission?(:administrator)
           server_settings = JSON.parse(Re::DIS.get("#{event.server.id}:SETTINGS"))
           if args.empty?
