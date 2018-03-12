@@ -6,10 +6,15 @@ module Bot
     module HeartBeat
       extend Discordrb::EventContainer
       heartbeat do |_event|
+        time = Time.now
         puts "\n========================"
-        puts "Heartbeat at #{Time.now}"
+        puts "Heartbeat at #{time}"
         puts "========================\n"
-        Bot::JADE.game = "Running on #{Bot::JADE.servers.size} servers."
+        Bot::JADE.game = if time.to_i.even?
+                           "Running on #{Bot::JADE.servers.size} servers"
+                         else
+                           "My prefix is '#{Pre::FIX}'"
+                         end
       end
     end
   end

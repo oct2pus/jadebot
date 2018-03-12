@@ -1,10 +1,13 @@
 # This is the heart of Jadebot, initalizes all other modules
 module Bot
   puts '===loading non-discordrb modules==='
+
+  # vvvvvvv This **MUST** load first vvvvvvv
+
   Dir['src/modules/other/*.rb'].each { |mod| load mod; puts "loaded #{mod}" }
 
-  JADE = Discordrb::Commands::CommandBot.new token: configatron.token, client_id: configatron.id, prefix: '>', ignore_bots: true
-  #
+  JADE = Discordrb::Commands::CommandBot.new token: configatron.token, client_id: configatron.id, prefix: Pre::FIX, ignore_bots: true
+
   # The below documentation and code chunk is from stolen from 'gemstone' which is a reference bot that inspires jadebot's structure
   #
   # This class method wraps the module lazy-loading process of discordrb command
@@ -15,7 +18,7 @@ module Bot
   #   - extend Discordrb::Commands::CommandContainer
   # @param klass [Symbol, #to_sym] the name of the module
   # @param path [String] the path underneath `src/modules/` to load files from
-  p
+
   puts '===loading discordrb modules==='
   def self.load_modules(klass, path)
     new_module = Module.new
