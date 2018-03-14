@@ -9,7 +9,7 @@ module Bot
         else
 
           # sanitize input
-          all_args = Sanitize.sanitize(args.join(' '))
+          all_args = Jb.sanitize(args.join(' '))
 
           # math
           tally = 0

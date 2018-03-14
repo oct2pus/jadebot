@@ -9,7 +9,7 @@ module Bot
         batch = 1
         min_article_quality = 10
         search = args.join('+')
-        words = Sanitize.sanitize(args.join(' '))
+        words = Jb.sanitize(args.join(' '))
 
         base_url = 'http://mspaintadventures.wikia.com/api/v1'
         # url to be parsed
