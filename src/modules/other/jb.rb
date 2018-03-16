@@ -3,6 +3,7 @@ module Jb
   
   # simple sanitization method to make sure it doesn't ping people
   def self.sanitize(words)
+    words = words.gsub('`', '\\\`')
     words = words.gsub('@here', '@​here') # invisible character between @ and h
     words = words.gsub('@everyone', '@​everyone') # also between @ and e
 
