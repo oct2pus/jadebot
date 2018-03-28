@@ -24,7 +24,7 @@ module Bot
           url << '&tags=' if args.empty?
           url << "-#{server_settings['mspa'].join('+-')}"
           unless event.channel.nsfw?
-            url << "+-undergarments+-rating:questionable+-rating:explicit"
+            url << "+-bondage+-dubcon+-mind_control+-undergarments+-rating:questionable+-rating:explicit"
           end
         end
 
