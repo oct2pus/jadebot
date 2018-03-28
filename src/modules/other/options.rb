@@ -25,7 +25,7 @@ module Options
     },
     mspa: {
       description: 'Configures the default search terms blocked by jadebot',
-      default: ['*cest', 'deleteme', 'erasure', 'gore', 'rating:questionable', 'vomit']
+      default: ['*cest', 'deleteme', 'erasure', 'gore', 'rating:questionable', 'undergarments', 'vomit']
     },
     greeter_message: {
       description: 'Configures the message jadebot sends when she greets someone to the server',
