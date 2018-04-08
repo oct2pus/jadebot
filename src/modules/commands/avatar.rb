@@ -4,10 +4,13 @@ module Bot
     module Avatar
       extend Discordrb::Commands::CommandContainer
       Bot::JADE.bucket :avatar_b, limit: 3, time_span: 20, delay: 5
-      command(:avatar, bucket: :avatar_b, rate_limit_message: 'slowdown fuckass! wait %time% more seconds before doing that again', description: "gets a users avatar\nusage: #{Pre::FIX}avatar `@user`\n please @ the user") do |event, user_chosen|
-        if Bot::JADE.parse_mention(user_chosen)
+      command(:avatar, bucket: :avatar_b, rate_limit_message: 'slowdown fuckass! wait %time% more seconds before doing that again', description: "gets a users avatar\nusage: #{Pre::FIX}avatar `@user`\n please @ the user") do |event, *args|
+        
+        user_chosen = args.join(' ')
+
+        if Bot::JADE.parse_mention(user_chosen) 
           user = Bot::JADE.parse_mention(user_chosen).on(event.server)
-      elsif !user_chosen.nil?
+        elsif !user_chosen.nil?
           user = Jb.fuzz(event, user_chosen)
         end
 
