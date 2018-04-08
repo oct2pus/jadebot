@@ -15,3 +15,5 @@ gem 'nori'
 gem 'rest-client'
 
 gem 'nokogiri', '>=1.6.8'
+
+gem 'fuzzy_match'
