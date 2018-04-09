@@ -12,7 +12,7 @@ module Bot
           embed.add_field(name: 'Discord Library:', value: "Discordrb: https://github.com/meew0/discordrb", inline: true)
           embed.add_field(name: 'Special Thanks:', value: "*tjb#0607* for his contributions\n*Andrew Hussie* for creating Homestuck\n*Jade Harley* for being herself")
           embed.add_field(name: 'Disclaimer:"', value: "Jadebot uses **Mutant Standard Emoji** (https://mutant.tech) made by *Dzuk#1671*\n**Mutant Standard Emoji** are licensed under CC-BY-NC-SA 4.0 (https://creativecommons.org/licenses/by-nc-sa/4.0/) ")
-          embed.footer = Discordrb::Webhooks::EmbedFooter.new(text: "💚 Prefix: #{Pre::FIX} | Servers: #{Bot::JADE.servers.size}")
+          embed.footer = Discordrb::Webhooks::EmbedFooter.new(icon_url: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/jade_heart.png',text: " Prefix: #{Pre::FIX} | Servers: #{Bot::JADE.servers.size}")
         end
       end
     end
