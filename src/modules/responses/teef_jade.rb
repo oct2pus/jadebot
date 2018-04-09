@@ -4,7 +4,7 @@ module Bot
     # :jadeteefs:
     module TeefJade
       extend Discordrb::EventContainer
-      message(contains: [/<:blobteefs/, /<:jadeteefs/]) do |event|
+      message(contains: [/<:blobteefs/, /<:jadeteefs/, /<:teefs/]) do |event|
         if Bot::JADE.profile.on(event.server).permission?(:use_external_emoji)
           server_settings = JSON.parse(Re::DIS.get("#{event.server.id}:SETTINGS"))
           if server_settings['interaction'] > 0
