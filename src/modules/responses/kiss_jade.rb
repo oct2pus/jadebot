@@ -7,6 +7,7 @@ module Bot
       message(contains: /<:kissjade/) do |event|
         server_settings = JSON.parse(Re::DIS.get("#{event.server.id}:SETTINGS"))
         if server_settings['interaction'] == 2
+          # sourced from jade.moe discord server
           event.send_message('<:jb_embarassed:432675788698157056><:jade_hearts:432685108085129246>')
         end
       end
