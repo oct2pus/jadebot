@@ -7,6 +7,7 @@ require 'redis'
 require 'json'
 require 'discordrb'
 require 'configatron'
+require 'fuzzy_match'
 require_relative 'src/bin/config'
 
 require_relative 'src/jadebot'

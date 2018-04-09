@@ -19,4 +19,19 @@ module Jb
       true
     end
   end
+
+
+  # given a string, finds the closest resembling display name, then returns the
+  # user object containing that display name
+  def self.fuzz(event, user)
+    users = event.server.members
+    
+    fuzz = FuzzyMatch.new(users.map {|member| member.display_name})
+
+    desired_user = fuzz.find(user)
+
+    result = users.find {|member| member.display_name == desired_user}
+
+    result
+  end
 end
