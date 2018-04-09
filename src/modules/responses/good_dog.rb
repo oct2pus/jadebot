@@ -5,7 +5,8 @@ module Bot
       extend Discordrb::EventContainer
       message(contains: /good dog/i) do |event|
         server_settings = JSON.parse(Re::DIS.get("#{event.server.id}:SETTINGS"))
-        event.send_message('best friend') if server_settings['interaction'] > 0
+        # emoji is sorced from jade.moe
+        event.send_message('best friend! <:jb_headpats:432962465437843466>') if server_settings['interaction'] > 0
       end
     end
   end
