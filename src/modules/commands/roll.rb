@@ -15,23 +15,23 @@ module Bot
           total = 0
           output = ''
 
-          die = {d4: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d4.png', d6: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d6.png', d8: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d8.png', d10: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d10.png', d12: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d12.png', d20: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d20.png'}
+          die = { d4: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d4.png', d6: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d6.png', d8: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d8.png', d10: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d10.png', d12: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d12.png', d20: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d20.png' }
           show = ''
           puts input[2].to_i
-          case input[2].to_i
-            when 13..120
-              show = die[:d20]
-            when 11..12
-              show = die[:d12]
-            when 9..10
-              show = die[:d10]
-            when 7..8
-              show = die[:d8]
-            when 5..6
-              show = die[:d6]
-            else
-              show = die[:d4]
-          end
+          show = case input[2].to_i
+                 when 13..120
+                   die[:d20]
+                 when 11..12
+                   die[:d12]
+                 when 9..10
+                   die[:d10]
+                 when 7..8
+                   die[:d8]
+                 when 5..6
+                   die[:d6]
+                 else
+                   die[:d4]
+                 end
 
           # string processing
           roll_math = false if input[3] == '-'
@@ -76,7 +76,7 @@ module Bot
             end
             # output
             event.channel.send_embed do |embed|
-              embed.footer = Discordrb::Webhooks::EmbedFooter.new(icon_url: show, text: "#{dice_message}")
+              embed.footer = Discordrb::Webhooks::EmbedFooter.new(icon_url: show, text: dice_message.to_s)
               embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: show)
               embed.add_field(name: 'Rolls', value: output.to_s, inline: true)
               embed.add_field(name: 'Modifier', value: "#{mod_out}#{input[2]}", inline: true)

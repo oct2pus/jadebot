@@ -26,7 +26,7 @@
 #           Re::DIS.set(@vote['id'], @vote.to_json)
 #           nil #prevent return of Re::DIS
 #         end
-        
+
 #         # add a new option to a poll
 #         def add(event, name)
 #           unless name == nil?
@@ -116,7 +116,7 @@
 #             input = Jb.sanitize(args.join(" "))
 #             vote.add(event, input)
 #             vote.push()
-#           end 
+#           end
 #         else
 #           event.send_temporary_message("no poll is going on right now tho :?", DELAY)
 #         end
