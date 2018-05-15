@@ -8,11 +8,11 @@ Jadebot is a homestuck-themed chatbot, she intends to be a fun bot for homestuck
 - Responds to various phrases.
 - Really loves you back!
 
-### Discuss
+## Discuss
 
 please join us at <https://discord.gg/D3vJQQF>!
 
-### Running  her yourself
+## Running  her yourself
 
 First enter the bin directory and then rename config.rb.example to config.rb, put in your Discord bot token and id in the corresonding variables. After that return to the root folder and perform `bundle install` or manually install each gem that is listed in the gemfile using `sudo gem install` Ensure you have a redis database currently running. To install Redis perform
 `
@@ -27,3 +27,6 @@ you can then finally run
 bundle exec ruby run.rb
 `
 from within the root folder.
+
+## Mutant Standard
+ Jadebot uses modified [Mutant Standard emoji](https://mutant.tech), which are licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/). All Modifications are under the same licence. 
