@@ -5,7 +5,9 @@ module Bot
       extend Discordrb::EventContainer
       ready do |_event|
         puts "===Total Number of Servers: #{Bot::JADE.servers.size}==="
-        puts 'Server default settings:'
+        puts "===Shard ID: #{Shard::ID}==="
+        puts "===Number of Shards: #{Shard::MAX}==="
+        # puts 'Server default settings:'
         Bot::JADE.servers.each_value do |server|
           # Re::DIS.del "#{server.id}:SETTINGS" # for when needed
           next if Re::DIS.exists "#{server.id}:SETTINGS"
