@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 module Shard
-  unless ARGV.length >= 2
-  ID = ARGV[0]
-  MAX = ARGV[1]
+  if ARGV.length >= 2
+    ID = 0
+    MAX = 1
   else
-  ID = 0
-  MAX = 1
+    ID = ARGV[0]
+    MAX = ARGV[1]
   end
 end

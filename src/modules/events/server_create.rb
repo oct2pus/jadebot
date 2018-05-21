@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Events
     # commands to run when bot joins a server

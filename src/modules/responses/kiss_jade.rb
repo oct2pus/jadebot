@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Responses
     # if someone uses a :kissjade: emoji, she responds with two emojis

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Commands
     # command searches the MSPABooru and display a random result from the first

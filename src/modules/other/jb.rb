@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # functions expected to be reused in multiple parts of the program
 module Jb
   # simple sanitization method to make sure it doesn't ping people

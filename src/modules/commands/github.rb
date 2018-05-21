@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Commands
     # command posts a link to the jadebot github page

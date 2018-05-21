@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Responses
     # says "whats this :o" if a user includes "owo" in their message

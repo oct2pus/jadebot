@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Responses
     # jade responds with :jadeteefs: if a user enters :blobteefs: or

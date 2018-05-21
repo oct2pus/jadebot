@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # enter "ruby run.rb" to run jadebot
 require 'ruby_cowsay'
 require 'fortune_gem'

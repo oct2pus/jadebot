@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Commands
     # command creates an invite to the bot.jade.moe discord

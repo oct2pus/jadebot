@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # A big thank you to z64 for the original psuedocode for this file
 # todo: move this into a file
 # used by GuildSettings to dynamically create attributes

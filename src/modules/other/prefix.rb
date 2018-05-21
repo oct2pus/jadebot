@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Pre
-  FIX = '>'.freeze
+  FIX = '>'
 end

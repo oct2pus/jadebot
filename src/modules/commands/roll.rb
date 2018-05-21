@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Commands
     # command rolls dice, needs to be input in XdXX(+-X), with X being a number

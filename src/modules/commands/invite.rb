@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Commands
     # command creates an invite link for jadebot for users to invite her to their discord servers

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Events
     # event logs every time a user leaves as well as publically annouces it

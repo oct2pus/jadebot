@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Responses
     # jadebot writes "best friend" if someone has "good dog" in their message

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # ##$Options###
 ##
 # greeting_channel expects a string (a channel_id with no frills)

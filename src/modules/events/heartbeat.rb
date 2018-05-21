@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Events
     # runs when a discord heartbeat occurs, mentions the heartbeat occurs to

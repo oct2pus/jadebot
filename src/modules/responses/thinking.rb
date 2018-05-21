@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Responses
     # jadebot starts Thinking if you send :thinking:, :blobthinking:

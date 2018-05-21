@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Responses
     # if a user enters "love jade" or "love you jade" jade will mention she

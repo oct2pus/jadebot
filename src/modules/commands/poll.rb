@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # module Bot
 #   module Commands
 #     # multiple commands relating to a polling system.
