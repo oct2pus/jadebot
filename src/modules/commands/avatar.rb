@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Bot
   module Commands
     # command posts a user avatar
@@ -13,6 +15,8 @@ module Bot
           user = Jb.fuzz(event, user_chosen)
         end
 
+        display_name = Jb.sanitize(user.display_name)
+
         if user_chosen.nil?
           event.channel.send_embed('here is **your** avatar!') do |embed|
             embed.title = 'View Source'
@@ -20,7 +24,7 @@ module Bot
             embed.image = { url: event.user.avatar_url.gsub('.webp', '.png') }
           end
         else
-          event.channel.send_embed("here is **#{user.display_name}**'s avatar!") do |embed|
+          event.channel.send_embed("here is **#{display_name}**'s avatar!") do |embed|
             embed.title = 'View Source'
             embed.url = user.avatar_url.gsub('.webp', '.png')
             embed.image = { url: user.avatar_url.gsub('.webp', '.png') }
