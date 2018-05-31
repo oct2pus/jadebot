@@ -50,10 +50,10 @@ module Bot
               # greet
             when 'greeter', 'greet'
 
-              if args[1].eql? 'off'
+              if args[1].eql? 'off' or args[1].eql? 'false' or args[1].eql? 'no'
                 server_settings['greet'] = false
                 event.send_message('chat greeter turned off! D:')
-              elsif args[1].eql? 'on'
+              elsif args[1].eql? 'on' or args[1].eql? 'true' or args[1].eql? 'yes'
                 server_settings['greet'] = true
                 event.send_message('chat greeter turned on! :D')
 
@@ -121,7 +121,7 @@ module Bot
             else
               event.send_message("#{bad_choice} `>setting list` for a list of settings!")
             end # end case
-            puts "updated settings on #{event.server.name}: #{server_settings}"
+ #           puts "updated settings on #{event.server.name}: #{server_settings}"
             Re::DIS.set "#{event.server.id}:SETTINGS", server_settings.to_json
 
           end
