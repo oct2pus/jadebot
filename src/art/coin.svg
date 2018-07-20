@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="9mm"
+   height="9mm"
+   viewBox="0 0 9 9"
+   version="1.1"
+   id="svg355"
+   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   sodipodi:docname="coin.svg">
+  <defs
+     id="defs349" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="1.979899"
+     inkscape:cx="136.26225"
+     inkscape:cy="64.610535"
+     inkscape:document-units="mm"
+     inkscape:current-layer="g267"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1008"
+     inkscape:window-x="0"
+     inkscape:window-y="48"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata352">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-288)">
+    <g
+       style="display:inline"
+       inkscape:label="Clip"
+       id="g267"
+       transform="translate(0,1.032e-5)">
+      <g
+         id="g181">
+        <g
+           style="clip-rule:evenodd;fill-rule:evenodd;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.41420996"
+           id="g62"
+           transform="matrix(0.28124999,0,0,0.28124999,0,287.99999)">
+          <rect
+             style="fill:none"
+             height="32"
+             width="32"
+             y="0"
+             x="0"
+             id="pentacle" />
+          <g
+             id="outline-7">
+            <circle
+               id="circle34"
+               r="16"
+               cy="16"
+               cx="16" />
+          </g>
+        </g>
+        <ellipse
+           cx="4.5000381"
+           cy="292.50003"
+           style="clip-rule:evenodd;display:inline;fill:#fede30;fill-rule:evenodd;stroke-width:0.28125;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.41420996"
+           id="circle37"
+           rx="3.9375002"
+           ry="3.9375" />
+        <circle
+           cx="4.5000381"
+           cy="292.50003"
+           style="clip-rule:evenodd;display:inline;fill:#a87d0e;fill-rule:evenodd;stroke-width:0.28125;stroke-linecap:square;stroke-linejoin:round;stroke-miterlimit:1.41420996"
+           id="circle39"
+           r="3.375" />
+        <path
+           inkscape:connector-curvature="0"
+           d="m 5.859374,290.01 h 0.505627 v 1.53849 H 6.99 v 0.76915 H 6.365001 v 0.76932 H 6.99 v 0.76915 H 6.365001 V 295.01 H 5.739999 v -1.15389 H 4.995627 L 4.605,294.81765 H 4.375001 L 3.984376,293.85611 H 3.240001 V 295.01 H 2.615002 v -1.15389 H 1.99 v -0.76915 h 0.625002 v -0.76932 H 1.99 v -0.76915 H 2.615002 V 290.01 h 0.505622 l 0.625,1.53849 h 1.488752 z m -2.499997,2.30764 H 3.239996 v 0.76932 h 0.431876 z m 1.5625,0 H 4.058128 l 0.312498,0.76932 h 0.238751 z m 0.818122,0 H 5.62062 l -0.312497,0.76932 h 0.431874 z"
+           style="clip-rule:evenodd;fill:#57482d;fill-rule:evenodd;stroke-width:0.34668714;stroke-linejoin:round;stroke-miterlimit:1.41420996"
+           id="path17-3" />
+      </g>
+    </g>
+  </g>
+</svg>
