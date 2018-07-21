@@ -218,7 +218,6 @@ module Bot
         if valid_message(dice_message, event)
 
           input = split_input(dice_message)
-          input.each { |x| puts "input: #{x}" }
           
           mod_sign = get_mod_sign(dice_message)
           
@@ -251,7 +250,7 @@ module Bot
           write_embed(dice_message, input, mod_sign, rolls, total, die_image, event)
         end
       end
-      
+
     end
   end
 end
