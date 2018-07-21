@@ -2,30 +2,29 @@
 
 module Bot
   module Commands
-    # command rolls dice, needs to be input in XdXX(+-X), with X being a number
-    # and (being optional)
+    # multitude of Dice Rolling Commands
     module Roll
       extend Discordrb::Commands::CommandContainer
 
-      # return all rolls
-      def get_roll(input)
-        rolls = Array.new(input[-1])
+      # return all rolls; input is an array
+      def self.get_rolls(input)
+        rolls = Array.new(input[0])
 
         rolls.each_index do |roll|
-          rolls[roll] = rand(input[0]) + 1
+          rolls[roll] = rand(input[1]) + 1
         end
 
          rolls
       end
 
       # writes the embed
-      def write_embed(dice_message, input, total, rolls, die_image)
+      def self.write_embed(dice_message, input, mod_sign, rolls, total, die_image, event)
 
+        output = '`'
         rolls.each_index do |roll|
-          output = '`'
-          output += "|#{rolls[roll].to_s.center(2)}|"
-          output += "\t" if roll % 4 != 4
-          output += "`\n`" if roll % 4 == 4
+          output += "`\n`" if roll % 4 == 0 && roll != 0
+          output += "\t" if roll == 0 || roll % 4 != 0
+          output += "|#{rolls[roll].to_s.center(3)}|"
         end
           output += '`'
 
@@ -34,19 +33,24 @@ module Bot
           output.slice!((output.length - 1)...(output.length))
         end
 
+        mod_out = '+'
+        unless mod_sign
+          mod_out = '-'
+        end
+
         # output
         event.channel.send_embed do |embed|
-          embed.footer = Discordrb::Webhooks::EmbedFooter.new(icon_url: show, text: dice_message.to_s)
-          embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: show)
+          embed.footer = Discordrb::Webhooks::EmbedFooter.new(icon_url: die_image, text: dice_message.to_s)
+          embed.thumbnail = Discordrb::Webhooks::EmbedThumbnail.new(url: die_image)
           embed.add_field(name: 'Rolls', value: output.to_s, inline: true)
-          embed.add_field(name: 'Modifier', value: "#{mod_out}#{input[1]}", inline: true)
+          embed.add_field(name: 'Modifier', value: "#{mod_out}#{input[2]}", inline: true)
           embed.add_field(name: 'Results', value: total.to_s, inline: true)
         end
       end
 
 
       # gets die image used in write_embed
-      def get_die_image(die_size)
+      def self.get_die_image(die_size)
         die = {
           d2: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/coin.png',
           d4: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d4.png',
@@ -57,7 +61,6 @@ module Bot
           d20: 'https://raw.githubusercontent.com/oct2pus/jadebot/master/src/art/d20.png'
         }
         image_url = ''
-        puts die_size
         image_url = case die_size
         when 13..120
           die[:d20]
@@ -78,41 +81,113 @@ module Bot
         return image_url
       end
       
-      def valid_message(message, event)
-        if dice_message =~ /[0-9]+d[0-9]+((\+|-)[0-9])?/
-          true
+      # validates input
+      def self.valid_message(message, event)
+        validity = true
+        if message =~ /[0-9]+d[0-9]+((\+|-)[0-9])?/
+            # [0] is the amount of dice
+            split = message.split(/(d|\+|-)/)
+          if split[0].to_i > 20 || split[0].to_i < 1
+            event.send_temporary_message('try and roll a number of die from 1 to 20 instead :v', 5)
+            validity = false 
+            # [2] is the size of the die
+          elsif split[2].to_i >= 120 || split[2].to_i < 1
+            event.send_temporary_message('i only have die sized from 2 to 120 :(', 5)
+            validity = false 
+          else
+            validity = true
+          end
         else
-          event.send_message('please write that again in XXdXX format :U')
-          false
+          event.send_temporary_message('please write that again in XXdXX format :U', 5)
+          validity = false
+        end
+        
+        validity
       end
+
+      # splits input string into array
+      def self.split_input(dice_message)
+
+        # input[0] is the number of dice being rolled
+        # input[1] is the type of die
+        # input[2] is the size of the modifier (0 if none)
+        # input[3] and above are irrelevant
+        input = dice_message.split(/(d|\+|-)/)
+
+        input = input.keep_if { |a| a =~ /[0-9]/ }
+
+        
+        # to_i conversions to make sure no funny business happens
+        input[0] = input[0].to_i
+        input[1] = input[1].to_i
+        input[2] = if input.size <= 2
+                      0
+                    else
+                      input[2].to_i
+                    end
+
+        input
+      end
+
+      # determines if the dice roll modifier is positive or negative
+      # (no modifier returns positive)
+      def self.get_mod_sign(dice_message)
+        # default return should be true
+        mod_sign = true
+
+        # parse_message[0] is is blank
+        # parse_message[1] is d
+        # parse_message[2] is +/-
+        # parse_message[3] and above are irrelevant
+        parse_message = dice_message.split(/[0-9]+/)
+ 
+        unless parse_message.size <= 2
+          sign = parse_message[2].split('')[0]
+          if sign == '-'
+            mod_sign = false
+          end
+        end
+
+        mod_sign
+      end
+
+      def self.get_total(rolls, modifier, mod_sign)
+        total = 0
+        rolls.each { |roll| total = total + roll}
+        if mod_sign
+          total = total + modifier
+        else
+          total = total - modifier
+        end
+
+        total
+      end
+
+      # Commands
 
       command(:roll, description: "roll up to 20 dice\nusage: #{Pre::FIX}roll `NdN+-N`") do |event, dice_message|
         # process
         if valid_message(dice_message, event)
-          input = dice_message.split(/(d|\+|-)/)
-          input.each { |x| puts x }
-          # string processing
+          puts "dice_message: #{dice_message}"
 
-          mod_out = '+'
-          if roll_math
-            total += input[1]
-          else
-            total -= input[1]
-            mod_out = '-'
-          end
+          input = split_input(dice_message)
+          input.each { |x| puts "input: #{x}" }
+          
+          mod_sign = get_mod_sign(dice_message)
+          puts "mod_sign: #{mod_sign}"
+          
+          rolls = get_rolls(input)
+          puts "rolls: #{rolls}"
+          
+          total = get_total(rolls, input[2], mod_sign)
+          puts total
 
-          roll_math = false if input[3] == '-'
+          die_image = get_die_image(input[1])
+          puts "die_image: #{die_image}"
+          nil
 
-          input = input.keep_if { |a| a =~ /[0-9]/ }
-          input[0] = input[0].to_i
-          input[1] = input[1].to_i
-          input[2] = if input.size <= 2
-                       0
-                     else
-                       input[2].to_i
-                     end
+          write_embed(dice_message, input, mod_sign, rolls, total, die_image, event)
 
-          # failure states
         end
       end
     end
