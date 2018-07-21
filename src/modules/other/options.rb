@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# ##$Options###
+# ##Options###
 ##
 # greeting_channel expects a string (a channel_id with no frills)
 ##
@@ -37,5 +37,5 @@ module Options
       description: 'Configures the message jadebot sends when she says goodbye to someone leaving the server',
       default: 'goodbye! D:'
     }
-  }.freeze
+  }
 end
