@@ -128,15 +128,20 @@ func messageCreate(discordSession *discordgo.Session,
 
 	if isMentioned(discordMessage.Mentions) {
 		discordSession.ChannelMessageSend(discordMessage.ChannelID,
-			"hello! :D\nby the way my prefix is '`jade: `'. just incase you wanted to know :p.")
+			"hello! :D\nby the way my prefix is '`jade: `'. just incase you wanted to know! :p")
 	}
 }
 
+// checks messages for contents, returns a response if it contains one
+// emojis are sourced from the 'jade.moe' server
 func getTextResponse(message string) (string, bool) {
 	response := ""
 	contentFound := false
+	fmt.Println(message)
 
-	switch true {
+	// problem with current method, multiple responses are not created if there are multiple matches
+	// sure looks a hell of a lot cleaner than a lot of if statements though
+	switch {
 	case strings.Contains(message, "owo"):
 		response = "oh woah whats this? :o"
 		contentFound = true
@@ -145,6 +150,18 @@ func getTextResponse(message string) (string, bool) {
 		contentFound = true
 	case strings.Contains(message, "good dog"):
 		response = "best friend!"
+		contentFound = true
+	case strings.Contains(message, "teef"):
+		response = "<:jadeteefs:317080214364618753>"
+		contentFound = true
+	case strings.Contains(message, "kissjade"):
+		response = "<:jb_embarrassed:432756486406537217><:jade_hearts:432685108085129246>"
+		contentFound = true
+	case strings.Contains(message, "pats"):
+		response = "<:jb_headpats:432962465437843466>"
+		contentFound = true
+	case strings.Contains(message, "thinking"), strings.Contains(message, "🤔"):
+		response = "<:jadethinking:395982297490522122>"
 		contentFound = true
 	}
 
