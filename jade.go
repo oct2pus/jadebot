@@ -164,7 +164,7 @@ func getTextResponse(message string) (string, bool) {
 	case strings.Contains(message, "pats"):
 		response = "<:jb_headpats:432962465437843466>"
 		contentFound = true
-	case strings.Contains(message, "thinking"), strings.Contains(message, "🤔"):
+	case strings.Contains(message, ":think"), strings.Contains(message, "🤔"):
 		response = "<:jadethinking:395982297490522122>"
 		contentFound = true
 	}
