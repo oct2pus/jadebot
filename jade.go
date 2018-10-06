@@ -147,7 +147,7 @@ func getTextResponse(message string) (string, bool) {
 	case strings.Contains(message, "owo"):
 		response = "oh woah whats this? :o"
 		contentFound = true
-	case strings.Contains(message, "love you"):
+	case strings.Contains(message, "love you jade"):
 		response = "i love you too!! :D"
 		contentFound = true
 	case strings.Contains(message, "good dog"):
