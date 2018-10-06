@@ -110,12 +110,13 @@ func messageCreate(discordSession *discordgo.Session,
 				"<https://discordapp.com/oauth2/authorize?client_id=331204502277586945&scope=bot&permissions=379968>")
 		case "help", "commands":
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
-				"not even god can help you now :)")
+				"im in the middle of being rewriten because of an issue involving the bot library i was previously using, which is why i was offline until now! Please give me a moment while I reassemble myself. <:jb_teefs:469677925336219649>, i could also use some input on what you want first! you should check my `discord` and tell me there!")
 		case "about", "credits":
 			discordSession.ChannelMessageSendEmbed(discordMessage.ChannelID, getCredits())
 		default:
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
-				":?")
+				"i don't quite understand, maybe you should ask for `help` ;P")
+
 		}
 	}
 
@@ -137,8 +138,6 @@ func messageCreate(discordSession *discordgo.Session,
 func getTextResponse(message string) (string, bool) {
 	response := ""
 	contentFound := false
-	fmt.Println(message)
-
 	// problem with current method, multiple responses are not created if there are multiple matches
 	// sure looks a hell of a lot cleaner than a lot of if statements though
 	switch {
