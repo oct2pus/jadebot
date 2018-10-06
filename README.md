@@ -1,32 +1,6 @@
 # Jadebot
 
-Jadebot is a homestuck-themed chatbot, she intends to be a fun bot for homestuck-themed discord servers. Feel free to [invite](https://discordapp.com/oauth2/authorize?client_id=331204502277586945&scope=bot&permissions=379968) her to your server!
-
-## Features
-
-- Can search and return articles from the mspawiki and images from the mspabooru!
-- Responds to various phrases.
-- Really loves you back!
-
-## Discuss
-
-please join us at <https://discord.gg/D3vJQQF>!
-
-## Running  her yourself
-
-First enter the bin directory and then rename config.rb.example to config.rb, put in your Discord bot token and id in the corresonding variables. After that return to the root folder and perform `bundle install` or manually install each gem that is listed in the gemfile using `sudo gem install` Ensure you have a redis database currently running. To install Redis perform
-`
-sudo apt install redis-server
-`
-and then run
-`
-sudo systemctl start redis-server
-`
-you can then finally run
-`
-bundle exec ruby run.rb
-`
-from within the root folder.
+Rewrite in progress in GOlang due to an obscure discordrb bug preventing her from running.
 
 ## Mutant Standard
  Jadebot uses both standard and modified [Mutant Standard emoji](https://mutant.tech), which are licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/). All Modifications are released under the same licence. 
