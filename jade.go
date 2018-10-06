@@ -86,6 +86,8 @@ func main() {
 func ready(discordSession *discordgo.Session, discordReady *discordgo.Ready) {
 	discordSession.UpdateStatus(0, "prefix: \""+prefix+" \"")
 	self = discordReady.User
+
+	fmt.Println("Guilds: ", len(discordReady.Guilds))
 }
 
 // This function will be called (due to AddHandler above) every time a new
