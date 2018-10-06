@@ -1,9 +1,0 @@
-require 'configatron'
-
-##Configatron config
-
-#Token
-configatron.token = "yourtokenhere"
-
-#Client_ID
-configatron.id = "youridhere"
