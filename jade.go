@@ -102,6 +102,9 @@ func messageCreate(discordSession *discordgo.Session,
 	// commands
 	if message[0] == prefix && len(message) > 1 {
 		switch message[1] {
+		case "roll", "lroll", "hroll":
+			discordSession.ChannelMessageSend(discordMessage.ChannelID,
+				"i gave vriska all my dice, you should check her out here! <https://discordapp.com/oauth2/authorize?client_id=497943811700424704&scope=bot&permissions=281600>")
 		case "discord":
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
 				"https://discord.gg/PGVh2M8")
