@@ -114,6 +114,12 @@ func messageCreate(discordSession *discordgo.Session,
 			} else {
 				discordSession.ChannelMessageSend(discordMessage.ChannelID, "what ship do you want me to evaluate? :?")
 			}
+		case "avatar":
+			discordSession.ChannelMessageSendEmbed(discordMessage.ChannelID,
+				getUserAvatar(discordMessage.Message))
+		case "mspa", "booru":
+			//			discordSession.ChannelMessageSendEmbed(discordMessage.ChannelID,
+			//				searchBooru(message[2:]))
 		case "discord":
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
 				"https://discord.gg/PGVh2M8")
@@ -145,6 +151,44 @@ func messageCreate(discordSession *discordgo.Session,
 		discordSession.ChannelMessageSend(discordMessage.ChannelID,
 			"hello! :D\nby the way my prefix is '`jade: `'. just incase you wanted to know! :p")
 	}
+}
+
+//TODO: Change this so to use a fuzzy search
+//TODO: Prevent jadebot from responding to her mention event
+// Gets the avatar of the user or of a mentioned user
+func getUserAvatar(message *discordgo.Message) *discordgo.MessageEmbed {
+	var embed *discordgo.MessageEmbed
+
+	// should be functionally the same if its empty or nil, if something broke
+	// here assume it has to do with the nil/empty slice distinction
+	if len(message.Mentions) == 0 {
+		embed = imageEmbed("Avatar", message.Author.AvatarURL(""),
+			message.Author.AvatarURL(""),
+			"User: "+message.Author.Username+"#"+message.Author.Discriminator)
+	} else {
+		embed = imageEmbed("Avatar", message.Mentions[0].AvatarURL(""),
+			message.Author.AvatarURL(""),
+			message.Mentions[0].Username+"#"+message.Mentions[0].Discriminator)
+	}
+
+	return embed
+}
+
+// wrapper to create a very simple type of embed
+func imageEmbed(title string, url string, image string,
+	footer string) *discordgo.MessageEmbed {
+
+	embed := &discordgo.MessageEmbed{
+		Title: title,
+		URL:   url,
+		Image: &discordgo.MessageEmbedImage{
+			URL: image,
+		},
+		Footer: &discordgo.MessageEmbedFooter{
+			Text: footer,
+		},
+	}
+	return embed
 }
 
 func getOTP(input []string) string {
