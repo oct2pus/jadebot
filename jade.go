@@ -4,7 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
+	"io/ioutil"
 	"log"
+	"net/http"
 	"os"
 	"os/signal"
 	"path/filepath"
@@ -118,8 +120,8 @@ func messageCreate(discordSession *discordgo.Session,
 			discordSession.ChannelMessageSendEmbed(discordMessage.ChannelID,
 				getUserAvatar(discordMessage.Message))
 		case "mspa", "booru":
-			//			discordSession.ChannelMessageSendEmbed(discordMessage.ChannelID,
-			//				searchBooru(message[2:]))
+			discordSession.ChannelMessageSendEmbed(discordMessage.ChannelID,
+				searchBooru(message[2:]))
 		case "discord":
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
 				"https://discord.gg/PGVh2M8")
@@ -153,6 +155,38 @@ func messageCreate(discordSession *discordgo.Session,
 	}
 }
 
+func searchBooru(input []string) *discordgo.MessageEmbed {
+	url := "http://mspabooru.com//index.php?page=dapi&s=post&q=index"
+	pid := "0"    // page id, aka what page you are on, a page is 25 images
+	limit := "25" // how many images to get
+
+	url += "&pid=" + pid + "&limit=" + limit
+
+	if len(input) > 0 {
+		url += "&tags="
+		for _, ele := range input {
+			url += ele + "+"
+		}
+		url = strings.TrimSuffix(url, "+")
+	}
+
+	// hardcoded avoid tags for sfw channels
+	// TODO: drop these in nsfw channels
+	url += "+-*cest+-gore+-erasure+-vomit+-bondage+-dubcon+-mind_control+-undergarments+-rating:questionable+-rating:explicit"
+
+	fmt.Println(url)
+
+	response, err := http.Get(url)
+	checkError(err)
+
+	data, err2 := ioutil.ReadAll(response.Body)
+	checkError(err2)
+
+	fmt.Println(string(data))
+
+	return nil
+}
+
 //TODO: Change this so to use a fuzzy search
 //TODO: Prevent jadebot from responding to her mention event
 // Gets the avatar of the user or of a mentioned user
@@ -162,12 +196,10 @@ func getUserAvatar(message *discordgo.Message) *discordgo.MessageEmbed {
 	// should be functionally the same if its empty or nil, if something broke
 	// here assume it has to do with the nil/empty slice distinction
 	if len(message.Mentions) == 0 {
-		embed = imageEmbed("Avatar", message.Author.AvatarURL(""),
-			message.Author.AvatarURL(""),
+		embed = imageEmbed("Avatar", "", message.Author.AvatarURL(""),
 			"User: "+message.Author.Username+"#"+message.Author.Discriminator)
 	} else {
-		embed = imageEmbed("Avatar", message.Mentions[0].AvatarURL(""),
-			message.Author.AvatarURL(""),
+		embed = imageEmbed("Avatar", "", message.Author.AvatarURL(""),
 			message.Mentions[0].Username+"#"+message.Mentions[0].Discriminator)
 	}
 
@@ -175,8 +207,13 @@ func getUserAvatar(message *discordgo.Message) *discordgo.MessageEmbed {
 }
 
 // wrapper to create a very simple type of embed
+// url equals image if left ""
 func imageEmbed(title string, url string, image string,
 	footer string) *discordgo.MessageEmbed {
+
+	if url == "" {
+		url = image
+	}
 
 	embed := &discordgo.MessageEmbed{
 		Title: title,
@@ -191,6 +228,7 @@ func imageEmbed(title string, url string, image string,
 	return embed
 }
 
+// rates ships based on semi-arbitrary text input
 func getOTP(input []string) string {
 	asString := strings.Join(input, " ")
 	percent := arbitraryNumberGenerator(asString, 11)
