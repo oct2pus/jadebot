@@ -8,6 +8,7 @@ import (
 	"os"
 	"os/signal"
 	"path/filepath"
+	"strconv"
 	"strings"
 	"syscall"
 	"time"
@@ -107,13 +108,21 @@ func messageCreate(discordSession *discordgo.Session,
 		case "roll", "lroll", "hroll":
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
 				"i gave vriska all my dice, you should check her out here! <https://discordapp.com/oauth2/authorize?client_id=497943811700424704&scope=bot&permissions=281600>")
+		case "otp", "ship":
+			if len(message) > 2 {
+				discordSession.ChannelMessageSend(discordMessage.ChannelID, getOTP(message[2:]))
+			} else {
+				discordSession.ChannelMessageSend(discordMessage.ChannelID, "what ship do you want me to evaluate? :?")
+			}
 		case "discord":
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
 				"https://discord.gg/PGVh2M8")
 		case "invite":
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
 				"<https://discordapp.com/oauth2/authorize?client_id=331204502277586945&scope=bot&permissions=379968>")
-		case "help", "commands":
+		case "commands", "command":
+			discordSession.ChannelMessageSend(discordMessage.ChannelID, "my commands currently are\n-`otp`, `ship`\n-`discord`\n-`invite`\n-`commands`, `command`\n-`help`\n-`about`, `credits`")
+		case "help":
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
 				"im in the middle of being rewriten because of an issue involving the bot library i was previously using, which is why i was offline until now! Please give me a moment while I reassemble myself. <:jb_teefs:469677925336219649>, i could also use some input on what you want first! you should check my `discord` and tell me there!")
 		case "about", "credits":
@@ -136,6 +145,26 @@ func messageCreate(discordSession *discordgo.Session,
 		discordSession.ChannelMessageSend(discordMessage.ChannelID,
 			"hello! :D\nby the way my prefix is '`jade: `'. just incase you wanted to know! :p")
 	}
+}
+
+func getOTP(input []string) string {
+	asString := strings.Join(input, " ")
+	percent := arbitraryNumberGenerator(asString, 11)
+	result := "I think " + asString + " has a **" + strconv.Itoa(int(percent)) + "/10** chance of being canon!"
+	return result
+}
+
+// used in getOTP to get a value from 0 to 100, turned into a multipurpose
+// function because why not?
+func arbitraryNumberGenerator(input string, mod int32) int32 {
+	asRuneSlice := []rune(input)
+	var result int32
+
+	for _, ele := range asRuneSlice {
+		result += ele
+	}
+
+	return result % mod
 }
 
 // checks messages for contents, returns a response if it contains one
