@@ -334,7 +334,7 @@ func getCredits() *discordgo.MessageEmbed {
 			},
 			&discordgo.MessageEmbedField{
 				Name:   "Special Thanks",
-				Value:  "Avatar By Chuchumi ( http://chuchumi.tumblr.com/ )\nOriginal Avatar by sun gun#0373 ( http://taiyoooh.tumblr.com )\nEmojis by Dzuk#1671",
+				Value:  "Avatar By Chuchumi ( http://chuchumi.tumblr.com/ )\nOriginal Avatar by sun gun#0373 ( http://taiyoooh.tumblr.com )\nEmojis by Dzuk#1671 ( https://noct.zone/ )",
 				Inline: false,
 			},
 			&discordgo.MessageEmbedField{
