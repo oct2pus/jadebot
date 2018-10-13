@@ -1,11 +1,14 @@
 package main
 
 import (
+	"encoding/xml"
+	"errors"
 	"flag"
 	"fmt"
 	"github.com/bwmarrin/discordgo"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"os/signal"
@@ -30,6 +33,13 @@ var (
 	currentTime string
 	self        *discordgo.User
 )
+
+type BooruSearch struct {
+	Posts []struct {
+		FileURL string `xml:"file_url,attr"`
+		Source  string `xml:"source,attr,omitempty"`
+	} `xml:"post"`
+}
 
 // initalize variables
 func init() {
@@ -120,8 +130,14 @@ func messageCreate(discordSession *discordgo.Session,
 			discordSession.ChannelMessageSendEmbed(discordMessage.ChannelID,
 				getUserAvatar(discordMessage.Message))
 		case "mspa", "booru":
-			discordSession.ChannelMessageSendEmbed(discordMessage.ChannelID,
-				searchBooru(message[2:]))
+			mspaEmbed, err := searchBooru(message[2:])
+			if err != nil {
+				discordSession.ChannelMessageSend(discordMessage.ChannelID,
+					err.Error())
+			} else {
+				discordSession.ChannelMessageSendEmbed(discordMessage.ChannelID,
+					mspaEmbed)
+			}
 		case "discord":
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
 				"https://discord.gg/PGVh2M8")
@@ -155,7 +171,8 @@ func messageCreate(discordSession *discordgo.Session,
 	}
 }
 
-func searchBooru(input []string) *discordgo.MessageEmbed {
+func searchBooru(input []string) (*discordgo.MessageEmbed, error) {
+	// Building our search URL
 	url := "http://mspabooru.com//index.php?page=dapi&s=post&q=index"
 	pid := "0"    // page id, aka what page you are on, a page is 25 images
 	limit := "25" // how many images to get
@@ -172,9 +189,9 @@ func searchBooru(input []string) *discordgo.MessageEmbed {
 
 	// hardcoded avoid tags for sfw channels
 	// TODO: drop these in nsfw channels
-	url += "+-*cest+-gore+-erasure+-vomit+-bondage+-dubcon+-mind_control+-undergarments+-rating:questionable+-rating:explicit"
+	url += "+-*cest+-gore+-erasure+-vomit+-bondage+-dubcon+-mind_control+-undergarments+-rating:questionable+-rating:explicit+-3d"
 
-	fmt.Println(url)
+	// http Get request for values
 
 	response, err := http.Get(url)
 	checkError(err)
@@ -182,9 +199,22 @@ func searchBooru(input []string) *discordgo.MessageEmbed {
 	data, err2 := ioutil.ReadAll(response.Body)
 	checkError(err2)
 
-	fmt.Println(string(data))
+	var booruSearch BooruSearch
+	xml.Unmarshal(data, &booruSearch)
 
-	return nil
+	if len(booruSearch.Posts) == 0 {
+		return nil, errors.New("no posts found :(\nplease consider checking if your shipname was entered correctly\n<https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VENC0KOaTgSXE_azPts8qwqz9xMk>")
+	} else {
+
+		// randomly pick a result
+		rand.Seed(time.Now().UnixNano())
+
+		randNum := rand.Intn(len(booruSearch.Posts))
+
+		return imageEmbed("Source", booruSearch.Posts[randNum].Source,
+			booruSearch.Posts[randNum].FileURL,
+			"Warning: Some sources will be broken or NSFW"), nil
+	}
 }
 
 //TODO: Change this so to use a fuzzy search
@@ -196,10 +226,10 @@ func getUserAvatar(message *discordgo.Message) *discordgo.MessageEmbed {
 	// should be functionally the same if its empty or nil, if something broke
 	// here assume it has to do with the nil/empty slice distinction
 	if len(message.Mentions) == 0 {
-		embed = imageEmbed("Avatar", "", message.Author.AvatarURL(""),
+		embed = imageEmbed("Avatar", "", message.Author.AvatarURL("1024"),
 			"User: "+message.Author.Username+"#"+message.Author.Discriminator)
 	} else {
-		embed = imageEmbed("Avatar", "", message.Author.AvatarURL(""),
+		embed = imageEmbed("Avatar", "", message.Mentions[0].AvatarURL("1024"),
 			message.Mentions[0].Username+"#"+message.Mentions[0].Discriminator)
 	}
 
