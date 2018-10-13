@@ -145,7 +145,7 @@ func messageCreate(discordSession *discordgo.Session,
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
 				"<https://discordapp.com/oauth2/authorize?client_id=331204502277586945&scope=bot&permissions=379968>")
 		case "commands", "command":
-			discordSession.ChannelMessageSend(discordMessage.ChannelID, "my commands currently are\n-`otp`, `ship`\n-`discord`\n-`invite`\n-`commands`, `command`\n-`help`\n-`about`, `credits`")
+			discordSession.ChannelMessageSend(discordMessage.ChannelID, "my commands currently are\n- `avatar`\n- `mspa`, `booru`\n-`otp`, `ship`\n-`discord`\n-`invite`\n-`commands`, `command`\n-`help`\n-`about`, `credits`")
 		case "help":
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
 				"im in the middle of being rewriten because of an issue involving the bot library i was previously using, which is why i was offline until now! Please give me a moment while I reassemble myself. <:jb_teefs:469677925336219649>, i could also use some input on what you want first! you should check my `discord` and tell me there!")
