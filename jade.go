@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"errors"
 	"flag"
@@ -39,6 +40,11 @@ type BooruSearch struct {
 		FileURL string `xml:"file_url,attr"`
 		Source  string `xml:"source,attr,omitempty"`
 	} `xml:"post"`
+}
+
+type DogSearch struct {
+	Status  string `json:"status"`
+	Message string `json:"message"`
 }
 
 // initalize variables
@@ -141,14 +147,29 @@ func messageCreate(discordSession *discordgo.Session,
 		case "discord":
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
 				"https://discord.gg/PGVh2M8")
+		case "dog":
+			dogEmbed, err := searchDogs(message[2:])
+			if err != nil {
+				discordSession.ChannelMessageSend(discordMessage.ChannelID,
+					err.Error())
+			} else {
+				discordSession.ChannelMessageSendEmbed(discordMessage.ChannelID,
+					dogEmbed)
+			}
+		case "doge":
+			dogEmbed, err := searchDogs([]string{"shiba"})
+			if err != nil {
+				discordSession.ChannelMessageSend(discordMessage.ChannelID,
+					err.Error())
+			} else {
+				discordSession.ChannelMessageSendEmbed(discordMessage.ChannelID,
+					dogEmbed)
+			}
 		case "invite":
 			discordSession.ChannelMessageSend(discordMessage.ChannelID,
 				"<https://discordapp.com/oauth2/authorize?client_id=331204502277586945&scope=bot&permissions=379968>")
-		case "commands", "command":
-			discordSession.ChannelMessageSend(discordMessage.ChannelID, "my commands currently are\n- `avatar`\n- `mspa`, `booru`\n-`otp`, `ship`\n-`discord`\n-`invite`\n-`commands`, `command`\n-`help`\n-`about`, `credits`")
-		case "help":
-			discordSession.ChannelMessageSend(discordMessage.ChannelID,
-				"im in the middle of being rewriten because of an issue involving the bot library i was previously using, which is why i was offline until now! Please give me a moment while I reassemble myself. <:jb_teefs:469677925336219649>, i could also use some input on what you want first! you should check my `discord` and tell me there!")
+		case "commands", "command", "help":
+			discordSession.ChannelMessageSend(discordMessage.ChannelID, "my commands currently are\n-`avatar`\n-`mspa`, `booru`\n-`dog`\n-`otp`, `ship`\n-`discord`\n-`invite`\n-`help`, `commands`, `command`\n-`help`\n-`about`, `credits`")
 		case "about", "credits":
 			discordSession.ChannelMessageSendEmbed(discordMessage.ChannelID, getCredits())
 		default:
@@ -215,6 +236,41 @@ func searchBooru(input []string) (*discordgo.MessageEmbed, error) {
 			booruSearch.Posts[randNum].FileURL,
 			"Warning: Some sources will be broken or NSFW"), nil
 	}
+}
+
+func searchDogs(input []string) (*discordgo.MessageEmbed, error) {
+
+	for i, ele := range input {
+		input[i] = strings.ToLower(ele)
+	}
+
+	var url string
+
+	switch len(input) {
+	case 0:
+		url = "https://dog.ceo/api/breeds/image/random"
+	case 1:
+		url = "https://dog.ceo/api/breed/" + input[0] + "/images/random"
+	default:
+		url = "https://dog.ceo/api/breed/" + input[1] + "/" + input[0] + "/images/random"
+	}
+
+	var doge DogSearch
+
+	response, err := http.Get(url)
+	checkError(err)
+
+	data, err2 := ioutil.ReadAll(response.Body)
+	checkError(err2)
+
+	json.Unmarshal(data, &doge)
+
+	if doge.Status != "success" {
+		return nil, errors.New("i could not find that breed :(\nhere is a list of breeds i can find!\n<https://dog.ceo/dog-api/breeds-list>")
+	}
+
+	return imageEmbed("Source", doge.Message, doge.Message, strings.Join(input, " ")), nil
+
 }
 
 //TODO: Change this so to use a fuzzy search
