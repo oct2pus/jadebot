@@ -239,7 +239,7 @@ func searchBooru(input []string) (*discordgo.MessageEmbed, error) {
 	// hardcoded 'do not use' tags, allowing these outside of nsfw chats is
 	// against ToS, remove stuff at your own peril.
 	url += "+-*cest+-gore+-erasure+-vomit+-bondage+-dubcon+-mind_control+" +
-		"-undergarments+-rating:questionable+-rating:explicit+-3d"
+		"-undergarments+-rating:questionable+-rating:explicit+-3d+-deleteme"
 
 	// http Get request for values
 
@@ -259,7 +259,9 @@ func searchBooru(input []string) (*discordgo.MessageEmbed, error) {
 
 	if len(booruSearch.Posts) == 0 {
 		return nil, errors.New("no posts found :(\n" +
-			"please consider checking if your shipname was entered correctly" +
+			"if you were trying to find a ship, make sure your shipname was" +
+			" entered correctly :o\n here is a list of all ship names on " +
+			" the booru" +
 			"\n<https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VENC0" +
 			"KOaTgSXE_azPts8qwqz9xMk>")
 	} else {
