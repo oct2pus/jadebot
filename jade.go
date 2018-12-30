@@ -264,17 +264,15 @@ func searchBooru(input []string) (*discordgo.MessageEmbed, error) {
 			" the booru" +
 			"\n<https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VENC0" +
 			"KOaTgSXE_azPts8qwqz9xMk>")
-	} else {
-
-		// randomly pick a result
-		rand.Seed(time.Now().UnixNano())
-
-		randNum := rand.Intn(len(booruSearch.Posts))
-
-		return embed.ImageEmbed("Source", booruSearch.Posts[randNum].Source,
-			booruSearch.Posts[randNum].FileURL,
-			"Warning: Some sources will be broken or NSFW", color), nil
 	}
+	// randomly pick a result
+	rand.Seed(time.Now().UnixNano())
+
+	randNum := rand.Intn(len(booruSearch.Posts))
+
+	return embed.ImageEmbed("Source", booruSearch.Posts[randNum].Source,
+		booruSearch.Posts[randNum].FileURL,
+		"Warning: Some sources will be broken or NSFW", color), nil
 }
 
 func searchDogs(input []string) (*discordgo.MessageEmbed, error) {
