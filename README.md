@@ -9,7 +9,7 @@ Jadebot is a discordbot aimed at homestuck servers, she primarily has 3 commands
 
 **OTP**/**SHIP** determines how canon something is.
 
-Wiki will be reimplimented shortly, but will provide both a link to and a short summary of content from the MSPA wiki.
+Wiki will be reimplimented ~~shortly~~ eventually, but will provide both a link to and a short summary of content from the MSPA wiki.
 
 ## Where are all the old commands?
 
