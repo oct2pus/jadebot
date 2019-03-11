@@ -66,7 +66,6 @@ func (b Bot) MessageCreate(session *discordgo.Session,
 
 	input := sliceStrings(message.Message.Content)
 	// split messages into chunks
-	fmt.Printf("input: %v\nkeys: %v", input, b.commands)
 	go func() {
 		if input[0] == b.Prefix && len(input) >= 2 {
 			for key := range b.commands {
