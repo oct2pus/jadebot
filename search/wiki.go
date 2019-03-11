@@ -22,10 +22,6 @@ type content struct {
 	Text string `json:"text"`
 }
 
-type inner struct {
-	Text string `json:"text"`
-}
-
 type item struct {
 	ID    int    `json:"id"`
 	Title string `json:"title"`
