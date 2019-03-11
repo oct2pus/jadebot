@@ -1,7 +1,6 @@
 package command
 
 import (
-	"Jadebot/bot"
 	"Jadebot/search"
 	"encoding/json"
 	"encoding/xml"
@@ -13,6 +12,8 @@ import (
 	"time"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/oct2pus/bot/bot"
+	"github.com/oct2pus/bot/embed"
 )
 
 // Avatar gets the first mentioned users Avatar.
@@ -24,33 +25,35 @@ func Avatar(bot bot.Bot,
 	// should be functionally the same if its empty or nil, if something broke
 	// here assume it has to do with the nil/empty slice distinction
 	if len(message.Mentions) == 0 {
-		emb = imageEmbed("Avatar",
+		emb = embed.ImageEmbed("Avatar",
 			"",
 			message.Author.AvatarURL("1024"),
 			"User: "+message.Author.Username+"#"+
 				message.Message.Author.Discriminator,
-			bot.Color,
-		)
+			bot.Color)
 	} else {
-		emb = imageEmbed("Avatar", "",
+		emb = embed.ImageEmbed("Avatar", "",
 			message.Message.Mentions[0].AvatarURL("1024"),
 			message.Message.Mentions[0].Username+
 				"#"+message.Message.Mentions[0].Discriminator,
 			bot.Color)
 	}
 
-	go messageEmbedSend(bot.Session, emb, message.ChannelID)
+	go embed.SendEmbededMessage(bot.Session, message.ChannelID, emb)
 }
 
 // Credits accreditates users for their contributions.
 func Credits(bot bot.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
-	go messageEmbedSend(bot.Session, creditsEmbed("Jadebot",
-		"Chuchumi ( http://chuchumi.tumblr.com/ )",
-		"sun gun#0373 ( http://taiyoooh.tumblr.com )",
-		"Dzuk#1671 ( https://noct.zone/ )",
-		bot.Color), message.ChannelID)
+	go embed.SendEmbededMessage(bot.Session, message.ChannelID,
+		embed.CreditsEmbed("Jadebot",
+			"Chuchumi ( http://chuchumi.tumblr.com/ )",
+			"sun gun#0373 ( http://taiyoooh.tumblr.com )",
+			"Dzuk#1671 ( https://noct.zone/ )",
+			"https://raw.githubusercontent.com/oct2pus/jadebot/origin/art/"+
+				"jadebot.png",
+			bot.Color))
 }
 
 // Booru searches the MSPABooru and returns the result.
@@ -78,37 +81,37 @@ func Booru(bot bot.Bot,
 
 	response, err := http.Get(url)
 	if err != nil {
-		go messageSend(bot.Session, "please don't enter gibberish to try and"+
-			" and break me :(", message.ChannelID)
+		go embed.SendMessage(bot.Session, message.ChannelID,
+			"please don't enter gibberish to try and break me :(")
 	}
 
 	data, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		go messageSend(bot.Session, "please stop trying to hurt me :(",
-			message.ChannelID)
+		go embed.SendMessage(bot.Session, message.ChannelID,
+			"please stop trying to hurt me :(")
 	}
 
 	var booruSearch search.Booru
 	xml.Unmarshal(data, &booruSearch)
 
 	if len(booruSearch.Posts) == 0 {
-		go messageSend(bot.Session, "no posts found :(\n"+
-			"if you were trying to find a ship, make sure your shipname was"+
-			" entered correctly :o\n here is a list of all ship names on "+
-			" the booru"+
-			"\n<https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VENC0"+
-			"KOaTgSXE_azPts8qwqz9xMk>", message.ChannelID)
+		go embed.SendMessage(bot.Session, message.ChannelID,
+			"no posts found :(\n"+
+				"if you were trying to find a ship, make sure your shipname"+
+				" was entered correctly :o\n here is a list of all ship names"+
+				" on the booru"+
+				"\n<https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VEN"+
+				"C0KOaTgSXE_azPts8qwqz9xMk>")
 	}
 	// randomly pick a result
 	rand.Seed(time.Now().UnixNano())
 
 	randNum := rand.Intn(len(booruSearch.Posts))
 
-	go messageEmbedSend(bot.Session,
-		imageEmbed("Source", booruSearch.Posts[randNum].Source,
+	go embed.SendEmbededMessage(bot.Session, message.ChannelID,
+		embed.ImageEmbed("Source", booruSearch.Posts[randNum].Source,
 			booruSearch.Posts[randNum].FileURL,
-			"Warning: Some sources will be broken or NSFW", bot.Color),
-		message.ChannelID)
+			"Warning: Some sources will be broken or NSFW", bot.Color))
 }
 
 // Dog gets a picture from dog.ceo
@@ -136,29 +139,31 @@ func Dog(bot bot.Bot,
 
 	response, err := http.Get(url)
 	if err != nil {
-		go messageSend(bot.Session, "something horrible went wrong when i was"+
-			" searching for pups, try again", message.ChannelID)
+		go embed.SendMessage(bot.Session, message.ChannelID,
+			"something horrible went wrong when i was"+
+				" searching for pups, try again")
 	}
 
 	data, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		// TODO: Write an actual error message here
-		go messageSend(bot.Session, "something really, really bad happened",
-			message.ChannelID)
+		go embed.SendMessage(bot.Session, message.ChannelID,
+			"something really, really bad happened")
 	}
 
 	json.Unmarshal(data, &doge)
 
 	if doge.Status != "success" {
-		go messageSend(bot.Session, "i could not find that breed :(\n"+
-			"here is a list of breeds i can find!\n"+
-			"<https://dog.ceo/dog-api/breeds-list>", message.ChannelID)
+		go embed.SendMessage(bot.Session, message.ChannelID,
+			"i could not find that breed :(\n"+
+				"here is a list of breeds i can find!\n"+
+				"<https://dog.ceo/dog-api/breeds-list>")
 	}
 
-	go messageEmbedSend(bot.Session, imageEmbed(
-		"Source", doge.Message, doge.Message,
-		strings.Join(input, " "), bot.Color),
-		message.ChannelID)
+	go embed.SendEmbededMessage(bot.Session, message.ChannelID,
+		embed.ImageEmbed(
+			"Source", doge.Message, doge.Message,
+			strings.Join(input, " "), bot.Color))
 }
 
 // Doge is a joke command, it just calls Dog() with a Shiba preset.
@@ -174,8 +179,8 @@ func Discord(bot bot.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
 
-	go messageSend(bot.Session, "https://discord.gg/PGVh2M8",
-		message.ChannelID)
+	go embed.SendMessage(bot.Session, message.ChannelID,
+		"https://discord.gg/PGVh2M8")
 }
 
 // Invite returns a bot invite.
@@ -183,18 +188,18 @@ func Invite(bot bot.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
 
-	go messageSend(bot.Session, "<https://discordapp.com/oauth2/authorize?cli"+
-		"ent_id=331204502277586945&scope=bot&permissions=379968>",
-		message.ChannelID)
+	go embed.SendMessage(bot.Session, message.ChannelID,
+		"<https://discordapp.com/oauth2/authorize?cli"+
+			"ent_id=331204502277586945&scope=bot&permissions=379968>",
+	)
 }
 
 // Help returns a list of commands.
 func Help(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
-	messageSend(bot.Session,
+	embed.SendMessage(bot.Session, message.ChannelID,
 		"my commands currently are\n-`avatar`\n-`mspa`, `booru`\n"+
 			"-`dog`\n-`otp`, `ship`\n-`discord`\n-`invite`\n-`help`,"+
-			" `commands`, `command`\n-`help`\n-`about`, `credits`",
-		message.ChannelID)
+			" `commands`, `command`\n-`help`\n-`about`, `credits`")
 }
 
 // OTP returns a number, its very arbitrary but people like it.
@@ -207,7 +212,7 @@ func OTP(bot bot.Bot,
 	result := "I think " + asString + " has a **" + strconv.Itoa(int(percent)) +
 		"/10** chance of being canon!"
 
-	go messageSend(bot.Session, result, message.ChannelID)
+	go embed.SendMessage(bot.Session, message.ChannelID, result)
 }
 
 // ang stands for Arbitrary Number Generator

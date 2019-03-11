@@ -1,13 +1,14 @@
 package main
 
 import (
-	"Jadebot/bot"
 	"Jadebot/command"
 	"flag"
 	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/oct2pus/bot/bot"
 )
 
 const (
