@@ -1,9 +1,9 @@
 package main
 
 import (
-	"Jadebot/command"
 	"flag"
 	"fmt"
+	"jadebot/command"
 	"os"
 	"os/signal"
 	"syscall"
@@ -71,7 +71,8 @@ func addCommands(bot bot.Bot) bot.Bot {
 	bot.AddCommand("mspa", command.Booru)
 	bot.AddCommand("otp", command.OTP)
 	bot.AddCommand("ship", command.OTP)
-	//	bot.AddCommand("wiki", Command.Wiki)
+	bot.AddCommand("wiki", command.Wiki)
+
 	return bot
 }
 

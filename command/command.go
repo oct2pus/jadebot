@@ -1,10 +1,10 @@
 package command
 
 import (
-	"Jadebot/search"
 	"encoding/json"
 	"encoding/xml"
 	"io/ioutil"
+	"jadebot/search"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -227,3 +227,69 @@ func ang(input string, mod int32) int32 {
 	return result % mod
 }
 
+// Wiki gets article contents and displays them in an embed.
+func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
+	// gotcha with no input
+	if len(input) <= 0 {
+		go embed.SendMessage(bot.Session, message.ChannelID, "what article do you want :?")
+		return
+	}
+	minQuality := "25"
+	inputs := strings.Join(input, " ")
+	// perform list
+	url := "https://mspaintadventures.fandom.com/api/v1/"
+	listQuery := "Search/List?query=" + inputs + "&limit=1" +
+		"&minArticleQuality=" + minQuality + "&batch=1&namespaces=0%2C14"
+	listData, err := getJSON(url + listQuery)
+	if err != nil {
+		go embed.SendMessage(bot.Session, message.ChannelID,
+			"i cant seem to reach the wiki :(")
+		// might also be unreadable
+		return
+	}
+	var list search.WikiList
+	json.Unmarshal(listData, &list)
+	if len(list.Items) <= 0 {
+		go embed.SendMessage(bot.Session, message.ChannelID,
+			"i cant find that article :o")
+		return
+	}
+	// perform "simple" (big airquotes)
+	id := strconv.Itoa(list.Items[0].ID)
+	simpleQuery := "Articles/AsSimpleJson?id=" + id
+	simpleData, err := getJSON(url + simpleQuery)
+	if err != nil {
+		go embed.SendMessage(bot.Session, message.ChannelID,
+			"i cant seem to reach the wiki :(")
+		// might also be unreadable
+		return
+	}
+	var simple search.WikiSimple
+	json.Unmarshal(simpleData, &simple)
+	if len(simple.Sections) >= 0 &&
+		len(simple.Sections[0].Content) >= 0 &&
+		simple.Sections[0].Content[0].Text == "" {
+
+		go embed.SendMessage(bot.Session, message.ChannelID,
+			"i cant read that article :?")
+		return
+	}
+	// present embed to user
+	go embed.SendEmbededMessage(bot.Session, message.ChannelID,
+		embed.TextEmbed(list.Items[0].Title,
+			"Summary",
+			simple.Sections[0].Content[0].Text,
+			list.Items[0].URL,
+			list.Items[0].URL,
+			bot.Color))
+}
+
+func getJSON(url string) ([]byte, error) {
+	response, err := http.Get(url)
+	if err != nil {
+		return []byte{}, err
+	}
+	data, err := ioutil.ReadAll(response.Body)
+
+	return data, err
+}
