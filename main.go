@@ -22,7 +22,10 @@ func main() {
 	flag.StringVar(&token, "t", "", "Bot Token")
 	flag.Parse()
 
-	if err := jade.New("JadeBot", "jade:", token, 0x4bec13); err != nil {
+	if err := jade.New("JadeBot", "jade:", token,
+		"hello! :D\nby the way my prefix is '`jade: `'"+
+			". just incase you wanted to know! :p",
+		"i don't quite understand, maybe you should ask for `help` ;P", 0x4bec13); err != nil {
 		fmt.Printf("%v can't login\nerror: %v\n", jade.Name, err)
 		return
 	}
@@ -32,7 +35,6 @@ func main() {
 	// Event Handlers
 	jade.Session.AddHandler(jade.ReadyEvent)
 	jade.Session.AddHandler(jade.MessageCreate)
-
 	// Open Bot
 	err := jade.Session.Open()
 	if err != nil {
