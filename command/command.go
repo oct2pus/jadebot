@@ -3,6 +3,7 @@ package command
 import (
 	"encoding/json"
 	"encoding/xml"
+	"fmt"
 	"io/ioutil"
 	"jadebot/search"
 	"math/rand"
@@ -83,18 +84,22 @@ func Booru(bot bot.Bot,
 	if err != nil {
 		go embed.SendMessage(bot.Session, message.ChannelID,
 			"please don't enter gibberish to try and break me :(")
+		return
 	}
 
 	data, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		go embed.SendMessage(bot.Session, message.ChannelID,
 			"please stop trying to hurt me :(")
+		return
 	}
 
 	var booruSearch search.Booru
 	xml.Unmarshal(data, &booruSearch)
 
-	if len(booruSearch.Posts) == 0 {
+	fmt.Printf("%v\n", booruSearch)
+
+	if len(booruSearch.Posts) <= 0 {
 		go embed.SendMessage(bot.Session, message.ChannelID,
 			"no posts found :(\n"+
 				"if you were trying to find a ship, make sure your shipname"+
@@ -102,7 +107,9 @@ func Booru(bot bot.Bot,
 				" on the booru"+
 				"\n<https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VEN"+
 				"C0KOaTgSXE_azPts8qwqz9xMk>")
+		return
 	}
+
 	// randomly pick a result
 	rand.Seed(time.Now().UnixNano())
 
@@ -142,6 +149,7 @@ func Dog(bot bot.Bot,
 		go embed.SendMessage(bot.Session, message.ChannelID,
 			"something horrible went wrong when i was"+
 				" searching for pups, try again")
+		return
 	}
 
 	data, err := ioutil.ReadAll(response.Body)
@@ -149,6 +157,7 @@ func Dog(bot bot.Bot,
 		// TODO: Write an actual error message here
 		go embed.SendMessage(bot.Session, message.ChannelID,
 			"something really, really bad happened")
+		return
 	}
 
 	json.Unmarshal(data, &doge)
@@ -158,6 +167,7 @@ func Dog(bot bot.Bot,
 			"i could not find that breed :(\n"+
 				"here is a list of breeds i can find!\n"+
 				"<https://dog.ceo/dog-api/breeds-list>")
+		return
 	}
 
 	go embed.SendEmbededMessage(bot.Session, message.ChannelID,
@@ -198,7 +208,7 @@ func Invite(bot bot.Bot,
 func Help(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 	embed.SendMessage(bot.Session, message.ChannelID,
 		"my commands currently are\n-`avatar`\n-`mspa`, `booru`\n"+
-			"-`dog`\n-`otp`, `ship`\n-`discord`\n-`invite`\n-`help`,"+
+			"-`dog`\n-`otp`, `ship`\n-`discord`\n-`wiki`\n-`invite`\n-`help`,"+
 			" `commands`, `command`\n-`help`\n-`about`, `credits`")
 }
 
@@ -231,7 +241,8 @@ func ang(input string, mod int32) int32 {
 func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 	// gotcha with no input
 	if len(input) <= 0 {
-		go embed.SendMessage(bot.Session, message.ChannelID, "what article do you want :?")
+		go embed.SendMessage(bot.Session, message.ChannelID,
+			"what article do you want :?")
 		return
 	}
 	minQuality := "25"
