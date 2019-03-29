@@ -97,8 +97,6 @@ func Booru(bot bot.Bot,
 	var booruSearch search.Booru
 	xml.Unmarshal(data, &booruSearch)
 
-	fmt.Printf("%v\n", booruSearch)
-
 	if len(booruSearch.Posts) <= 0 {
 		go embed.SendMessage(bot.Session, message.ChannelID,
 			"no posts found :(\n"+
@@ -277,10 +275,12 @@ func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 	}
 	var simple search.WikiSimple
 	json.Unmarshal(simpleData, &simple)
-	if len(simple.Sections) >= 0 &&
-		len(simple.Sections[0].Content) >= 0 &&
+	if len(simple.Sections) <= 0 ||
+		len(simple.Sections[0].Content) <= 0 ||
 		simple.Sections[0].Content[0].Text == "" {
-
+		// debug message
+		fmt.Printf("\nsimple struct: %v\nlistQuery: %v\nsimpleQuery: %v",
+			simple, url+listQuery, url+simpleQuery)
 		go embed.SendMessage(bot.Session, message.ChannelID,
 			"i cant read that article :?")
 		return
