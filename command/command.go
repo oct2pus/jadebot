@@ -40,21 +40,7 @@ func Avatar(bot bot.Bot,
 			bot.Color)
 	}
 
-	go embed.SendEmbededMessage(bot.Session, message.ChannelID, emb)
-}
-
-// Credits accreditates users for their contributions.
-func Credits(bot bot.Bot,
-	message *discordgo.MessageCreate,
-	input []string) {
-	go embed.SendEmbededMessage(bot.Session, message.ChannelID,
-		embed.CreditsEmbed("Jadebot",
-			"Chuchumi ( http://chuchumi.tumblr.com/ )",
-			"sun gun#0373 ( http://taiyoooh.tumblr.com )",
-			"Dzuk#1671 ( https://noct.zone/ )",
-			"https://raw.githubusercontent.com/oct2pus/jadebot/origin/art/"+
-				"jadebot.png",
-			bot.Color))
+	embed.SendEmbededMessage(bot.Session, message.ChannelID, emb)
 }
 
 // Booru searches the MSPABooru and returns the result.
@@ -82,14 +68,14 @@ func Booru(bot bot.Bot,
 
 	response, err := http.Get(url)
 	if err != nil {
-		go embed.SendMessage(bot.Session, message.ChannelID,
+		embed.SendMessage(bot.Session, message.ChannelID,
 			"please don't enter gibberish to try and break me :(")
 		return
 	}
 
 	data, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		go embed.SendMessage(bot.Session, message.ChannelID,
+		embed.SendMessage(bot.Session, message.ChannelID,
 			"please stop trying to hurt me :(")
 		return
 	}
@@ -98,7 +84,7 @@ func Booru(bot bot.Bot,
 	xml.Unmarshal(data, &booruSearch)
 
 	if len(booruSearch.Posts) <= 0 {
-		go embed.SendMessage(bot.Session, message.ChannelID,
+		embed.SendMessage(bot.Session, message.ChannelID,
 			"no posts found :(\n"+
 				"if you were trying to find a ship, make sure your shipname"+
 				" was entered correctly :o\n here is a list of all ship names"+
@@ -113,10 +99,33 @@ func Booru(bot bot.Bot,
 
 	randNum := rand.Intn(len(booruSearch.Posts))
 
-	go embed.SendEmbededMessage(bot.Session, message.ChannelID,
+	embed.SendEmbededMessage(bot.Session, message.ChannelID,
 		embed.ImageEmbed("Source", booruSearch.Posts[randNum].Source,
 			booruSearch.Posts[randNum].FileURL,
 			"Warning: Some sources will be broken or NSFW", bot.Color))
+}
+
+// Credits accreditates users for their contributions.
+func Credits(bot bot.Bot,
+	message *discordgo.MessageCreate,
+	input []string) {
+	go embed.SendEmbededMessage(bot.Session, message.ChannelID,
+		embed.CreditsEmbed("Jadebot",
+			"Chuchumi ( http://chuchumi.tumblr.com/ )",
+			"sun gun#0373 ( http://taiyoooh.tumblr.com )",
+			"Dzuk#1671 ( https://noct.zone/ )",
+			"https://raw.githubusercontent.com/oct2pus/jadebot/origin/art/"+
+				"jadebot.png",
+			bot.Color))
+}
+
+// Discord returns my discord guild.
+func Discord(bot bot.Bot,
+	message *discordgo.MessageCreate,
+	input []string) {
+
+	embed.SendMessage(bot.Session, message.ChannelID,
+		"https://discord.gg/PGVh2M8")
 }
 
 // Dog gets a picture from dog.ceo
@@ -144,7 +153,7 @@ func Dog(bot bot.Bot,
 
 	response, err := http.Get(url)
 	if err != nil {
-		go embed.SendMessage(bot.Session, message.ChannelID,
+		embed.SendMessage(bot.Session, message.ChannelID,
 			"something horrible went wrong when i was"+
 				" searching for pups, try again")
 		return
@@ -153,7 +162,7 @@ func Dog(bot bot.Bot,
 	data, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		// TODO: Write an actual error message here
-		go embed.SendMessage(bot.Session, message.ChannelID,
+		embed.SendMessage(bot.Session, message.ChannelID,
 			"something really, really bad happened")
 		return
 	}
@@ -161,14 +170,14 @@ func Dog(bot bot.Bot,
 	json.Unmarshal(data, &doge)
 
 	if doge.Status != "success" {
-		go embed.SendMessage(bot.Session, message.ChannelID,
+		embed.SendMessage(bot.Session, message.ChannelID,
 			"i could not find that breed :(\n"+
 				"here is a list of breeds i can find!\n"+
 				"<https://dog.ceo/dog-api/breeds-list>")
 		return
 	}
 
-	go embed.SendEmbededMessage(bot.Session, message.ChannelID,
+	embed.SendEmbededMessage(bot.Session, message.ChannelID,
 		embed.ImageEmbed(
 			"Source", doge.Message, doge.Message,
 			strings.Join(input, " "), bot.Color))
@@ -179,27 +188,7 @@ func Doge(bot bot.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
 
-	go Dog(bot, message, []string{"shiba"})
-}
-
-// Discord returns my discord guild.
-func Discord(bot bot.Bot,
-	message *discordgo.MessageCreate,
-	input []string) {
-
-	go embed.SendMessage(bot.Session, message.ChannelID,
-		"https://discord.gg/PGVh2M8")
-}
-
-// Invite returns a bot invite.
-func Invite(bot bot.Bot,
-	message *discordgo.MessageCreate,
-	input []string) {
-
-	go embed.SendMessage(bot.Session, message.ChannelID,
-		"<https://discordapp.com/oauth2/authorize?cli"+
-			"ent_id=331204502277586945&scope=bot&permissions=379968>",
-	)
+	Dog(bot, message, []string{"shiba"})
 }
 
 // Help returns a list of commands.
@@ -208,6 +197,17 @@ func Help(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 		"my commands currently are\n-`avatar`\n-`mspa`, `booru`\n"+
 			"-`dog`\n-`otp`, `ship`\n-`discord`\n-`wiki`\n-`invite`\n-`help`,"+
 			" `commands`, `command`\n-`help`\n-`about`, `credits`")
+}
+
+// Invite returns a bot invite.
+func Invite(bot bot.Bot,
+	message *discordgo.MessageCreate,
+	input []string) {
+
+	embed.SendMessage(bot.Session, message.ChannelID,
+		"<https://discordapp.com/oauth2/authorize?cli"+
+			"ent_id=331204502277586945&scope=bot&permissions=379968>",
+	)
 }
 
 // OTP returns a number, its very arbitrary but people like it.
@@ -221,18 +221,6 @@ func OTP(bot bot.Bot,
 		"/10** chance of being canon!"
 
 	go embed.SendMessage(bot.Session, message.ChannelID, result)
-}
-
-// ang stands for Arbitrary Number Generator
-func ang(input string, mod int32) int32 {
-	asRuneSlice := []rune(input)
-	var result int32
-
-	for _, ele := range asRuneSlice {
-		result += ele
-	}
-
-	return result % mod
 }
 
 // Wiki gets article contents and displays them in an embed.
@@ -293,6 +281,18 @@ func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 			list.Items[0].URL,
 			list.Items[0].URL,
 			bot.Color))
+}
+
+// ang stands for Arbitrary Number Generator
+func ang(s string, m int32) int32 {
+	runes := []rune(s)
+	var res int32
+
+	for _, ele := range runes {
+		res += ele
+	}
+
+	return res % m
 }
 
 func getJSON(url string) ([]byte, error) {
