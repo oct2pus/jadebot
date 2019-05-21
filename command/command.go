@@ -109,7 +109,8 @@ func Booru(bot bot.Bot,
 func Credits(bot bot.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
-	go embed.SendEmbededMessage(bot.Session, message.ChannelID,
+
+	embed.SendEmbededMessage(bot.Session, message.ChannelID,
 		embed.CreditsEmbed("Jadebot",
 			"Chuchumi ( http://chuchumi.tumblr.com/ )",
 			"sun gun#0373 ( http://taiyoooh.tumblr.com )",
@@ -193,6 +194,7 @@ func Doge(bot bot.Bot,
 
 // Help returns a list of commands.
 func Help(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
+
 	embed.SendMessage(bot.Session, message.ChannelID,
 		"my commands currently are\n-`avatar`\n-`mspa`, `booru`\n"+
 			"-`dog`\n-`otp`, `ship`\n-`discord`\n-`wiki`\n-`invite`\n-`help`,"+
@@ -220,14 +222,14 @@ func OTP(bot bot.Bot,
 	result := "I think " + asString + " has a **" + strconv.Itoa(int(percent)) +
 		"/10** chance of being canon!"
 
-	go embed.SendMessage(bot.Session, message.ChannelID, result)
+	embed.SendMessage(bot.Session, message.ChannelID, result)
 }
 
 // Wiki gets article contents and displays them in an embed.
 func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 	// gotcha with no input
 	if len(input) <= 0 {
-		go embed.SendMessage(bot.Session, message.ChannelID,
+		embed.SendMessage(bot.Session, message.ChannelID,
 			"what article do you want :?")
 		return
 	}
@@ -239,7 +241,7 @@ func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 		"&minArticleQuality=" + minQuality + "&batch=1&namespaces=0%2C14"
 	listData, err := getJSON(url + listQuery)
 	if err != nil {
-		go embed.SendMessage(bot.Session, message.ChannelID,
+		embed.SendMessage(bot.Session, message.ChannelID,
 			"i cant seem to reach the wiki :(")
 		// might also be unreadable
 		return
@@ -247,7 +249,7 @@ func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 	var list search.WikiList
 	json.Unmarshal(listData, &list)
 	if len(list.Items) <= 0 {
-		go embed.SendMessage(bot.Session, message.ChannelID,
+		embed.SendMessage(bot.Session, message.ChannelID,
 			"i cant find that article :o")
 		return
 	}
@@ -256,7 +258,7 @@ func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 	simpleQuery := "Articles/AsSimpleJson?id=" + id
 	simpleData, err := getJSON(url + simpleQuery)
 	if err != nil {
-		go embed.SendMessage(bot.Session, message.ChannelID,
+		embed.SendMessage(bot.Session, message.ChannelID,
 			"i cant seem to reach the wiki :(")
 		// might also be unreadable
 		return
@@ -269,12 +271,12 @@ func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 		// debug message
 		fmt.Printf("\nsimple struct: %v\nlistQuery: %v\nsimpleQuery: %v",
 			simple, url+listQuery, url+simpleQuery)
-		go embed.SendMessage(bot.Session, message.ChannelID,
+		embed.SendMessage(bot.Session, message.ChannelID,
 			"i cant read that article :?")
 		return
 	}
 	// present embed to user
-	go embed.SendEmbededMessage(bot.Session, message.ChannelID,
+	embed.SendEmbededMessage(bot.Session, message.ChannelID,
 		embed.TextEmbed(list.Items[0].Title,
 			"Summary",
 			simple.Sections[0].Content[0].Text,
