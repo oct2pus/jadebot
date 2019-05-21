@@ -111,7 +111,7 @@ func Credits(bot bot.Bot,
 	input []string) {
 
 	embed.SendEmbededMessage(bot.Session, message.ChannelID,
-		embed.CreditsEmbed("Jadebot",
+		embed.CreditsEmbed(bot.Name,
 			"Chuchumi ( http://chuchumi.tumblr.com/ )",
 			"sun gun#0373 ( http://taiyoooh.tumblr.com )",
 			"Dzuk#1671 ( https://noct.zone/ )",
