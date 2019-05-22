@@ -10,5 +10,12 @@ Jadebot is a discordbot aimed at homestuck servers, she has 4 primary commands:
 
 - **WIKI** provides both a link to and a short summary of content from the MSPA wikia.
 
-## Mutant Standard
- Jadebot uses both standard and modified [Mutant Standard emoji](https://mutant.tech), which are licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/). All Modifications are released under the same licence. 
+## Design
+The original Jadebot design was based upon the canonical Jadebot from Homestuck, modified to be more human-like and with some minor aesthetic changes.
+[Jadebot's design](https://raw.githubusercontent.com/oct2pus/jadebot/origin/art/reference_sheet.png) was thought up by me and interpretted by [taiyoooh](taiyoooh.tumblr.com) and later modified and formalized the help of [mupparts](https://mupparts.tumblr.com). Please feel free to reuse the design/draw fanart!
+
+### Mutant Standard
+Jadebot uses both standard and modified [Mutant Standard emoji](https://mutant.tech), which are licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/). All Modifications are released under the same licence. [Tjb0607](https://github.com/tjb0607) did the brunt of the work on these, with some help from me.
+
+### Avatar
+Jadebot's [avatar](https://raw.githubusercontent.com/oct2pus/jadebot/origin/art/jadebot.png) was originally done by [taiyoooh](taiyoooh.tumblr.com), the current rendition is by [chuchumi](https://twitter.com/wheatiesquares). This was specifically made for Jadebot, do not reuse it without permission.
