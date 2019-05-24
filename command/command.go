@@ -13,12 +13,11 @@ import (
 	"time"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/oct2pus/bot/bot"
-	"github.com/oct2pus/bot/embed"
+	"github.com/oct2pus/bocto"
 )
 
 // Avatar gets the first mentioned users Avatar.
-func Avatar(bot bot.Bot,
+func Avatar(bot bocto.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
 	var emb *discordgo.MessageEmbed
@@ -26,25 +25,24 @@ func Avatar(bot bot.Bot,
 	// should be functionally the same if its empty or nil, if something broke
 	// here assume it has to do with the nil/empty slice distinction
 	if len(message.Mentions) == 0 {
-		emb = embed.ImageEmbed("Avatar",
+		emb = bocto.ImageEmbed("Avatar",
 			"",
 			message.Author.AvatarURL("1024"),
 			"User: "+message.Author.Username+"#"+
 				message.Message.Author.Discriminator,
 			bot.Color)
 	} else {
-		emb = embed.ImageEmbed("Avatar", "",
+		emb = bocto.ImageEmbed("Avatar", "",
 			message.Message.Mentions[0].AvatarURL("1024"),
 			message.Message.Mentions[0].Username+
 				"#"+message.Message.Mentions[0].Discriminator,
 			bot.Color)
 	}
-
-	embed.SendEmbededMessage(bot.Session, message.ChannelID, emb)
+	bot.Session.ChannelMessageSendEmbed(message.ChannelID, emb)
 }
 
 // Booru searches the MSPABooru and returns the result.
-func Booru(bot bot.Bot,
+func Booru(bot bocto.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
 	url := "http://mspabooru.com//index.php?page=dapi&s=post&q=index"
@@ -68,14 +66,14 @@ func Booru(bot bot.Bot,
 
 	response, err := http.Get(url)
 	if err != nil {
-		embed.SendMessage(bot.Session, message.ChannelID,
+		bot.Session.ChannelMessageSend(message.ChannelID,
 			"please don't enter gibberish to try and break me :(")
 		return
 	}
 
 	data, err := ioutil.ReadAll(response.Body)
 	if err != nil {
-		embed.SendMessage(bot.Session, message.ChannelID,
+		bot.Session.ChannelMessageSend(message.ChannelID,
 			"please stop trying to hurt me :(")
 		return
 	}
@@ -84,12 +82,12 @@ func Booru(bot bot.Bot,
 	xml.Unmarshal(data, &booruSearch)
 
 	if len(booruSearch.Posts) <= 0 {
-		embed.SendMessage(bot.Session, message.ChannelID,
+		bot.Session.ChannelMessageSend(message.ChannelID,
 			"no posts found :(\n"+
 				"if you were trying to find a ship, make sure your shipname"+
-				" was entered correctly :o\n here is a list of all ship names"+
-				" on the booru"+
-				"\n<https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VEN"+
+				" was entered correctly :o\nhere is a list of all ship names"+
+				" on mpsabooru: "+
+				"<https://docs.google.com/spreadsheets/d/1IR5mmxNxgwAqH0_VEN"+
 				"C0KOaTgSXE_azPts8qwqz9xMk>")
 		return
 	}
@@ -99,19 +97,19 @@ func Booru(bot bot.Bot,
 
 	randNum := rand.Intn(len(booruSearch.Posts))
 
-	embed.SendEmbededMessage(bot.Session, message.ChannelID,
-		embed.ImageEmbed("Source", booruSearch.Posts[randNum].Source,
+	bot.Session.ChannelMessageSendEmbed(message.ChannelID,
+		bocto.ImageEmbed("Source", booruSearch.Posts[randNum].Source,
 			booruSearch.Posts[randNum].FileURL,
 			"Warning: Some sources will be broken or NSFW", bot.Color))
 }
 
 // Credits accreditates users for their contributions.
-func Credits(bot bot.Bot,
+func Credits(bot bocto.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
 
-	embed.SendEmbededMessage(bot.Session, message.ChannelID,
-		embed.CreditsEmbed(bot.Name,
+	bot.Session.ChannelMessageSendEmbed(message.ChannelID,
+		bocto.CreditsEmbed(bot.Name,
 			"Chuchumi ( http://chuchumi.tumblr.com/ )",
 			"sun gun#0373 ( http://taiyoooh.tumblr.com )",
 			"Dzuk#1671 ( https://noct.zone/ )",
@@ -121,16 +119,16 @@ func Credits(bot bot.Bot,
 }
 
 // Discord returns my discord guild.
-func Discord(bot bot.Bot,
+func Discord(bot bocto.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
 
-	embed.SendMessage(bot.Session, message.ChannelID,
+	bot.Session.ChannelMessageSend(message.ChannelID,
 		"https://discord.gg/PGVh2M8")
 }
 
 // Dog gets a picture from dog.ceo
-func Dog(bot bot.Bot,
+func Dog(bot bocto.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
 
@@ -154,7 +152,7 @@ func Dog(bot bot.Bot,
 
 	response, err := http.Get(url)
 	if err != nil {
-		embed.SendMessage(bot.Session, message.ChannelID,
+		bot.Session.ChannelMessageSend(message.ChannelID,
 			"something horrible went wrong when i was"+
 				" searching for pups, try again")
 		return
@@ -163,7 +161,7 @@ func Dog(bot bot.Bot,
 	data, err := ioutil.ReadAll(response.Body)
 	if err != nil {
 		// TODO: Write an actual error message here
-		embed.SendMessage(bot.Session, message.ChannelID,
+		bot.Session.ChannelMessageSend(message.ChannelID,
 			"something really, really bad happened")
 		return
 	}
@@ -171,21 +169,21 @@ func Dog(bot bot.Bot,
 	json.Unmarshal(data, &doge)
 
 	if doge.Status != "success" {
-		embed.SendMessage(bot.Session, message.ChannelID,
+		bot.Session.ChannelMessageSend(message.ChannelID,
 			"i could not find that breed :(\n"+
 				"here is a list of breeds i can find!\n"+
 				"<https://dog.ceo/dog-api/breeds-list>")
 		return
 	}
 
-	embed.SendEmbededMessage(bot.Session, message.ChannelID,
-		embed.ImageEmbed(
+	bot.Session.ChannelMessageSendEmbed(message.ChannelID,
+		bocto.ImageEmbed(
 			"Source", doge.Message, doge.Message,
 			strings.Join(input, " "), bot.Color))
 }
 
 // Doge is a joke command, it just calls Dog() with a Shiba preset.
-func Doge(bot bot.Bot,
+func Doge(bot bocto.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
 
@@ -193,27 +191,27 @@ func Doge(bot bot.Bot,
 }
 
 // Help returns a list of commands.
-func Help(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
+func Help(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 
-	embed.SendMessage(bot.Session, message.ChannelID,
+	bot.Session.ChannelMessageSend(message.ChannelID,
 		"my commands currently are\n-`avatar`\n-`mspa`, `booru`\n"+
 			"-`dog`\n-`otp`, `ship`\n-`discord`\n-`wiki`\n-`invite`\n-`help`,"+
 			" `commands`, `command`\n-`help`\n-`about`, `credits`")
 }
 
 // Invite returns a bot invite.
-func Invite(bot bot.Bot,
+func Invite(bot bocto.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
 
-	embed.SendMessage(bot.Session, message.ChannelID,
+	bot.Session.ChannelMessageSend(message.ChannelID,
 		"<https://discordapp.com/oauth2/authorize?cli"+
 			"ent_id=331204502277586945&scope=bot&permissions=379968>",
 	)
 }
 
 // OTP returns a number, its very arbitrary but people like it.
-func OTP(bot bot.Bot,
+func OTP(bot bocto.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
 
@@ -222,14 +220,14 @@ func OTP(bot bot.Bot,
 	result := "I think " + asString + " has a **" + strconv.Itoa(int(percent)) +
 		"/10** chance of being canon!"
 
-	embed.SendMessage(bot.Session, message.ChannelID, result)
+	bot.Session.ChannelMessageSend(message.ChannelID, result)
 }
 
-// Wiki gets article contents and displays them in an embed.
-func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
+// Wiki gets article contents and displays them in an bocto.
+func Wiki(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 	// gotcha with no input
 	if len(input) <= 0 {
-		embed.SendMessage(bot.Session, message.ChannelID,
+		bot.Session.ChannelMessageSend(message.ChannelID,
 			"what article do you want :?")
 		return
 	}
@@ -241,7 +239,7 @@ func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 		"&minArticleQuality=" + minQuality + "&batch=1&namespaces=0%2C14"
 	listData, err := getJSON(url + listQuery)
 	if err != nil {
-		embed.SendMessage(bot.Session, message.ChannelID,
+		bot.Session.ChannelMessageSend(message.ChannelID,
 			"i cant seem to reach the wiki :(")
 		// might also be unreadable
 		return
@@ -249,7 +247,7 @@ func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 	var list search.WikiList
 	json.Unmarshal(listData, &list)
 	if len(list.Items) <= 0 {
-		embed.SendMessage(bot.Session, message.ChannelID,
+		bot.Session.ChannelMessageSend(message.ChannelID,
 			"i cant find that article :o")
 		return
 	}
@@ -258,7 +256,7 @@ func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 	simpleQuery := "Articles/AsSimpleJson?id=" + id
 	simpleData, err := getJSON(url + simpleQuery)
 	if err != nil {
-		embed.SendMessage(bot.Session, message.ChannelID,
+		bot.Session.ChannelMessageSend(message.ChannelID,
 			"i cant seem to reach the wiki :(")
 		// might also be unreadable
 		return
@@ -271,13 +269,13 @@ func Wiki(bot bot.Bot, message *discordgo.MessageCreate, input []string) {
 		// debug message
 		fmt.Printf("\nsimple struct: %v\nlistQuery: %v\nsimpleQuery: %v",
 			simple, url+listQuery, url+simpleQuery)
-		embed.SendMessage(bot.Session, message.ChannelID,
+		bot.Session.ChannelMessageSend(message.ChannelID,
 			"i cant read that article :?")
 		return
 	}
-	// present embed to user
-	embed.SendEmbededMessage(bot.Session, message.ChannelID,
-		embed.TextEmbed(list.Items[0].Title,
+	// present bocto to user
+	bot.Session.ChannelMessageSendEmbed(message.ChannelID,
+		bocto.TextEmbed(list.Items[0].Title,
 			"Summary",
 			simple.Sections[0].Content[0].Text,
 			list.Items[0].URL,

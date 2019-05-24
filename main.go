@@ -8,24 +8,25 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/oct2pus/bot/bot"
+	"github.com/oct2pus/bocto"
 )
 
 const (
-	pre = "jade:"
+	pre = "==>"
 )
 
 func main() {
 	// initalize variables
 	var token string
-	var jade bot.Bot
+	var jade bocto.Bot
 	flag.StringVar(&token, "t", "", "Bot Token")
 	flag.Parse()
 
-	if err := jade.New("JadeBot", "jade:", token,
-		"hello! :D\nby the way my prefix is '`jade: `'"+
-			". just incase you wanted to know! :p",
-		"i don't quite understand, maybe you should ask for `help` ;P", 0x4bec13); err != nil {
+	err := jade.New("JadeBot", pre, token,
+		"hello! :D\nby the way my prefix is `"+pre+"`. just incase you"+
+			" wanted to know! :p",
+		"i don't understand, maybe you should ask for `help` ;P", 0x4bec13)
+	if err != nil {
 		fmt.Printf("%v can't login\nerror: %v\n", jade.Name, err)
 		return
 	}
@@ -36,7 +37,7 @@ func main() {
 	jade.Session.AddHandler(jade.ReadyEvent)
 	jade.Session.AddHandler(jade.MessageCreate)
 	// Open Bot
-	err := jade.Session.Open()
+	err = jade.Session.Open()
 	if err != nil {
 		fmt.Printf("Error openning connection: %v\nDump bot info %v\n",
 			err,
@@ -55,7 +56,7 @@ func main() {
 	jade.Session.Close()
 }
 
-func addCommands(bot bot.Bot) bot.Bot {
+func addCommands(bot bocto.Bot) bocto.Bot {
 	// alphabetical order, shorter first
 	bot.AddCommand("about", command.Credits)
 	bot.AddCommand("avatar", command.Avatar)
@@ -76,7 +77,7 @@ func addCommands(bot bot.Bot) bot.Bot {
 	return bot
 }
 
-func addPhrases(bot bot.Bot) bot.Bot {
+func addPhrases(bot bocto.Bot) bocto.Bot {
 	bot.AddPhrase("owo", "oh woah whats this? :o")
 	bot.AddPhrase("love you jade", "i love you too!! :D")
 	bot.AddPhrase("good dog", "best friend")
