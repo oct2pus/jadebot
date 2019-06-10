@@ -113,8 +113,7 @@ func Credits(bot bocto.Bot,
 			"Chuchumi ( http://chuchumi.tumblr.com/ )",
 			"sun gun#0373 ( http://taiyoooh.tumblr.com )",
 			"Dzuk#1671 ( https://noct.zone/ )",
-			"https://raw.githubusercontent.com/oct2pus/jadebot/origin/art/"+
-				"jadebot.png",
+			bot.Self.AvatarURL("256"),
 			bot.Color))
 }
 
