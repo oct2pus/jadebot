@@ -123,7 +123,7 @@ func Discord(bot bocto.Bot,
 	input []string) {
 
 	bot.Session.ChannelMessageSend(message.ChannelID,
-		"https://discord.gg/PGVh2M8")
+		"https://discord.gg/PFCGhJQ")
 }
 
 // Dog gets a picture from dog.ceo
