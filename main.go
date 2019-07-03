@@ -25,7 +25,7 @@ func main() {
 	err := jade.New("JadeBot", pre, token,
 		"hello! :D\nby the way my prefix is `"+pre+"`. just incase you"+
 			" wanted to know! :p",
-		"i don't understand, maybe you should ask for `help` ;P", 0x4bec13)
+		"i don't understand, maybe you should ask for `"+pre+"help` ;P", 0x4bec13)
 	if err != nil {
 		fmt.Printf("%v can't login\nerror: %v\n", jade.Name, err)
 		return
