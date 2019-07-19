@@ -8,15 +8,29 @@ import (
 	"os/signal"
 	"syscall"
 
-	"github.com/oct2pus/bocto"
+	"bocto"
+)
+
+var (
+	emoji map[string]string
 )
 
 const (
 	pre = "==>"
 )
 
+// initialize emoji substituions
+// if you host your own bot, i'd recommend replacing them with your own.
+func init() {
+	emoji["thinking"] = "<:jbthink:601863277546569779>"
+	emoji["headpat"] = "<:jbheadpat:601863276581748746>"
+	emoji["embarassed"] = "<:jbembarassed:601863277122813953>"
+	emoji["teefs"] = "<:jbteefs:601863276833406976>"
+	emoji["owo"] = "<:jbowo:601863276560777220>"
+	emoji["heart"] = "💚"
+}
+
 func main() {
-	// initalize variables
 	var token string
 	var jade bocto.Bot
 	flag.StringVar(&token, "t", "", "Bot Token")
@@ -78,15 +92,20 @@ func addCommands(bot bocto.Bot) bocto.Bot {
 }
 
 func addPhrases(bot bocto.Bot) bocto.Bot {
-	bot.AddPhrase("owo", "oh woah whats this? :o")
-	bot.AddPhrase("love you jade", "i love you too!! :D")
-	bot.AddPhrase("good dog", "best friend")
-	bot.AddPhrase("teef", "<:jadeteefs:317080214364618753>")
-	bot.AddPhrase("kissjade", "<:jb_embarrassed:432756486406537217>"+
-		"<:jade_hearts:432685108085129246>")
-	bot.AddPhrase("pats", "<:jb_headpats:432962465437843466>")
-	bot.AddPhrase(":think", "<:jadethinking:395982297490522122>")
-	bot.AddPhrase("🤔", "<:jadethinking:395982297490522122>")
+	bot.AddPhrase("owo", "oh woah whats this?", emoji["owo"])
+	bot.AddPhrase("love you jade", "i love you too!!", emoji["teefs"]+
+		emoji["heart"])
+	bot.AddPhrase("good dog", "best friend", emoji["headpat"])
+	bot.AddPhrase("teef", emoji["teefs"])
+	bot.AddPhrase("kissjade", emoji["embarassed"]+emoji["heart"])
+	bot.AddPhrase("headpat", emoji["headpat"])
+	bot.AddPhrase("*pap*", emoji["headpat"])
+	bot.AddPhrase("soosh pap", emoji["headpat"])
+	bot.AddPhrase("*pats*", emoji["headpat"])
+	bot.AddPhrase(":think", emoji["thinking"])
+	bot.AddPhrase("think:", emoji["thinking"])
+	bot.AddPhrase("thinking:", emoji["thinking"])
+	bot.AddPhrase("🤔", emoji["thinking"])
 
 	return bot
 }
