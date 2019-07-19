@@ -12,8 +12,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/bwmarrin/discordgo"
 	"github.com/oct2pus/bocto"
+
+	"github.com/bwmarrin/discordgo"
 )
 
 // Avatar gets the first mentioned users Avatar.
@@ -109,12 +110,37 @@ func Credits(bot bocto.Bot,
 	input []string) {
 
 	bot.Session.ChannelMessageSendEmbed(message.ChannelID,
-		bocto.CreditsEmbed(bot.Name,
-			"Chuchumi ( http://chuchumi.tumblr.com/ )",
-			"sun gun#0373 ( http://taiyoooh.tumblr.com )",
-			"Dzuk#1671 ( https://noct.zone/ )",
-			bot.Self.AvatarURL("256"),
-			bot.Color))
+		bocto.CreditsEmbed(
+			bot.Name,
+			bot.Self.AvatarURL(""),
+			bot.Color,
+			false,
+			bocto.Contributor{
+				Name:    "\\🐙\\🐙",
+				URL:     "https://oct2pus.tumblr.com",
+				Message: "**Developed** by %v (%v)",
+				Type:    "Developer",
+			},
+			bocto.Contributor{
+				Name:    "Discordgo",
+				URL:     "https://github.com/bwmarrin/discordgo/",
+				Message: "JadeBot uses the **%v** library (%v)",
+				Type:    "Library",
+			},
+			bocto.Contributor{
+				Name:    "Choombie",
+				URL:     "https://twitter.com/choombie",
+				Message: "**Avatar** by **%v** (%v)",
+				Type:    "Artist",
+			},
+			bocto.Contributor{
+				Name:    "Metalhiro",
+				URL:     "https://www.instagram.com/themetalhiro/?hl=en",
+				Message: "**Emoji** by **%v** (%v)",
+				Type:    "Artist",
+			},
+		),
+	)
 }
 
 // Discord returns my discord guild.
@@ -153,7 +179,7 @@ func Dog(bot bocto.Bot,
 	if err != nil {
 		bot.Session.ChannelMessageSend(message.ChannelID,
 			"something horrible went wrong when i was"+
-				" searching for pups, try again")
+				" searching for pups, please try again")
 		return
 	}
 
