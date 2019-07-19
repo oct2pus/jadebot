@@ -8,7 +8,7 @@ import (
 	"os/signal"
 	"syscall"
 
-	"bocto"
+	"github.com/oct2pus/bocto"
 )
 
 var (
@@ -22,6 +22,7 @@ const (
 // initialize emoji substituions
 // if you host your own bot, i'd recommend replacing them with your own.
 func init() {
+	emoji = make(map[string]string)
 	emoji["thinking"] = "<:jbthink:601863277546569779>"
 	emoji["headpat"] = "<:jbheadpat:601863276581748746>"
 	emoji["embarassed"] = "<:jbembarassed:601863277122813953>"
@@ -92,20 +93,22 @@ func addCommands(bot bocto.Bot) bocto.Bot {
 }
 
 func addPhrases(bot bocto.Bot) bocto.Bot {
-	bot.AddPhrase("owo", "oh woah whats this?", emoji["owo"])
-	bot.AddPhrase("love you jade", "i love you too!!", emoji["teefs"]+
-		emoji["heart"])
-	bot.AddPhrase("good dog", "best friend", emoji["headpat"])
-	bot.AddPhrase("teef", emoji["teefs"])
-	bot.AddPhrase("kissjade", emoji["embarassed"]+emoji["heart"])
-	bot.AddPhrase("headpat", emoji["headpat"])
-	bot.AddPhrase("*pap*", emoji["headpat"])
-	bot.AddPhrase("soosh pap", emoji["headpat"])
-	bot.AddPhrase("*pats*", emoji["headpat"])
-	bot.AddPhrase(":think", emoji["thinking"])
-	bot.AddPhrase("think:", emoji["thinking"])
-	bot.AddPhrase("thinking:", emoji["thinking"])
-	bot.AddPhrase("🤔", emoji["thinking"])
+	bot.AddPhrase("owo", []string{"oh woah whats this?", emoji["owo"]})
+	bot.AddPhrase("love you jade", []string{"i love you too!!", emoji["teefs"] +
+		emoji["heart"]})
+	bot.AddPhrase("love jade", []string{"i love you too!!", emoji["teefs"] +
+		emoji["heart"]})
+	bot.AddPhrase("good dog", []string{"best friend", emoji["headpat"]})
+	bot.AddPhrase("teef", []string{emoji["teefs"]})
+	bot.AddPhrase("kissjade", []string{emoji["embarassed"] + emoji["heart"]})
+	bot.AddPhrase("headpat", []string{emoji["headpat"]})
+	bot.AddPhrase("*pap*", []string{emoji["headpat"]})
+	bot.AddPhrase("soosh pap", []string{emoji["headpat"]})
+	bot.AddPhrase("*pats*", []string{emoji["headpat"]})
+	bot.AddPhrase(":think", []string{emoji["thinking"]})
+	bot.AddPhrase("think:", []string{emoji["thinking"]})
+	bot.AddPhrase("thinking:", []string{emoji["thinking"]})
+	bot.AddPhrase("🤔", []string{emoji["thinking"]})
 
 	return bot
 }
