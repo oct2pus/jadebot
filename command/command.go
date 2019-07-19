@@ -5,7 +5,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
-	"jadebot/search"
+	"github.com/oct2pus/jadebot/search"
 	"math/rand"
 	"net/http"
 	"strconv"

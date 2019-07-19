@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"jadebot/command"
+	"github.com/oct2pus/jadebot/command"
 	"os"
 	"os/signal"
 	"syscall"
