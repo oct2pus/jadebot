@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"io/ioutil"
 	"github.com/oct2pus/jadebot/search"
+	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"strconv"
@@ -62,8 +62,11 @@ func Booru(bot bocto.Bot,
 
 	// hardcoded 'do not use' tags, allowing these outside of nsfw chats is
 	// against ToS, remove stuff at your own peril.
-	url += "+-*cest+-gore+-erasure+-vomit+-bondage+-dubcon+-mind_control+" +
-		"-undergarments+-rating:questionable+-rating:explicit+-3d+-deleteme"
+	url += "+-gore+-vomit+-bondage+-dubcon+-mind_control+" +
+		"-undergarments+-rating:questionable+-rating:explicit+-deleteme"
+
+	// hardcoded 'do not want' tags, these are morality judgments by me.
+	url += "+-*cest+-erasure+-3d"
 
 	response, err := http.Get(url)
 	if err != nil {
