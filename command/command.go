@@ -252,7 +252,7 @@ func OTP(bot bocto.Bot,
 	bot.Session.ChannelMessageSend(message.ChannelID, result)
 }
 
-// Wiki gets article contents and displays them in an bocto.
+// Wiki gets article contents and displays them in an embed.
 func Wiki(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 	// gotcha with no input
 	if len(input) <= 0 {
