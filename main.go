@@ -3,10 +3,12 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/oct2pus/jadebot/command"
 	"os"
 	"os/signal"
 	"syscall"
+
+	"github.com/oct2pus/jadebot/command"
+	"github.com/oct2pus/jadebot/markov"
 
 	"github.com/oct2pus/bocto"
 )
@@ -88,6 +90,26 @@ func addCommands(bot bocto.Bot) bocto.Bot {
 	bot.AddCommand("otp", command.OTP)
 	bot.AddCommand("ship", command.OTP)
 	bot.AddCommand("wiki", command.Wiki)
+	// if no model.json exist, disable markov commands
+	// if model.json exists but does not parse, disable markov commands
+	if func() bool {
+		file := "./model.json"
+		if _, err := os.Stat(file); os.IsNotExist(err) {
+			fmt.Printf("%v does not exist. Skipping markov commands.\n", file)
+			return false
+		}
+		err := markov.Load("model.json")
+		if err != nil {
+			fmt.Printf("%v cannot be read. Skipping markov commands.\n", file)
+			return false
+		}
+
+		return true
+	}() {
+		bot.AddCommand("", command.Markov)
+		bot.AddCommand("pester", command.Markov)
+		bot.AddCommand("markov", command.Markov)
+	}
 
 	return bot
 }

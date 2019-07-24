@@ -11,6 +11,7 @@ import (
 	"strings"
 	"time"
 
+	"github.com/oct2pus/jadebot/markov"
 	"github.com/oct2pus/jadebot/search"
 
 	"github.com/oct2pus/bocto"
@@ -237,6 +238,17 @@ func Invite(bot bocto.Bot,
 		"<https://discordapp.com/oauth2/authorize?cli"+
 			"ent_id=331204502277586945&scope=bot&permissions=379968>",
 	)
+}
+
+// Markov prints a markov chain.
+func Markov(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
+	randSeed := time.Now().UnixNano()
+
+	output, err := markov.Generate(randSeed)
+	if err != nil {
+		return
+	}
+	bot.Session.ChannelMessageSend(message.ChannelID, output)
 }
 
 // OTP returns a number, its very arbitrary but people like it.
