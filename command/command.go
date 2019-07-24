@@ -4,13 +4,14 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
-	"github.com/oct2pus/jadebot/search"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/oct2pus/jadebot/search"
 
 	"github.com/oct2pus/bocto"
 
@@ -155,7 +156,7 @@ func Discord(bot bocto.Bot,
 		"https://discord.gg/PFCGhJQ")
 }
 
-// Dog gets a picture from dog.ceo
+// Dog gets a picture from dog.ceo.
 func Dog(bot bocto.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
@@ -260,7 +261,7 @@ func Wiki(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 		return
 	}
 	minQuality := "25"
-	inputs := strings.Join(input, " ")
+	inputs := strings.Join(input, "_")
 	// perform list
 	url := "https://mspaintadventures.fandom.com/api/v1/"
 	listQuery := "Search/List?query=" + inputs + "&limit=1" +
