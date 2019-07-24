@@ -10,7 +10,6 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"strings"
-	"time"
 
 	"github.com/mb-14/gomarkov"
 )
@@ -27,13 +26,16 @@ var (
 )
 
 // Load loads a model.json file.
-func Load(input string) error {
+func Load(inputFile string) error {
 	var c gomarkov.Chain
-	data, err := ioutil.ReadFile(input)
+	data, err := ioutil.ReadFile(inputFile)
 	if err != nil {
 		return err
 	}
-	err = json.Unmarshal(data, &chain)
+	err = json.Unmarshal(data, &c)
+	if err != nil {
+		return err
+	}
 	c.Order = order
 	chain = &c
 	return nil
@@ -47,9 +49,9 @@ func LoadAndReturnChain(inputFile string, markovOrder int) (*gomarkov.Chain,
 	if err != nil {
 		return &c, err
 	}
-	err = json.Unmarshal(data, &chain)
+	err = json.Unmarshal(data, &c)
 	c.Order = markovOrder
-	return &c, nil
+	return &c, err
 }
 
 // Generate returns a line of markov chain dialog.
@@ -69,9 +71,9 @@ func Generate(randomSeed int64) (string, error) {
 
 // GenerateFromChain returns a line of markov chain dialog from a gomarkov.Chain pointer.
 // You should have markovOrder-1 markovSeed parameters (none for markovOrder = 1).
-func GenerateFromChain(markovChain *gomarkov.Chain, randomSeed,
-	markovOrder int, markovSeed ...string) (string, error) {
-	rand.Seed(int64(randomSeed))
+func GenerateFromChain(markovChain *gomarkov.Chain,
+	markovOrder int, randomSeed int64, markovSeed ...string) (string, error) {
+	rand.Seed(randomSeed)
 	tokens := []string{gomarkov.StartToken}
 	for _, seed := range markovSeed {
 		tokens = append(tokens, seed)
@@ -88,11 +90,10 @@ func GenerateFromChain(markovChain *gomarkov.Chain, randomSeed,
 }
 
 // GenerateMany generates as many inputs as you put in.
-func GenerateMany(amount int) ([]string, error) {
+func GenerateMany(amount int, randomSeed int64) ([]string, error) {
 	output := make([]string, 0)
-	randInput := time.Now().UnixNano()
 	for i := 0; i < amount; i++ {
-		markov, err := Generate(randInput)
+		markov, err := Generate(randomSeed)
 		if err != nil {
 			return output, fmt.Errorf("error on loop %v: %v", i, err)
 		}
