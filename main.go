@@ -93,22 +93,28 @@ func addCommands(bot bocto.Bot) bocto.Bot {
 	// if no model.json exist, disable markov commands
 	// if model.json exists but does not parse, disable markov commands
 	if func() bool {
-		file := "./model.json"
+		file := "model.json"
+		skip := "Skipping markov commands."
 		if _, err := os.Stat(file); os.IsNotExist(err) {
-			fmt.Printf("%v does not exist. Skipping markov commands.\n", file)
+			fmt.Printf("%v does not exist. %v\n", file, skip)
 			return false
 		}
 		err := markov.Load("model.json")
 		if err != nil {
-			fmt.Printf("%v cannot be read. Skipping markov commands.\n", file)
+			fmt.Printf("%v cannot be read. %v\n", file, skip)
 			return false
+		}
+		if !canMakeMarkov() {
+			fmt.Printf("%v is an invalid gomarkov model.json. %v\n", file, skip)
 		}
 
 		return true
 	}() {
-		bot.AddCommand("", command.Markov)
+		bot.AddCommand("", command.ReminderMarkov)
 		bot.AddCommand("pester", command.Markov)
 		bot.AddCommand("markov", command.Markov)
+	} else {
+		bot.AddCommand("", command.Reminder)
 	}
 
 	return bot
@@ -133,4 +139,13 @@ func addPhrases(bot bocto.Bot) bocto.Bot {
 	bot.AddPhrase("🤔", []string{emoji["thinking"]})
 
 	return bot
+}
+
+// canMakeMarkov makes sure the markov file is valid. If no errors are reported, return true.
+func canMakeMarkov() bool {
+	_, err := markov.Generate(1)
+	if err != nil {
+		return false
+	}
+	return true
 }

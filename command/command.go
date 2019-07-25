@@ -264,6 +264,30 @@ func OTP(bot bocto.Bot,
 	bot.Session.ChannelMessageSend(message.ChannelID, result)
 }
 
+// Reminder reminds people to not add spaces between the prefix and command.
+func Reminder(bot bocto.Bot,
+	message *discordgo.MessageCreate,
+	input []string) {
+	if len(input) > 0 {
+		output := fmt.Sprintf("please don't add a space between commands! try `%v%v` :)", bot.Prefix, strings.Join(input, " "))
+		bot.Session.ChannelMessageSend(message.ChannelID, output)
+	} else {
+		bot.Session.ChannelMessageSend(message.ChannelID, bot.Confused)
+	}
+}
+
+// ReminderMarkov reminds people to not add spaces between the prefix and command.
+// Uses Markov instead of bot.Confused when no input is detected.
+func ReminderMarkov(bot bocto.Bot,
+	message *discordgo.MessageCreate,
+	input []string) {
+	if len(input) > 0 {
+		Reminder(bot, message, input)
+	} else {
+		Markov(bot, message, input)
+	}
+}
+
 // Wiki gets article contents and displays them in an embed.
 func Wiki(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 	// gotcha with no input
