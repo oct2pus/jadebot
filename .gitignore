@@ -64,3 +64,6 @@ tags
 .history
 
 # End of https://www.gitignore.io/api/go,vim,linux,visualstudiocode
+
+jade.txt
+model.json
