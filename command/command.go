@@ -255,13 +255,27 @@ func Markov(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 func OTP(bot bocto.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
-
-	asString := strings.Join(input, " ")
-	percent := ang(asString, 11)
-	result := "I think " + asString + " has a **" + strconv.Itoa(int(percent)) +
-		"/10** chance of being canon!"
-
-	bot.Session.ChannelMessageSend(message.ChannelID, result)
+	if len(input) > 0 {
+		asString := strings.Join(input, " ")
+		percent := ang(asString, 11)
+		result := "i think " + asString + " has a **" + strconv.Itoa(int(percent)) +
+			"/10** chance of being canon!"
+		switch percent {
+		case 0, 1:
+			result += " >:("
+		case 2, 3:
+			result += " :("
+		case 4, 5, 6:
+			result += " :B"
+		case 7, 8:
+			result += " :)"
+		case 9, 10:
+			result += " :D"
+		}
+		bot.Session.ChannelMessageSend(message.ChannelID, result)
+	} else {
+		bot.Session.ChannelMessageSend(message.ChannelID, "what ship do you want me to rate :?")
+	}
 }
 
 // Reminder reminds people to not add spaces between the prefix and command.
