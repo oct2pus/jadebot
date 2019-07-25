@@ -223,7 +223,7 @@ func Doge(bot bocto.Bot,
 // Help returns a link to docs.jade.moe
 func Help(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 
-	bot.Session.ChannelMessageSend(message.ChannelID, "you should check out http://docs.jade.moe to find out about my commands! :B")
+	bot.Session.ChannelMessageSend(message.ChannelID, "you should check out https://docs.jade.moe to find out about my commands! :B")
 
 }
 
