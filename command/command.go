@@ -220,13 +220,11 @@ func Doge(bot bocto.Bot,
 	Dog(bot, message, []string{"shiba"})
 }
 
-// Help returns a list of commands.
+// Help returns a link to docs.jade.moe
 func Help(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 
-	bot.Session.ChannelMessageSend(message.ChannelID,
-		"my commands currently are\n-`avatar`\n-`mspa`, `booru`\n"+
-			"-`dog`\n-`otp`, `ship`\n-`discord`\n-`wiki`\n-`invite`\n-`help`,"+
-			" `commands`, `command`\n-`help`\n-`about`, `credits`")
+	bot.Session.ChannelMessageSend(message.ChannelID, "you should check out http://docs.jade.moe to find out about my commands! :B")
+
 }
 
 // Invite returns a bot invite.
