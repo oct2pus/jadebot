@@ -14,7 +14,14 @@ import (
 )
 
 var (
-	emoji map[string]string
+	emoji = map[string]string{
+		"thinking":   "<:jbthink:601863277546569779>",
+		"headpat":    "<:jbheadpat:601863276581748746>",
+		"embarassed": "<:jbembarassed:601863277122813953>",
+		"teefs":      "<:jbteefs:601863276833406976>",
+		"owo":        "<:jbowo:601863276560777220>",
+		"heart":      "💚",
+	}
 )
 
 const (
