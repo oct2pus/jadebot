@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 	"time"
@@ -48,29 +49,29 @@ func Avatar(bot bocto.Bot,
 func Booru(bot bocto.Bot,
 	message *discordgo.MessageCreate,
 	input []string) {
-	url := "http://mspabooru.com//index.php?page=dapi&s=post&q=index"
+	uri := "http://mspabooru.com//index.php?page=dapi&s=post&q=index"
 	pid := "0"    // page id, aka what page you are on, a page is 25 images
 	limit := "25" // how many images to get
 
-	url += "&pid=" + pid + "&limit=" + limit
+	uri += "&pid=" + pid + "&limit=" + limit
 
 	if len(input) > 0 {
-		url += "&tags="
+		uri += "&tags="
 		for _, ele := range input {
-			url += ele + "+"
+			uri += url.QueryEscape(ele) + "+"
 		}
-		url = strings.TrimSuffix(url, "+")
+		uri = strings.TrimSuffix(uri, "+")
 	}
 
 	// hardcoded 'do not use' tags, allowing these outside of nsfw chats is
 	// against ToS, remove stuff at your own peril.
-	url += "+-gore+-vomit+-bondage+-dubcon+-mind_control+" +
+	uri += "+-gore+-vomit+-bondage+-dubcon+-mind_control+" +
 		"-undergarments+-rating:questionable+-rating:explicit+-deleteme"
 
 	// hardcoded 'do not want' tags, these are morality judgments by me.
-	url += "+-*cest+-erasure+-3d"
+	uri += "+-*cest+-erasure+-3d"
 
-	response, err := http.Get(url)
+	response, err := http.Get(uri)
 	if err != nil {
 		bot.Session.ChannelMessageSend(message.ChannelID,
 			"please don't enter gibberish to try and break me :(")
@@ -166,21 +167,21 @@ func Dog(bot bocto.Bot,
 		input[i] = strings.ToLower(ele)
 	}
 
-	var url string
+	var uri string
 
 	switch len(input) {
 	case 0:
-		url = "https://dog.ceo/api/breeds/image/random"
+		uri = "https://dog.ceo/api/breeds/image/random"
 	case 1:
-		url = "https://dog.ceo/api/breed/" + input[0] + "/images/random"
+		uri = "https://dog.ceo/api/breed/" + url.QueryEscape(input[0]) + "/images/random"
 	default:
-		url = "https://dog.ceo/api/breed/" + input[1] + "/" + input[0] +
+		uri = "https://dog.ceo/api/breed/" + url.QueryEscape(input[1]) + "/" + url.QueryEscape(input[0]) +
 			"/images/random"
 	}
 
 	var doge search.Dog
 
-	response, err := http.Get(url)
+	response, err := http.Get(uri)
 	if err != nil {
 		bot.Session.ChannelMessageSend(message.ChannelID,
 			"something horrible went wrong when i was"+
@@ -302,6 +303,7 @@ func ReminderMarkov(bot bocto.Bot,
 
 // Wiki gets article contents and displays them in an embed.
 func Wiki(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
+	inputs := ""
 	// gotcha with no input
 	if len(input) <= 0 {
 		bot.Session.ChannelMessageSend(message.ChannelID,
@@ -309,12 +311,17 @@ func Wiki(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 		return
 	}
 	minQuality := "25"
-	inputs := strings.Join(input, "_")
+	// escape user input.
+
+	for _, ele := range input {
+		inputs += url.QueryEscape(ele) + "_"
+	}
+
 	// perform list
-	url := "https://mspaintadventures.fandom.com/api/v1/"
+	uri := "https://mspaintadventures.fandom.com/api/v1/"
 	listQuery := "Search/List?query=" + inputs + "&limit=1" +
 		"&minArticleQuality=" + minQuality + "&batch=1&namespaces=0%2C14"
-	listData, err := getJSON(url + listQuery)
+	listData, err := getJSON(uri + listQuery)
 	if err != nil {
 		bot.Session.ChannelMessageSend(message.ChannelID,
 			"i cant seem to reach the wiki :(")
@@ -331,7 +338,7 @@ func Wiki(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 	// perform "simple" (big airquotes)
 	id := strconv.Itoa(list.Items[0].ID)
 	simpleQuery := "Articles/AsSimpleJson?id=" + id
-	simpleData, err := getJSON(url + simpleQuery)
+	simpleData, err := getJSON(uri + simpleQuery)
 	if err != nil {
 		bot.Session.ChannelMessageSend(message.ChannelID,
 			"i cant seem to reach the wiki :(")
@@ -345,7 +352,7 @@ func Wiki(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 		simple.Sections[0].Content[0].Text == "" {
 		// debug message
 		fmt.Printf("\nsimple struct: %v\nlistQuery: %v\nsimpleQuery: %v",
-			simple, url+listQuery, url+simpleQuery)
+			simple, uri+listQuery, uri+simpleQuery)
 		bot.Session.ChannelMessageSend(message.ChannelID,
 			"i cant read that article :?")
 		return
@@ -372,8 +379,8 @@ func ang(s string, m int32) int32 {
 	return res % m
 }
 
-func getJSON(url string) ([]byte, error) {
-	response, err := http.Get(url)
+func getJSON(uri string) ([]byte, error) {
+	response, err := http.Get(uri)
 	if err != nil {
 		return []byte{}, err
 	}
