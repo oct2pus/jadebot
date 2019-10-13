@@ -28,18 +28,6 @@ const (
 	pre = "==>"
 )
 
-// initialize emoji substituions
-// if you host your own bot, i'd recommend replacing them with your own.
-func init() {
-	emoji = make(map[string]string)
-	emoji["thinking"] = "<:jbthink:601863277546569779>"
-	emoji["headpat"] = "<:jbheadpat:601863276581748746>"
-	emoji["embarassed"] = "<:jbembarassed:601863277122813953>"
-	emoji["teefs"] = "<:jbteefs:601863276833406976>"
-	emoji["owo"] = "<:jbowo:601863276560777220>"
-	emoji["heart"] = "💚"
-}
-
 func main() {
 	var token string
 	var jade bocto.Bot
@@ -82,9 +70,11 @@ func main() {
 
 func addCommands(bot bocto.Bot) bocto.Bot {
 	// alphabetical order, shorter first
+	// emojis last, alphabetical order by emoji name
 	bot.AddCommand("about", command.Credits)
 	bot.AddCommand("avatar", command.Avatar)
 	bot.AddCommand("booru", command.Booru)
+	//	bot.AddCommand("candy", command.Candy)
 	bot.AddCommand("command", command.Help)
 	bot.AddCommand("commands", command.Help)
 	bot.AddCommand("credits", command.Credits)
@@ -92,31 +82,24 @@ func addCommands(bot bocto.Bot) bocto.Bot {
 	bot.AddCommand("dog", command.Dog)
 	bot.AddCommand("doge", command.Doge)
 	bot.AddCommand("help", command.Help)
+	//	bot.AddCommand("epilogue", command.Epilogue)
+	//	bot.AddCommand("epilogues", command.Epilogue)
+	//	bot.AddCommand("homestuck", command.Homestuck)
+	//	bot.AddCommand("hs", command.Homestuck)
 	bot.AddCommand("invite", command.Invite)
+	//	bot.AddCommand("meat", command.Meat)
 	bot.AddCommand("mspa", command.Booru)
 	bot.AddCommand("otp", command.OTP)
+	//	bot.AddCommand("prologue", command.Prologue)
+	//	bot.AddCommand("sbahj", command.SBAHJ)
 	bot.AddCommand("ship", command.OTP)
 	bot.AddCommand("wiki", command.Wiki)
+	//	bot.AddCommand("🍬", command.Candy)
+	//	bot.AddCommand("🍖", command.Meat)
+
 	// if no model.json exist, disable markov commands
 	// if model.json exists but does not parse, disable markov commands
-	if func() bool {
-		file := "model.json"
-		skip := "Skipping markov commands."
-		if _, err := os.Stat(file); os.IsNotExist(err) {
-			fmt.Printf("%v does not exist. %v\n", file, skip)
-			return false
-		}
-		err := markov.Load("model.json")
-		if err != nil {
-			fmt.Printf("%v cannot be read. %v\n", file, skip)
-			return false
-		}
-		if !canMakeMarkov() {
-			fmt.Printf("%v is an invalid gomarkov model.json. %v\n", file, skip)
-		}
-
-		return true
-	}() {
+	if markovSupport() {
 		bot.AddCommand("", command.ReminderMarkov)
 		bot.AddCommand("pester", command.Markov)
 		bot.AddCommand("markov", command.Markov)
@@ -148,11 +131,31 @@ func addPhrases(bot bocto.Bot) bocto.Bot {
 	return bot
 }
 
-// canMakeMarkov makes sure the markov file is valid. If no errors are reported, return true.
-func canMakeMarkov() bool {
-	_, err := markov.Generate(1)
-	if err != nil {
+// markovSupport provides 3 layers of tests to verify if the markov command works.
+// disables markovSupport if invalid.
+func markovSupport() bool {
+	file := "model.json"
+	skip := "Skipping markov commands."
+
+	// test if file exists.
+	if _, err := os.Stat(file); os.IsNotExist(err) {
+		fmt.Printf("%v does not exist. %v\n", file, skip)
 		return false
 	}
+
+	// test if file can be read.
+	err := markov.Load(file)
+	if err != nil {
+		fmt.Printf("%v cannot be read. %v\n", file, skip)
+		return false
+	}
+
+	// test if valid markov file.
+	_, err = markov.Generate(1)
+	if err != nil {
+		fmt.Printf("%v is an invalid gomarkov model.json. %v\n", file, skip)
+		return false
+	}
+
 	return true
 }
