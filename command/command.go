@@ -58,17 +58,19 @@ func Booru(bot bocto.Bot,
 	if len(input) > 0 {
 		uri += "&tags="
 		for _, ele := range input {
-			uri += url.QueryEscape(ele) + "+"
+			uri += url.QueryEscape(ele) + "+"(
 		}
 		uri = strings.TrimSuffix(uri, "+")
 	}
 
-	// hardcoded 'do not use' tags, allowing these outside of nsfw chats is
-	// against ToS, remove stuff at your own peril.
-	uri += "+-gore+-vomit+-bondage+-dubcon+-mind_control+" +
-		"-undergarments+-rating:questionable+-rating:explicit+-deleteme"
+	// hardcoded 'do not use' tags, when outside a nsfw chat many of these 
+	// tags include art that would break the ToS;
+	// remove stuff at your own peril.
+	uri += "+-gore+-vomit+-bondage+-dubcon+-mind_control+-swimsuit+-blood" +
+		"-undergarments+-biting+-rating:questionable+-rating:explicit" +
+		"+-nsfwsource+-deleteme"
 
-	// hardcoded 'do not want' tags, these are morality judgments by me.
+	// hardcoded 'do not want' tags, these are personal judgments by me.
 	uri += "+-*cest+-erasure+-3d"
 
 	response, err := http.Get(uri)
