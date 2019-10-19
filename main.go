@@ -14,6 +14,7 @@ import (
 )
 
 var (
+	// emoji is a convenience mapping. Do not edit it at runtime.
 	emoji = map[string]string{
 		"thinking":   "<:jbthink:601863277546569779>",
 		"headpat":    "<:jbheadpat:601863276581748746>",
@@ -42,7 +43,7 @@ func main() {
 		fmt.Printf("%v can't login\nerror: %v\n", jade.Name, err)
 		return
 	}
-	// add commandds and responses
+	// add commands and responses
 	jade = addCommands(jade)
 	jade = addPhrases(jade)
 	// Event Handlers
@@ -131,8 +132,8 @@ func addPhrases(bot bocto.Bot) bocto.Bot {
 	return bot
 }
 
-// markovSupport provides 3 layers of tests to verify if the markov command works.
-// disables markovSupport if invalid.
+// markovSupport does a runtime test to verify if the markov command will work.
+// disables markov support if false
 func markovSupport() bool {
 	file := "model.json"
 	skip := "Skipping markov commands."
