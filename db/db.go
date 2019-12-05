@@ -28,7 +28,7 @@ const createQuery = `CREATE TABLE IF NOT EXISTS !A (
 const insertQuery = `INSERT INTO !A (GUILD_ID, VALUE) VALUES (?,?);`
 
 // updateQuery
-const updateQuery = `UPDATE !A SET VALUE=!B WHERE GUILD_ID=?`
+const updateQuery = `UPDATE !A SET VALUE=!B WHERE GUILD_ID=? LIMIT 1;`
 
 // InitDB initializes the sqlite db.
 func InitDB() error {
@@ -63,7 +63,7 @@ func AddEntry(guildID int, tableName, entry string) error {
 		_, err = statement.Exec()
 		return err
 	} else if lookup != entry {
-		err := updateEntry(guildID, tableName, entry)
+		err := UpdateEntry(guildID, tableName, entry)
 		return err
 	}
 	return nil
@@ -94,6 +94,17 @@ func LookupEntry(guildID int, tableName string) (string, error) {
 }
 
 // UpdateEntry updates a row entry.
-func updateEntry(guildID int, tableName, entry string) error {
-
+func UpdateEntry(guildID int, tableName, entry string) error {
+	query := strings.Replace(updateQuery, "!A", tableName, 1)
+	query = strings.Replace(query, "!B", entry, 1)
+	statement, err := db.Prepare(query)
+	if err != nil {
+		return err
+	}
+	defer statement.Close()
+	_, err := statement.Exec()
+	if err != nil {
+		return err
+	}
+	return err
 }
