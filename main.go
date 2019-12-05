@@ -14,7 +14,8 @@ import (
 )
 
 var (
-	// emoji is a convenience mapping. Do not edit it at runtime.
+	// emoji is a mapping to emojis for the sake of convience.
+	// Do not edit it at runtime.
 	emoji = map[string]string{
 		"thinking":   "<:jbthink:601863277546569779>",
 		"headpat":    "<:jbheadpat:601863276581748746>",
