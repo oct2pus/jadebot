@@ -63,11 +63,11 @@ func Booru(bot bocto.Bot,
 		uri = strings.TrimSuffix(uri, "+")
 	}
 
-	// hardcoded 'do not use' tags, when outside a nsfw chat many of these 
+	// hardcoded 'do not use' tags, when outside a nsfw chat many of these
 	// tags include art that would break the ToS;
 	// remove stuff at your own peril.
 	uri += "+-gore+-vomit+-bondage+-dubcon+-mind_control+-swimsuit+-blood" +
-		"+-undergarments+-biting+-rating:questionable+-rating:explicit" + 
+		"+-undergarments+-biting+-rating:questionable+-rating:explicit" +
 		"+-nsfwsource+-deleteme"
 
 	// hardcoded 'do not want' tags, these are personal judgments by me.
@@ -137,7 +137,7 @@ func Credits(bot bocto.Bot,
 			bocto.Contributor{
 				Name:    "Discordgo",
 				URL:     "https://github.com/bwmarrin/discordgo/",
-				Message: "JadeBot uses the **%v** library (%v)",
+				Message: "**JadeBot** uses the **%v** library (%v)",
 				Type:    "Library",
 			},
 			bocto.Contributor{
