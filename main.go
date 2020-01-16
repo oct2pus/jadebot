@@ -8,22 +8,10 @@ import (
 	"syscall"
 
 	"github.com/oct2pus/jadebot/command"
+	"github.com/oct2pus/jadebot/db"
 	"github.com/oct2pus/jadebot/markov"
 
 	"github.com/oct2pus/bocto"
-)
-
-var (
-	// emoji is a mapping to emojis for the sake of convience.
-	// Do not edit it at runtime.
-	emoji = map[string]string{
-		"thinking":   "<:jbthink:601863277546569779>",
-		"headpat":    "<:jbheadpat:601863276581748746>",
-		"embarassed": "<:jbembarassed:601863277122813953>",
-		"teefs":      "<:jbteefs:601863276833406976>",
-		"owo":        "<:jbowo:601863276560777220>",
-		"heart":      "💚",
-	}
 )
 
 const (
@@ -35,18 +23,30 @@ func main() {
 	var jade bocto.Bot
 	flag.StringVar(&token, "t", "", "Bot Token")
 	flag.Parse()
-
-	err := jade.New("JadeBot", pre, token,
-		"hello! :D\nby the way my prefix is `"+pre+"`. just incase you"+
-			" wanted to know! :p",
-		"i don't understand, maybe you should ask for `"+pre+"help` ;P", 0x4bec13)
+	// create bot
+	err := jade.New("JadeBot", pre, token, 0x4bec13)
 	if err != nil {
 		fmt.Printf("%v can't login\nerror: %v\n", jade.Name, err)
 		return
 	}
+	// initialize databases (if they do not exist)
+	if db.InitDB() != nil {
+		fmt.Printf("Cannot init database: %v\n", err)
+		return
+	}
+	if db.CreateTable("reponses") != nil {
+		fmt.Printf("Cannot create table: %v\n", err)
+		return
+	}
+	if db.CreateTable("mspa") != nil {
+		fmt.Printf("Cannot create table: %v\n", err)
+		return
+	}
+
 	// add commands and responses
 	jade = addCommands(jade)
-	jade = addPhrases(jade)
+	jade.Confused = command.Confused
+	jade.Mentioned = command.Mentioned
 	// Event Handlers
 	jade.Session.AddHandler(jade.ReadyEvent)
 	jade.Session.AddHandler(jade.MessageCreate)
@@ -112,6 +112,7 @@ func addCommands(bot bocto.Bot) bocto.Bot {
 	return bot
 }
 
+/*
 func addPhrases(bot bocto.Bot) bocto.Bot {
 	bot.AddPhrase("owo", []string{"oh woah whats this?", emoji["owo"]})
 	bot.AddPhrase("love you jade", []string{"i love you too!!", emoji["teefs"] +
@@ -132,7 +133,7 @@ func addPhrases(bot bocto.Bot) bocto.Bot {
 
 	return bot
 }
-
+*/
 // markovSupport does a runtime test to verify if the markov command will work.
 // disables markov support if false
 func markovSupport() bool {
