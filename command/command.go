@@ -3,7 +3,6 @@ package command
 import (
 	"encoding/json"
 	"encoding/xml"
-	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -19,6 +18,24 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 )
+
+/*bot.AddPhrase("owo", []string{"oh woah whats this?", emoji["owo"]})
+bot.AddPhrase("love you jade", []string{"i love you too!!", emoji["teefs"] +
+	emoji["heart"]})
+bot.AddPhrase("love jade", []string{"i love you too!!", emoji["teefs"] +
+	emoji["heart"]})
+bot.AddPhrase("good dog", []string{"best friend", emoji["headpat"]})
+bot.AddPhrase("teef", []string{emoji["teefs"]})
+bot.AddPhrase("kissjade", []string{emoji["embarassed"] + emoji["heart"]})
+bot.AddPhrase("headpat", []string{emoji["headpat"]})
+bot.AddPhrase("*pap*", []string{emoji["headpat"]})
+bot.AddPhrase("soosh pap", []string{emoji["headpat"]})
+bot.AddPhrase("*pats*", []string{emoji["headpat"]})
+bot.AddPhrase(":think", []string{emoji["thinking"]})
+bot.AddPhrase("think:", []string{emoji["thinking"]})
+bot.AddPhrase("thinking:", []string{emoji["thinking"]})
+bot.AddPhrase("🤔", []string{emoji["thinking"]})
+*/
 
 // Avatar gets the first mentioned users Avatar.
 func Avatar(bot bocto.Bot,
@@ -110,11 +127,6 @@ func Booru(bot bocto.Bot,
 		bocto.ImageEmbed("Source", booruSearch.Posts[randNum].Source,
 			booruSearch.Posts[randNum].FileURL,
 			"Warning: Some sources will be broken or NSFW", bot.Color))
-}
-
-// Candy returns a page from the Homestuck Epilogues: Candy.
-func Candy(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
-	nsfwAdventure(bot, message, input, search.CANDY)
 }
 
 // Credits accreditates users for their contributions.
@@ -220,15 +232,6 @@ func Dog(bot bocto.Bot,
 			strings.Join(input, " "), bot.Color))
 }
 
-// Epilogue prints a link to the Homestuck Epilogues.
-func Epilogue(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
-	channel, err := bot.Session.Channel(message.ChannelID)
-	if err == nil && channel.NSFW {
-		bot.Session.ChannelMessageSend(message.ChannelID,
-			"https://www.homestuck.com/epilogues")
-	}
-}
-
 // Doge is a joke command, it just calls Dog() with a Shiba preset.
 func Doge(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 
@@ -240,11 +243,6 @@ func Help(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 	bot.Session.ChannelMessageSend(message.ChannelID,
 		"you should check out https://docs.jade.moe to find out "+
 			"about my commands! :B")
-}
-
-// Homestuck prints a page from Homestuck.
-func Homestuck(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
-	adventure(bot, message, input, search.HS)
 }
 
 // Invite prints a bot invite.
@@ -267,11 +265,6 @@ func Markov(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 		return
 	}
 	bot.Session.ChannelMessageSend(message.ChannelID, output)
-}
-
-// Meat prints a page from the HomestucK Epilogues: Meat.
-func Meat(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
-	nsfwAdventure(bot, message, input, search.MEAT)
 }
 
 // OTP prints a number, its very arbitrary but people like it.
@@ -299,40 +292,6 @@ func OTP(bot bocto.Bot,
 	} else {
 		bot.Session.ChannelMessageSend(message.ChannelID, "what ship do you want me to rate :?")
 	}
-}
-
-// Prologue prints a page from the Homestuck Epilogues: Prologue.
-func Prologue(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
-	nsfwAdventure(bot, message, input, search.PROLOGUE)
-}
-
-// Reminder reminds people to not add spaces between the prefix and command.
-func Reminder(bot bocto.Bot,
-	message *discordgo.MessageCreate,
-	input []string) {
-	if len(input) > 0 {
-		output := fmt.Sprintf("please don't add a space between commands! try `%v%v` :)", bot.Prefix, strings.Join(input, " "))
-		bot.Session.ChannelMessageSend(message.ChannelID, output)
-	} else {
-		bot.Session.ChannelMessageSend(message.ChannelID, bot.Confused)
-	}
-}
-
-// ReminderMarkov reminds people to not add spaces between the prefix and command.
-// Uses Markov instead of bot.Confused when no input is detected.
-func ReminderMarkov(bot bocto.Bot,
-	message *discordgo.MessageCreate,
-	input []string) {
-	if len(input) > 0 {
-		Reminder(bot, message, input)
-	} else {
-		Markov(bot, message, input)
-	}
-}
-
-// SBAHJ prints the best conic....................
-func SBAHJ(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
-	nsfwAdventure(bot, message, input, search.SBAHJ)
 }
 
 // Wiki gets article contents and displays them in an embed.
@@ -398,21 +357,6 @@ func Wiki(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 			bot.Color))
 }
 
-// adventure generates a url for an MSPA adventure.
-func adventure(bot bocto.Bot,
-	message *discordgo.MessageCreate, input []string, story int) {
-
-	if len(input) > 0 {
-		i, err := strconv.Atoi(input[0])
-		if err == nil {
-			bot.Session.ChannelMessageSend(message.ChannelID, search.Adventures[story].GetPage(i))
-			return
-		}
-	}
-
-	bot.Session.ChannelMessageSend(message.ChannelID, search.Adventures[story].Get())
-}
-
 // ang counts the int32 value of all runes of string 's'
 // and then mods it by 'm'. 'ang' stands for Arbitrary Number Generator.
 func ang(s string, m int32) int32 {
@@ -435,16 +379,4 @@ func getJSON(uri string) ([]byte, error) {
 	data, err := ioutil.ReadAll(response.Body)
 
 	return data, err
-}
-
-// nsfwAdventure is a wrapper for adventure
-// that also performs a nsfw channel check.
-func nsfwAdventure(bot bocto.Bot,
-	message *discordgo.MessageCreate, input []string, story int) {
-
-	channel, err := bot.Session.Channel(message.ChannelID)
-	if err == nil && channel.NSFW {
-		adventure(bot, message, input, story)
-	}
-
 }
