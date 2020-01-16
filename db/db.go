@@ -4,12 +4,16 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
+	"sync"
 
 	// SQL Driver
 	_ "github.com/mattn/go-sqlite3"
 )
 
-var db *sql.DB
+var (
+	db  *sql.DB
+	mux sync.Mutex
+)
 
 //
 // Query values to be modified by function.
@@ -39,6 +43,8 @@ func InitDB() error {
 
 // CreateTable creates tableName Table if it does not exist.
 func CreateTable(tableName string) error {
+	mux.Lock()
+	defer mux.Unlock()
 	query := strings.Replace(createQuery, "!A", tableName, 1)
 	statement, err := db.Prepare(query)
 	if err != nil {
@@ -51,6 +57,8 @@ func CreateTable(tableName string) error {
 
 // AddEntry adds a Row with Values guildID and entry to Table tableName.
 func AddEntry(guildID int, tableName, entry string) error {
+	mux.Lock()
+	defer mux.Unlock()
 	lookup, err := LookupEntry(guildID, tableName)
 	if err != nil {
 		query := strings.Replace(insertQuery, "!A", tableName, 1)
@@ -95,6 +103,8 @@ func LookupEntry(guildID int, tableName string) (string, error) {
 
 // UpdateEntry updates a row entry.
 func UpdateEntry(guildID int, tableName, entry string) error {
+	mux.Lock()
+	defer mux.Unlock()
 	query := strings.Replace(updateQuery, "!A", tableName, 1)
 	query = strings.Replace(query, "!B", entry, 1)
 	statement, err := db.Prepare(query)
@@ -102,7 +112,7 @@ func UpdateEntry(guildID int, tableName, entry string) error {
 		return err
 	}
 	defer statement.Close()
-	_, err := statement.Exec()
+	_, err = statement.Exec()
 	if err != nil {
 		return err
 	}
