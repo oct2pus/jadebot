@@ -73,67 +73,59 @@ func main() {
 func addCommands(bot bocto.Bot) bocto.Bot {
 	// alphabetical order, shorter first
 	// emojis last, alphabetical order by emoji name
-	bot.AddCommand("about", command.Credits)
-	bot.AddCommand("avatar", command.Avatar)
-	bot.AddCommand("booru", command.Booru)
+	bot.AddCommand("about", command.Credits, true)
+	bot.AddCommand("avatar", command.Avatar, true)
+	bot.AddCommand("booru", command.Booru, true)
 	//	bot.AddCommand("candy", command.Candy)
-	bot.AddCommand("command", command.Help)
-	bot.AddCommand("commands", command.Help)
-	bot.AddCommand("credits", command.Credits)
-	bot.AddCommand("discord", command.Discord)
-	bot.AddCommand("dog", command.Dog)
-	bot.AddCommand("doge", command.Doge)
-	bot.AddCommand("help", command.Help)
+	bot.AddCommand("command", command.Help, true)
+	bot.AddCommand("commands", command.Help, true)
+	bot.AddCommand("credits", command.Credits, true)
+	bot.AddCommand("discord", command.Discord, true)
+	bot.AddCommand("dog", command.Dog, true)
+	bot.AddCommand("doge", command.Doge, true)
+	bot.AddCommand("good dog", command.GoodDog, false)
+	bot.AddCommand("headpat", command.Headpat, false)
+	bot.AddCommand("help", command.Help, true)
 	//	bot.AddCommand("epilogue", command.Epilogue)
 	//	bot.AddCommand("epilogues", command.Epilogue)
 	//	bot.AddCommand("homestuck", command.Homestuck)
 	//	bot.AddCommand("hs", command.Homestuck)
-	bot.AddCommand("invite", command.Invite)
+	bot.AddCommand("invite", command.Invite, true)
+	bot.AddCommand("kissjade", command.KissJade, false)
+	bot.AddCommand("love jade", command.Love, false)
+	bot.AddCommand("love you jade", command.Love, false)
 	//	bot.AddCommand("meat", command.Meat)
-	bot.AddCommand("mspa", command.Booru)
-	bot.AddCommand("otp", command.OTP)
+	bot.AddCommand("mspa", command.Booru, true)
+	bot.AddCommand("otp", command.OTP, true)
+	bot.AddCommand("owo", command.OwO, false)
+	bot.AddCommand("*pap*", command.Headpat, false)
+	bot.AddCommand("*pats*", command.Headpat, false)
 	//	bot.AddCommand("prologue", command.Prologue)
 	//	bot.AddCommand("sbahj", command.SBAHJ)
-	bot.AddCommand("ship", command.OTP)
-	bot.AddCommand("wiki", command.Wiki)
+	bot.AddCommand("ship", command.OTP, true)
+	bot.AddCommand("soosh pap", command.Headpat, false)
+	bot.AddCommand("teef", command.Teef, false)
+	bot.AddCommand(":think", command.Thinking, false)
+	bot.AddCommand("think:", command.Thinking, false)
+	bot.AddCommand("thinking:", command.Thinking, false)
+	bot.AddCommand("wiki", command.Wiki, true)
+	bot.AddCommand("🤔", command.Thinking, false)
 	//	bot.AddCommand("🍬", command.Candy)
 	//	bot.AddCommand("🍖", command.Meat)
 
 	// if no model.json exist, disable markov commands
 	// if model.json exists but does not parse, disable markov commands
 	if markovSupport() {
-		bot.AddCommand("", command.ReminderMarkov)
-		bot.AddCommand("pester", command.Markov)
-		bot.AddCommand("markov", command.Markov)
+		bot.AddCommand("", command.ReminderMarkov, true)
+		bot.AddCommand("pester", command.Markov, true)
+		bot.AddCommand("markov", command.Markov, true)
 	} else {
-		bot.AddCommand("", command.Reminder)
+		bot.AddCommand("", command.Reminder, true)
 	}
 
 	return bot
 }
 
-/*
-func addPhrases(bot bocto.Bot) bocto.Bot {
-	bot.AddPhrase("owo", []string{"oh woah whats this?", emoji["owo"]})
-	bot.AddPhrase("love you jade", []string{"i love you too!!", emoji["teefs"] +
-		emoji["heart"]})
-	bot.AddPhrase("love jade", []string{"i love you too!!", emoji["teefs"] +
-		emoji["heart"]})
-	bot.AddPhrase("good dog", []string{"best friend", emoji["headpat"]})
-	bot.AddPhrase("teef", []string{emoji["teefs"]})
-	bot.AddPhrase("kissjade", []string{emoji["embarassed"] + emoji["heart"]})
-	bot.AddPhrase("headpat", []string{emoji["headpat"]})
-	bot.AddPhrase("*pap*", []string{emoji["headpat"]})
-	bot.AddPhrase("soosh pap", []string{emoji["headpat"]})
-	bot.AddPhrase("*pats*", []string{emoji["headpat"]})
-	bot.AddPhrase(":think", []string{emoji["thinking"]})
-	bot.AddPhrase("think:", []string{emoji["thinking"]})
-	bot.AddPhrase("thinking:", []string{emoji["thinking"]})
-	bot.AddPhrase("🤔", []string{emoji["thinking"]})
-
-	return bot
-}
-*/
 // markovSupport does a runtime test to verify if the markov command will work.
 // disables markov support if false
 func markovSupport() bool {
