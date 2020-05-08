@@ -34,7 +34,7 @@ func main() {
 		fmt.Printf("Cannot init database: %v\n", err)
 		return
 	}
-	if db.CreateTable("reponses") != nil {
+	if db.CreateTable("responses") != nil {
 		fmt.Printf("Cannot create table: %v\n", err)
 		return
 	}

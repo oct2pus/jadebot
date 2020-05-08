@@ -25,7 +25,7 @@ const lookQuery = `SELECT VALUE FROM !A WHERE GUILD_ID=?;`
 // createQuery creates table !A with value VALUE as a TEXT.
 const createQuery = `CREATE TABLE IF NOT EXISTS !A (
 	GUILD_ID INTEGER NOT NULL PRIMARY KEY,
-	VALUE TEXT,
+	VALUE TEXT
 	);`
 
 // entryQuery inserts a row with values GUILD_ID and VALUE into table !A.
@@ -48,10 +48,12 @@ func CreateTable(tableName string) error {
 	query := strings.Replace(createQuery, "!A", tableName, 1)
 	statement, err := db.Prepare(query)
 	if err != nil {
+		fmt.Println(strings.Replace(createQuery, "!A", tableName, 1))
 		return err
 	}
 	defer statement.Close()
 	_, err = statement.Exec()
+	fmt.Println("2")
 	return err
 }
 
