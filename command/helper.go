@@ -1,5 +1,10 @@
 package command
 
+import (
+	"io/ioutil"
+	"net/http"
+)
+
 // ang counts the int32 value of all runes of string 's'
 // and then mods it by 'm'. 'ang' stands for Arbitrary Number Generator.
 func ang(s string, m int32) int32 {
