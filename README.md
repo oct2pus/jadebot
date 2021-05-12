@@ -15,4 +15,4 @@ The original Jadebot design was based upon the canonical Jadebot from Homestuck,
 [Jadebot's design](https://raw.githubusercontent.com/oct2pus/jadebot/origin/art/reference_sheet.png) was thought up by me and interpretted by [taiyoooh](taiyoooh.tumblr.com) and later modified and formalized the help of [mupparts](https://mupparts.tumblr.com). Please feel free to reuse the design/draw fanart!
 
 ### Avatar
-Jadebot's [avatar](https://raw.githubusercontent.com/oct2pus/jadebot/origin/art/jadebot.png) was originally done by [taiyoooh](taiyoooh.tumblr.com), the current rendition is by [chuchumi](https://twitter.com/wheatiesquares). This avatar was specifically made for Jadebot, do not reuse it without permission.
+The Avatar for JadeBot is currently drawn by [themetalhiro](https://www.instagram.com/themetalhiro/?hl=en/)
