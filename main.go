@@ -91,7 +91,6 @@ func addCommands(bot bocto.Bot) bocto.Bot {
 	//	bot.AddCommand("homestuck", command.Homestuck)
 	//	bot.AddCommand("hs", command.Homestuck)
 	bot.AddCommand("invite", command.Invite, true)
-	bot.AddCommand("kissjade", command.KissJade, false)
 	bot.AddCommand("love jade", command.Love, false)
 	bot.AddCommand("love you jade", command.Love, false)
 	//	bot.AddCommand("meat", command.Meat)

@@ -41,11 +41,6 @@ func OwO(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 	respond(bot, message, "oh woah whats this?", art.Emoji["owo"])
 }
 
-// Love is a human emotion.
-func Love(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
-	respond(bot, message, "i love you too!!", art.Emoji["teefs"], art.Emoji["heart"])
-}
-
 // GoodDog best friend.
 func GoodDog(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 	respond(bot, message, "best friend", art.Emoji["headpat"])
