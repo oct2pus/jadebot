@@ -38,17 +38,17 @@ func Reminder(bot bocto.Bot,
 
 // OwO whats this?
 func OwO(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
-	respond(bot, message, "oh woah whats this? "+art.Emoji["owo"])
+	respond(bot, message, art.Emoji["owo"])
 }
 
 // Love is a human emotion.
 func Love(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
-	respond(bot, message, "i love you too."+art.Emoji["teefs"])
+	respond(bot, message, art.Emoji["teefs"])
 }
 
 // GoodDog best friend.
 func GoodDog(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
-	respond(bot, message, "best friend "+art.Emoji["headpat"])
+	respond(bot, message, "best friend!", art.Emoji["headpat"])
 }
 
 // Teef teefs.
@@ -56,7 +56,7 @@ func Teef(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 	respond(bot, message, art.Emoji["teefs"])
 }
 
-// Headpat feels good. Please give headpats.
+// Headpat is when you pap a pupper on the head.
 func Headpat(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 	respond(bot, message, art.Emoji["headpat"])
 }
