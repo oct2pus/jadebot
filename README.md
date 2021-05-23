@@ -1,6 +1,6 @@
 # Jadebot
 
-Jadebot is a discordbot aimed at homestuck servers, she has 3 primary commands:
+Jadebot is a discordbot aimed at homestuck servers, she has **3** primary commands:
 
 - **MSPA**/**BOORU** searches the mspabooru for images, it has a locked blacklist to keep the content safe for work.
 
