@@ -1,12 +1,10 @@
 # Jadebot
 
-Jadebot is a discordbot aimed at homestuck servers, she has 4 primary commands:
+Jadebot is a discordbot aimed at homestuck servers, she has 3 primary commands:
 
 - **MSPA**/**BOORU** searches the mspabooru for images, it has a locked blacklist to keep the content safe for work.
 
 - **DOG** searches dog.ceo for images of dogs, use **DOGE** to find shibi specifically!
-
-- **OTP**/**SHIP** determines how canon something is.
 
 - **WIKI** provides both a link to and a short summary of content from the MSPA wikia.
 
