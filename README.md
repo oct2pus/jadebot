@@ -12,7 +12,7 @@ Jadebot is a discordbot aimed at homestuck servers, she has 4 primary commands:
 
 ## Design
 The original Jadebot design was based upon the canonical Jadebot from Homestuck, modified to be more human-like and with some other minor aesthetic changes.
-[Jadebot's design](https://raw.githubusercontent.com/oct2pus/jadebot/origin/art/reference_sheet.png) was thought up by me and interpretted by [taiyoooh](taiyoooh.tumblr.com) and later modified and formalized the help of [mupparts](https://mupparts.tumblr.com). Please feel free to reuse the design/draw fanart!
+[Jadebot's design](https://raw.githubusercontent.com/oct2pus/jadebot/origin/art/reference_sheet.png) is an adaption of [Jade's Dreambot](https://mspaintadventures.fandom.com/wiki/Robotics#Jade.27s_Dreambot) from the webcomic [Homestuck](https://www.homestuck.com/), adapted to more resemble Jade Harley's 20-something self as well as being more emotive. originally drawn by [taiyoooh](taiyoooh.tumblr.com) and later modified and formalized the help of [mupparts](https://mupparts.tumblr.com). Please feel free to reuse the design/draw fanart!
 
 ### Avatar
 The Avatar for JadeBot is currently drawn by [themetalhiro](https://www.instagram.com/themetalhiro/?hl=en/).
