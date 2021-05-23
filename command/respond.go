@@ -41,6 +41,11 @@ func OwO(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 	respond(bot, message, "oh woah whats this?", art.Emoji["owo"])
 }
 
+// Love is a human emotion.
+func Love(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
+	respond(bot, message, "i love you too."+art.Emoji["teefs"])
+}
+
 // GoodDog best friend.
 func GoodDog(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 	respond(bot, message, "best friend", art.Emoji["headpat"])
@@ -49,11 +54,6 @@ func GoodDog(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 // Teef teefs.
 func Teef(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
 	respond(bot, message, art.Emoji["teefs"])
-}
-
-// KissJade fulfills an **IMPORTANT** business rule for JadeBot.
-func KissJade(bot bocto.Bot, message *discordgo.MessageCreate, input []string) {
-	respond(bot, message, art.Emoji["embarassed"]+art.Emoji["heart"])
 }
 
 // Headpat feels good. Please give headpats.
